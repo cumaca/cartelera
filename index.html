@@ -33,7 +33,7 @@
             letter-spacing: -0.5px;
         }
         
-        /* NAV MENU SEGMENTADO (COMPACTO EN MÓVIL) */
+        /* NAV MENU SEGMENTADO */
         .nav-segment-container { display: flex; justify-content: center; align-items: center; margin-bottom: 32px; }
         .nav-segment { 
             display: inline-flex; align-items: center; 
@@ -50,7 +50,6 @@
         .nav-btn svg { width: 16px; height: 16px; stroke-width: 2; }
         .nav-divider { width: 1px; height: 14px; background: #d1d5db; margin: 0 2px; }
 
-        /* Ajuste móvil para botones */
         @media (max-width: 380px) {
             .nav-btn { padding: 8px 10px; font-size: 12px; gap: 4px; }
         }
@@ -60,10 +59,12 @@
             font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #374151; 
             margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
         }
-        /* Indicador de Mes sobre Carrusel */
+        
+        /* INDICADOR DE MES (GRIS) */
         .month-indicator {
-            margin-left: 20px; margin-bottom: 12px;
-            font-size: 12px; font-weight: 800; color: #16a34a; 
+            margin-left: 20px; margin-bottom: 24px; /* Espacio para el botón flotante */
+            font-size: 13px; font-weight: 800; 
+            color: #6b7280; /* GRIS SOLICITADO */
             text-transform: uppercase; letter-spacing: 1px;
         }
 
@@ -81,8 +82,11 @@
         .carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
         @media (hover: none) and (pointer: coarse) { .carousel-arrow { display: none !important; } }
 
+        /* BOTÓN IR A HOY (SOLAPADO) */
         .btn-today-floating {
-            position: absolute; top: -35px; right: 20px;
+            position: absolute; 
+            top: -12px; /* Solapando el carrusel */
+            right: 20px;
             background: white; border: 1px solid #16a34a; color: #16a34a;
             font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
             cursor: pointer; display: none; align-items: center; gap: 4px; 
@@ -91,13 +95,14 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .carousel { 
-            padding: 4px 24px; display: flex; gap: 10px; 
+            padding: 20px 24px 4px 24px; /* Padding top extra para el botón flotante */
+            display: flex; gap: 10px; 
             overflow-x: auto; scroll-snap-type: x mandatory; 
             -webkit-overflow-scrolling: touch; scrollbar-width: none; 
         }
         .carousel::-webkit-scrollbar { display: none; }
 
-        .date-card { scroll-snap-align: center; min-width: 60px; padding: 10px 6px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; background: #f9fafb; border: 1px solid transparent; }
+        .date-card { scroll-snap-align: center; min-width: 60px; padding: 10px 6px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; background: #f9fafb; border: 1px solid transparent; }
         .date-card.is-today { border: 2px solid #16a34a; background: #ffffff; }
         .date-card.selected { background: #16a34a; color: white; box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25); transform: translateY(-2px); border-color: #16a34a; }
         .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; opacity: 0.8; }
@@ -127,10 +132,10 @@
         .grupo-item-hoy { padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; }
         .grupo-item-hoy:last-child { padding-bottom: 0; border-bottom: none; margin-bottom: 0; }
         
-        /* HORA GRIS OSCURO SOLICITADO */
+        /* HORA GRIS SUAVE */
         .gh-hora-hoy { 
             font-size: 13px; font-weight: 800; 
-            color: #374151; /* GRIS OSCURO */
+            color: #6b7280; /* Gris medio suave */
             background: #ffffff; border: 1px solid #d1d5db; 
             padding: 6px 0; border-radius: 8px; 
             white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; line-height: 1.3; 
@@ -144,7 +149,7 @@
         .gh-asignados { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 4px; }
         .no-grupos { text-align: center; padding: 20px; color: #9ca3af; font-style: italic; font-size: 13px; }
 
-        /* VER TODOS LOS GRUPOS */
+        /* BOTÓN VER TODOS */
         .ver-todos-wrapper { display: flex; justify-content: center; padding: 0 20px 20px; }
         .ver-todos-btn { width: 100%; padding: 12px 24px; background: transparent; color: #16a34a; border: 1px solid #16a34a; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
         .ver-todos-btn:hover { background: #f0fdf4; }
@@ -176,7 +181,7 @@
         .week-nav-arrow { 
             width: 36px; height: 36px; background: transparent; 
             display: flex; align-items: center; justify-content: center; cursor: pointer; 
-            color: #16a34a; /* Verde sin fondo */
+            color: #16a34a; 
         }
         .week-nav-arrow svg { stroke: #16a34a; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
@@ -211,14 +216,8 @@
         .reunion-block { margin-bottom: 32px; }
 
         /* ASIGNACIONES MECÁNICAS - TABLA */
-        .asignaciones-box { 
-            background: #f3f4f6; /* Fondo gris solicitado */
-            border-radius: 16px; padding: 16px; 
-            margin-top: 16px; 
-        }
+        .asignaciones-box { background: #f3f4f6; border-radius: 16px; padding: 16px; margin-top: 16px; }
         .asignaciones-header { font-size: 12px; font-weight: 800; color: #1f2937; text-transform: uppercase; margin-bottom: 12px; }
-        
-        /* Estilo Tabla */
         .asignaciones-table { width: 100%; border-collapse: collapse; }
         .asignaciones-table tr { border-bottom: 1px solid #e5e7eb; }
         .asignaciones-table tr:last-child { border-bottom: none; }
@@ -313,7 +312,6 @@
         </div>
 
         <h2 class="section-title-main" id="reuniones-section">Programa de Reuniones</h2>
-        
         <div class="card" id="card-programa-reuniones" style="padding: 20px;">
             <div class="reunion-week-nav">
                 <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
@@ -389,8 +387,14 @@
 
                 const total = dbGrupos.length + dbVidaMinisterio.length + dbFinSemana.length;
                 document.getElementById('data-stats').textContent = `Registros: ${total}`;
+                
                 renderAll();
                 setupSwipeGestures();
+                setupMonthScrollListener(); // INICIAR DETECTOR DE MES
+                
+                // Centrado inicial automático
+                setTimeout(() => goToToday(), 500);
+
             } catch (error) {
                 console.error(error);
                 document.getElementById('spinner').style.display = 'none';
@@ -401,9 +405,33 @@
             }
         }
 
+        // DETECTOR DE MES AL SCROLLEAR
+        function setupMonthScrollListener() {
+            const carousel = document.getElementById('carousel');
+            const indicator = document.getElementById('month-indicator');
+            
+            carousel.addEventListener('scroll', () => {
+                // Encontrar la primera tarjeta visible
+                const cards = document.querySelectorAll('.date-card');
+                const carouselRect = carousel.getBoundingClientRect();
+                
+                for (let card of cards) {
+                    const cardRect = card.getBoundingClientRect();
+                    // Si la tarjeta está dentro del área visible (con margen)
+                    if (cardRect.left >= carouselRect.left - 20 && cardRect.right <= carouselRect.right + 100) {
+                        // Leer fecha del atributo data (necesitamos agregarlo)
+                        if(card.dataset.date) {
+                            const d = new Date(card.dataset.date);
+                            indicator.textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
+                        }
+                        break; // Ya encontramos la primera visible
+                    }
+                }
+            });
+        }
+
         function setupSwipeGestures() {
             setupSwipe('swipe-grupos-hoy', () => cambiarDiaSeleccionado(1), () => cambiarDiaSeleccionado(-1));
-            // Swipe en toda la CARD de reuniones
             setupSwipe('card-programa-reuniones', () => cambiarSemana(1), () => cambiarSemana(-1));
             setupSwipe('swipe-timeline', () => {
                 const hoyStr = toISODate(fechaHoy);
@@ -434,6 +462,7 @@
         function cambiarDiaSeleccionado(d) {
             fechaSeleccionada.setDate(fechaSeleccionada.getDate() + d);
             renderAll();
+            // Scroll suave sin recargar todo el DOM
             const c = document.getElementById('carousel');
             const s = c.querySelector('.selected');
             if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -527,7 +556,11 @@
             const badgeFinde = document.getElementById('badge-finde');
 
             if (dataFinde) {
-                fechaFindeEl.textContent = formatearFecha(dataFinde.fecha);
+                // FECHA SIMPLIFICADA (22 de febrero)
+                const fParts = dataFinde.fecha.split('-');
+                const fDate = new Date(fParts[0], fParts[1]-1, fParts[2]);
+                fechaFindeEl.textContent = fDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+
                 esMismoDia(dataFinde.fecha, fechaHoy) ? badgeFinde.classList.remove('hidden') : badgeFinde.classList.add('hidden');
                 const asig = parsearListaFlexible(dataFinde.asignacionesLista || "");
                 containerFinde.innerHTML = `
@@ -610,6 +643,9 @@
             for(let i=-2; i<=60; i++) {
                 const f = new Date(b); f.setDate(b.getDate() + i);
                 const card = document.createElement('div');
+                // Guardamos fecha para el scroll listener
+                card.dataset.date = toISODate(f);
+                
                 card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`;
                 card.innerHTML = `<div class="date-card-day">${f.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div><div class="date-card-number">${f.getDate()}</div>`;
                 card.onclick = () => { fechaSeleccionada = f; renderAll(); c.scrollIntoView({block: 'nearest', inline: 'center', behavior: 'smooth'}); };
