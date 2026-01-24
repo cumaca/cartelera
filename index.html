@@ -23,7 +23,7 @@
         }
         
         /* HEADER */
-        .header { text-align: center; padding: 24px 16px 24px; }
+        .header { text-align: center; padding: 24px 16px 20px; }
         .header h1 { 
             font-family: 'Inter', sans-serif; 
             font-size: 20px; 
@@ -33,46 +33,45 @@
             letter-spacing: -0.5px;
         }
         
-        /* NAV MENU SEGMENTADO (UNIFICADO) */
+        /* NAV MENU SEGMENTADO (COMPACTO EN MÓVIL) */
         .nav-segment-container { display: flex; justify-content: center; align-items: center; margin-bottom: 32px; }
-        
-        /* Contenedor gris que agrupa los botones */
         .nav-segment { 
             display: inline-flex; align-items: center; 
-            background: #f3f4f6; /* Fondo gris suave */
-            border-radius: 12px; 
-            padding: 4px; 
+            background: #f3f4f6; border-radius: 12px; padding: 4px; 
         }
-        
-        /* Botones transparentes dentro del segmento */
         .nav-btn { 
             text-decoration: none; 
             display: flex; align-items: center; gap: 6px;
             padding: 8px 16px; 
-            color: #6b7280;
-            font-size: 13px; font-weight: 600; 
-            transition: all 0.2s; 
-            background: transparent; /* Sin fondo individual */
-            border-radius: 8px;
+            color: #6b7280; font-size: 13px; font-weight: 600; 
+            transition: all 0.2s; border-radius: 8px;
         }
         .nav-btn:hover { color: #1f2937; background: rgba(255,255,255,0.5); }
         .nav-btn svg { width: 16px; height: 16px; stroke-width: 2; }
-        
-        /* Separador vertical */
         .nav-divider { width: 1px; height: 14px; background: #d1d5db; margin: 0 2px; }
+
+        /* Ajuste móvil para botones */
+        @media (max-width: 380px) {
+            .nav-btn { padding: 8px 10px; font-size: 12px; gap: 4px; }
+        }
 
         /* TÍTULOS DE SECCIÓN */
         .section-title-main { 
             font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #374151; 
             margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
         }
-        .week-range-top { text-align: left; margin-left: 20px; font-size: 13px; color: #9ca3af; font-weight: 500; margin-bottom: 20px; }
+        /* Indicador de Mes sobre Carrusel */
+        .month-indicator {
+            margin-left: 20px; margin-bottom: 12px;
+            font-size: 12px; font-weight: 800; color: #16a34a; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
 
         /* CARRUSEL */
         .carousel-wrapper { position: relative; padding: 0 10px 20px 10px; }
         
         .carousel-arrow { 
-            position: absolute; top: 50%; transform: translateY(-50%); /* Centrado */
+            position: absolute; top: 50%; transform: translateY(-50%); 
             width: 28px; height: 28px; background: white; 
             border-radius: 50%; border: 1px solid #e5e7eb; 
             cursor: pointer; display: flex; align-items: center; justify-content: center; 
@@ -80,25 +79,19 @@
         }
         .carousel-arrow:hover { color: #16a34a; border-color: #16a34a; }
         .carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
-        
         @media (hover: none) and (pointer: coarse) { .carousel-arrow { display: none !important; } }
 
-        /* BOTÓN HOY BAJADO */
         .btn-today-floating {
-            position: absolute; 
-            top: 0; /* Alineado arriba del wrapper */
-            right: 20px;
+            position: absolute; top: -35px; right: 20px;
             background: white; border: 1px solid #16a34a; color: #16a34a;
-            font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
             cursor: pointer; display: none; align-items: center; gap: 4px; 
-            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15); animation: fadeIn 0.3s ease;
-            z-index: 20;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15); animation: fadeIn 0.3s ease; z-index: 20;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .carousel { 
-            padding: 20px 24px 4px 24px; /* Padding top extra para el botón flotante */
-            display: flex; gap: 10px; 
+            padding: 4px 24px; display: flex; gap: 10px; 
             overflow-x: auto; scroll-snap-type: x mandatory; 
             -webkit-overflow-scrolling: touch; scrollbar-width: none; 
         }
@@ -114,15 +107,12 @@
         .calendar-toggle-wrapper { display: flex; justify-content: flex-end; padding-right: 20px; margin-top: -10px; margin-bottom: 10px; }
         .calendar-toggle { display: flex; align-items: center; gap: 4px; color: #16a34a; font-size: 12px; font-weight: 700; cursor: pointer; border: none; background: none; padding: 6px 10px; border-radius: 8px; transition: background 0.2s; }
         .calendar-toggle:hover { background: #f0fdf4; }
-        
         .section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .section-content.expanded { max-height: 5000px; }
         .section-inner { padding: 0 20px 20px; }
-        
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px; }
         .calendar-nav-btn { cursor: pointer; padding: 8px 12px; color: #4b5563; font-weight: bold; display: flex; align-items: center; justify-content: center; }
         .calendar-month { font-size: 14px; font-weight: 700; color: #374151; text-transform: capitalize; }
-        
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; }
         .calendar-day-header { text-align: center; font-size: 11px; font-weight: 700; color: #374151; padding: 4px 0; }
         .calendar-day { text-align: center; padding: 8px 4px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: #374151; background: #f9fafb; }
@@ -136,7 +126,16 @@
         .grupo-consolidado-header svg { color: #9ca3af; }
         .grupo-item-hoy { padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; }
         .grupo-item-hoy:last-child { padding-bottom: 0; border-bottom: none; margin-bottom: 0; }
-        .gh-hora-hoy { font-size: 13px; font-weight: 800; color: #16a34a; background: #ffffff; border: 1px solid #dcfce7; padding: 6px 0; border-radius: 8px; white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; line-height: 1.3; }
+        
+        /* HORA GRIS OSCURO SOLICITADO */
+        .gh-hora-hoy { 
+            font-size: 13px; font-weight: 800; 
+            color: #374151; /* GRIS OSCURO */
+            background: #ffffff; border: 1px solid #d1d5db; 
+            padding: 6px 0; border-radius: 8px; 
+            white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; line-height: 1.3; 
+        }
+        
         .grupo-row-flex { display: flex; gap: 14px; align-items: flex-start; }
         .grupo-content-col { flex-grow: 1; }
         .gh-top-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
@@ -145,19 +144,9 @@
         .gh-asignados { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 4px; }
         .no-grupos { text-align: center; padding: 20px; color: #9ca3af; font-style: italic; font-size: 13px; }
 
-        /* BOTÓN VER TODOS */
+        /* VER TODOS LOS GRUPOS */
         .ver-todos-wrapper { display: flex; justify-content: center; padding: 0 20px 20px; }
-        .ver-todos-btn { 
-            width: 100%; 
-            padding: 12px 24px; 
-            background: transparent; 
-            color: #16a34a; 
-            border: 1px solid #16a34a; 
-            border-radius: 12px; 
-            font-size: 13px; font-weight: 700; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; 
-            transition: all 0.2s; 
-        }
+        .ver-todos-btn { width: 100%; padding: 12px 24px; background: transparent; color: #16a34a; border: 1px solid #16a34a; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
         .ver-todos-btn:hover { background: #f0fdf4; }
         .ver-todos-btn svg { width: 16px; height: 16px; transition: transform 0.3s; color: #16a34a; }
         .ver-todos-btn.expanded svg { transform: rotate(180deg); }
@@ -166,10 +155,9 @@
         .timeline-wrapper { padding-top: 10px; margin-left: 10px; } 
         .timeline-day-block { position: relative; padding-left: 28px; border-left: 2px solid #e5e7eb; padding-bottom: 30px; transition: all 0.3s; }
         .timeline-day-block:last-child { border-left: 2px solid transparent; border-image: linear-gradient(to bottom, #e5e7eb 0%, transparent 100%) 1 100%; }
-        
         .timeline-date-header { position: relative; font-size: 15px; font-weight: 800; color: #9ca3af; margin-bottom: 16px; text-transform: capitalize; line-height: 1; top: -5px; transition: color 0.3s; }
         .timeline-date-header::before { content: ''; position: absolute; left: -35px; top: 1px; width: 12px; height: 12px; background: #9ca3af; border-radius: 50%; box-shadow: 0 0 0 4px rgba(156, 163, 175, 0.15); z-index: 1; transition: all 0.3s; }
-
+        
         .timeline-day-block.active-day .timeline-date-header { color: #16a34a; }
         .timeline-day-block.active-day .timeline-date-header::before { background: #16a34a; box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2); }
         .timeline-day-block.active-day .gh-hora-timeline { color: #16a34a; border-color: #16a34a; background: #f0fdf4; }
@@ -177,24 +165,18 @@
         .timeline-row { position: relative; padding-bottom: 24px; }
         .gh-hora-timeline { font-size: 13px; font-weight: 700; color: #9ca3af; background: #f9fafb; border: 1px solid #e5e7eb; padding: 6px 0; border-radius: 8px; white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; transition: all 0.3s; }
 
-        /* PAGINACIÓN */
         .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f3f4f6; }
         .page-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: white; color: #6b7280; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .page-btn:hover { color: #16a34a; border-color: #16a34a; }
         .page-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
         .page-btn:disabled { opacity: 0.4; cursor: default; border-color: #e5e7eb; color: #9ca3af; }
 
-        /* REUNIONES - FONDO BLANCO */
-        .reunion-week-nav { 
-            display: flex; align-items: center; justify-content: center; gap: 16px; 
-            margin-bottom: 24px; padding: 12px; 
-            background: white; /* FONDO BLANCO */
-            border-radius: 16px; 
-        }
+        /* REUNIONES - NAV LIMPIA */
+        .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; padding: 12px; }
         .week-nav-arrow { 
-            width: 36px; height: 36px; background: white; border: 1px solid #e5e7eb; border-radius: 10px; 
+            width: 36px; height: 36px; background: transparent; 
             display: flex; align-items: center; justify-content: center; cursor: pointer; 
-            color: #16a34a; 
+            color: #16a34a; /* Verde sin fondo */
         }
         .week-nav-arrow svg { stroke: #16a34a; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
@@ -223,19 +205,25 @@
         
         .section-heading { font-size: 12px; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase; }
         .reunion-item-content { font-size: 14px; color: #374151; line-height: 1.5; }
-        
-        /* SEGUNDA SALA - Indentación */
-        .reunion-item-auxiliar { 
-            display: block; margin-top: 2px; font-size: 14px; color: #374151; 
-            padding-left: 16px; border-left: 2px solid #e5e7eb; 
-        }
+        .reunion-item-auxiliar { display: block; margin-top: 2px; font-size: 14px; color: #374151; padding-left: 16px; border-left: 2px solid #e5e7eb; }
         
         .info-box { background: #f9fafb; border-radius: 12px; padding: 12px; margin-bottom: 20px; font-size: 13px; color: #4b5563; }
         .reunion-block { margin-bottom: 32px; }
 
-        .asignaciones-box { background: white; border-top: 1px solid #f3f4f6; margin-top: 16px; padding-top: 16px; }
-        .asignaciones-header { font-size: 12px; font-weight: 700; color: #1f2937; text-transform: uppercase; margin-bottom: 8px; }
-        .asignacion-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f9fafb; font-size: 13px; color: #4b5563; }
+        /* ASIGNACIONES MECÁNICAS - TABLA */
+        .asignaciones-box { 
+            background: #f3f4f6; /* Fondo gris solicitado */
+            border-radius: 16px; padding: 16px; 
+            margin-top: 16px; 
+        }
+        .asignaciones-header { font-size: 12px; font-weight: 800; color: #1f2937; text-transform: uppercase; margin-bottom: 12px; }
+        
+        /* Estilo Tabla */
+        .asignaciones-table { width: 100%; border-collapse: collapse; }
+        .asignaciones-table tr { border-bottom: 1px solid #e5e7eb; }
+        .asignaciones-table tr:last-child { border-bottom: none; }
+        .asignaciones-table td { padding: 8px 0; font-size: 13px; color: #4b5563; }
+        .asignaciones-table td:first-child { font-weight: 600; color: #374151; width: 40%; }
 
         /* ANUNCIOS */
         .anuncio { background: #fffbeb; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start; }
@@ -262,7 +250,7 @@
 
     <div class="container">
         <div class="header">
-            <h1>Cartelera de la cong. La Cumaca</h1>
+            <h1>Cartelera Cong. La Cumaca</h1>
         </div>
         
         <div class="nav-segment-container">
@@ -286,7 +274,7 @@
 
         <div class="card" id="grupos-section">
             <h2 class="section-title-main">Grupos de Predicación</h2>
-            <div class="week-range-top" id="week-text"></div>
+            <div id="month-indicator" class="month-indicator"></div>
             
             <div class="carousel-wrapper">
                 <button id="btn-today" class="btn-today-floating" onclick="goToToday()">Ir a Hoy</button>
@@ -325,8 +313,9 @@
         </div>
 
         <h2 class="section-title-main" id="reuniones-section">Programa de Reuniones</h2>
-        <div class="card" style="padding: 20px;">
-            <div id="swipe-reuniones-semana" class="reunion-week-nav">
+        
+        <div class="card" id="card-programa-reuniones" style="padding: 20px;">
+            <div class="reunion-week-nav">
                 <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
                 <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
                 <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
@@ -414,7 +403,8 @@
 
         function setupSwipeGestures() {
             setupSwipe('swipe-grupos-hoy', () => cambiarDiaSeleccionado(1), () => cambiarDiaSeleccionado(-1));
-            setupSwipe('swipe-reuniones-semana', () => cambiarSemana(1), () => cambiarSemana(-1));
+            // Swipe en toda la CARD de reuniones
+            setupSwipe('card-programa-reuniones', () => cambiarSemana(1), () => cambiarSemana(-1));
             setupSwipe('swipe-timeline', () => {
                 const hoyStr = toISODate(fechaHoy);
                 let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr);
@@ -525,7 +515,7 @@
                     <div class="maestros re-block"><h4 class="section-heading">SEAMOS MEJORES MAESTROS</h4>${(dataSemana.hagamosMejores||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<span class="reunion-item-auxiliar">Segunda Sala: ${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
                     <div class="vida re-block"><h4 class="section-heading">NUESTRA VIDA CRISTIANA</h4>${vida.map(v => `<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${v.rol}</strong><br>${v.nombre}</div></div>`).join('')}</div>
                     <div class="info-box"><div><strong>Oración final:</strong> ${dataSemana.oracionFinal || ""}</div></div>
-                    <div class="asignaciones-box"><div class="asignaciones-header">Asignaciones Mecánicas</div><div class="asignaciones-content">${asig.map(a=>`<div class="asignacion-item"><div>${a.rol}</div><div>${a.nombre}</div></div>`).join('')}</div></div>`;
+                    <div class="asignaciones-box"><div class="asignaciones-header">Asignaciones Mecánicas</div><table class="asignaciones-table">${asig.map(a=>`<tr><td>${a.rol}</td><td>${a.nombre}</td></tr>`).join('')}</table></div>`;
             } else {
                 fechaSemanaEl.textContent = rangoTexto + " (Sin datos)";
                 badgeSemana.classList.add('hidden');
@@ -545,7 +535,7 @@
                     <div class="publico re-block"><h4 class="section-heading">DISCURSO PÚBLICO</h4><div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${dataFinde.discursoPublico?.tema || ""}</strong><br>${dataFinde.discursoPublico?.orador || ""}<br><span class="reunion-item-auxiliar">Cong. ${dataFinde.discursoPublico?.congregacion || ""}</span></div></div></div>
                     <div class="atalaya re-block"><h4 class="section-heading">ESTUDIO DE LA ATALAYA</h4><div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${dataFinde.estudioAtalaya?.articulo || ""}</strong><br>Conductor: ${dataFinde.estudioAtalaya?.conductor || ""}<br>Lector: ${dataFinde.estudioAtalaya?.lector || ""}</div></div></div>
                     <div class="info-box"><div><strong>Oración final:</strong> ${dataFinde.oracionFinal || ""}</div></div>
-                    ${asig.length > 0 ? `<div class="asignaciones-box"><div class="asignaciones-header">Asignaciones Mecánicas</div><div class="asignaciones-content">${asig.map(a=>`<div class="asignacion-item"><div>${a.rol}</div><div>${a.nombre}</div></div>`).join('')}</div></div>` : ''}`;
+                    ${asig.length > 0 ? `<div class="asignaciones-box"><div class="asignaciones-header">Asignaciones Mecánicas</div><table class="asignaciones-table">${asig.map(a=>`<tr><td>${a.rol}</td><td>${a.nombre}</td></tr>`).join('')}</table></div>` : ''}`;
             } else {
                 fechaFindeEl.textContent = "Sin datos";
                 badgeFinde.classList.add('hidden');
@@ -572,9 +562,11 @@
 
         function renderAll() {
             const d = new Date(fechaSeleccionada);
+            // Actualizar Indicador Mes
+            document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
+
             const day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
             const mon = new Date(d.setDate(diff)); const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
-            document.getElementById('week-text').textContent = `Semana del ${mon.getDate()} de ${mon.toLocaleDateString('es-ES',{month:'long'})} al ${sun.getDate()} de ${sun.toLocaleDateString('es-ES',{month:'long'})}`;
             
             const btnToday = document.getElementById('btn-today');
             if (!esMismoDia(fechaSeleccionada, fechaHoy)) btnToday.style.display = 'flex'; else btnToday.style.display = 'none';
