@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartelera Digital - La Cumaca</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%); min-height: 100vh; padding: 16px; color: #1f2937; }
+        .container { max-width: 480px; margin: 0 auto; padding-bottom: 40px; }
+        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 24px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 12px; overflow: hidden; position: relative; }
+        
+        /* HEADER */
+        .header { text-align: center; padding: 28px 16px 24px; margin-bottom: 12px; }
+        .header h1 { font-family: 'Inter', sans-serif; font-size: 34px; font-weight: 800; color: #166534; text-shadow: 0 2px 8px rgba(22, 101, 52, 0.15); margin-bottom: 4px; line-height: 1.1; }
+        .header p { color: #15803d; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; opacity: 0.9; }
+        
+        /* CARD TITLES */
+        .card-inner-title { padding: 24px 20px 0 20px; font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 700; color: #166534; text-align: center; }
+        .week-range-top { text-align: center; font-size: 14px; color: #6b7280; font-weight: 500; margin-top: 16px; margin-bottom: 12px; }
+
+        /* CAROUSEL FECHAS */
+        .carousel-wrapper { position: relative; padding: 0 40px 20px 40px; }
+        .carousel-arrow { position: absolute; top: 40%; transform: translateY(-50%); width: 32px; height: 32px; background: white; border-radius: 50%; border: 1px solid #e5e7eb; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .carousel-arrow:hover { background: #f0fdf4; border-color: #16a34a; }
+        .carousel-arrow-left { left: 8px; } .carousel-arrow-right { right: 8px; }
+        .carousel-arrow svg { width: 16px; height: 16px; stroke: #6b7280; fill: none; stroke-width: 2; }
+        .carousel { padding: 4px 0; overflow-x: hidden; display: flex; gap: 12px; scroll-behavior: smooth; }
+        .date-card { min-width: 60px; padding: 10px 8px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; background: #f3f4f6; border: 2px solid transparent; }
+        .date-card:hover { background: #e5e7eb; }
+        .date-card.is-today { border: 2px solid #16a34a; }
+        .date-card.selected { background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%); color: white; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); transform: translateY(-2px); }
+        .date-card.selected.is-today { border: 2px solid rgba(255, 255, 255, 0.8); }
+        .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280; margin-bottom: 2px; }
+        .date-card.selected .date-card-day { color: rgba(255,255,255,0.9); }
+        .date-card-number { font-size: 20px; font-weight: 700; color: #1f2937; margin-bottom: 2px; }
+        .date-card.selected .date-card-number { color: white; }
+
+        /* CALENDARIO */
+        .calendar-toggle-wrapper { display: flex; justify-content: flex-end; padding-right: 10px; margin-top: -10px; margin-bottom: 10px; }
+        .calendar-toggle { display: flex; align-items: center; gap: 4px; color: #16a34a; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: none; padding: 4px 8px; border-radius: 8px; transition: background 0.2s; }
+        .section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .section-content.expanded { max-height: 5000px; }
+        .section-inner { padding: 0 20px 20px; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .calendar-nav-btn { cursor: pointer; padding: 4px 8px; color: #16a34a; font-weight: bold; user-select: none; }
+        .calendar-month { text-align: center; font-size: 14px; font-weight: 700; color: #374151; text-transform: capitalize; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .calendar-day-header { text-align: center; font-size: 10px; font-weight: 700; color: #9ca3af; padding: 6px 0; }
+        .calendar-day { text-align: center; padding: 8px 4px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 500; color: #374151; }
+        .calendar-day:hover { background: #f3f4f6; color: #166534; }
+        .calendar-day.selected { background: #16a34a !important; color: white !important; font-weight: 700; }
+        .calendar-day.today { border: 1px solid #16a34a; color: #16a34a; font-weight: 700; }
+
+        /* --- ESTILOS HORIZONTALES (Territorio + Conductor) --- */
+        .grupo-bloque-horizontal {
+            display: flex; 
+            gap: 14px; 
+            align-items: flex-start; /* Alineación base */
+        }
+        
+        .gh-hora {
+            font-size: 13px; font-weight: 800; color: #16a34a; 
+            background: #f0fdf4; border: 1px solid #dcfce7;
+            padding: 5px 0; /* Relleno ajustado para altura visual */
+            border-radius: 8px; 
+            white-space: nowrap; flex-shrink: 0; width: 75px; text-align: center;
+            margin: 0;
+            line-height: 1.3;
+        }
+        
+        .gh-info { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        
+        .gh-fila-top { 
+            display: flex; 
+            flex-wrap: wrap; 
+            align-items: flex-start; /* Alinea los tops de las cajas de texto */
+            gap: 8px; 
+        }
+        
+        .gh-territorio { 
+            font-size: 15px; font-weight: 700; color: #166534; 
+            line-height: 1.2; 
+            /* Ajuste de margen para alinear la primera línea de texto con la hora */
+            margin-top: 3px; 
+        }
+        
+        .gh-conductor { 
+            font-size: 13px; color: #6b7280; font-weight: 500; 
+            /* Ajuste para que se vea alineado con el territorio si cae al lado */
+            margin-top: 4px; 
+        }
+        
+        .gh-asignados { font-size: 13px; color: #15803d; font-weight: 700; }
+
+        /* GRUPOS HOY */
+        .grupos-dia-container { padding: 0 20px 16px; min-height: 80px; }
+        .grupo-consolidado-card { background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; border-radius: 16px; padding: 16px; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.05); }
+        .grupo-consolidado-header { font-size: 14px; font-weight: 800; color: #15803d; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .grupo-item-hoy { border-bottom: 1px solid rgba(22, 163, 74, 0.2); padding: 12px 0; }
+        .grupo-item-hoy:last-child { border-bottom: none; padding-bottom: 0; }
+        .grupo-item-hoy .gh-hora { background: rgba(255,255,255,0.8); border: none; }
+        
+        .no-grupos { text-align: center; padding: 24px; color: #9ca3af; }
+
+        /* VER TODOS LOS GRUPOS - LÍNEA DE TIEMPO */
+        .ver-todos-btn { 
+            width: 100%; padding: 12px; background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%); 
+            color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 8px; 
+            transition: all 0.2s; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2); flex-grow: 0; height: auto; 
+        }
+        .ver-todos-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); }
+        .ver-todos-btn svg { width: 18px; height: 18px; transition: transform 0.3s; }
+        /* Ahora la flecha girará cuando el botón tenga la clase expanded */
+        .ver-todos-btn.expanded svg { transform: rotate(180deg); }
+
+        /* --- LÍNEA VERTICAL CONTINUA Y ALINEADA --- */
+        .timeline-wrapper {
+            /* Padding top extra para evitar que la primera fecha se corte por el overflow */
+            padding-top: 10px;
+        }
+
+        .timeline-day-block { 
+            position: relative; 
+            padding-left: 24px; 
+            border-left: 2px solid #16a34a; 
+            padding-bottom: 24px;
+            margin-left: 10px;
+        }
+        
+        .timeline-day-block:last-child {
+            border-left: 2px solid transparent;
+            border-image: linear-gradient(to bottom, #16a34a 0%, #16a34a 20px, transparent 100%) 1 100%;
+        }
+
+        /* HEADER FECHA (Punto con Halo) */
+        .timeline-date-header {
+            position: relative;
+            font-size: 15px; font-weight: 800; color: #1f2937;
+            margin-bottom: 16px; 
+            text-transform: capitalize;
+            line-height: 1;
+            top: -4px; 
+        }
+
+        /* El Punto Halo - Alineado con la línea */
+        .timeline-date-header::before {
+            content: ''; 
+            position: absolute; 
+            left: -31px; 
+            top: 2px;
+            width: 12px; height: 12px; 
+            background: #16a34a; 
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px #dcfce7; 
+            z-index: 1;
+        }
+
+        /* FILAS DE GRUPOS */
+        .timeline-row { 
+            position: relative; 
+            padding-bottom: 20px; 
+        }
+        .timeline-row:last-child { padding-bottom: 0; }
+
+        /* PAGINACIÓN */
+        .pagination-container { display: flex; justify-content: center; gap: 6px; margin-top: 16px; padding-top: 10px; border-top: 1px solid #e5e7eb; }
+        .page-btn {
+            width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: white;
+            color: #374151; font-size: 13px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .page-btn:hover { border-color: #16a34a; color: #16a34a; }
+        .page-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
+
+        /* REUNIONES INTERACTIVAS */
+        .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px; padding: 16px 12px; }
+        .week-nav-arrow { width: 36px; height: 36px; background: white; border: 2px solid #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .week-nav-arrow:hover { background: #16a34a; border-color: #16a34a; }
+        .week-nav-arrow svg { width: 18px; height: 18px; stroke: #6b7280; fill: none; stroke-width: 2.5; }
+        .week-nav-text { font-size: 20px; font-weight: 700; color: #1f2937; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: color 0.2s; }
+        .week-nav-text:hover { color: #16a34a; }
+
+        .reunion-card { 
+            border-radius: 16px; padding: 16px; 
+            border: 1px solid #e5e7eb; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            margin-bottom: 24px; 
+            background: white;
+        }
+        .reunion-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        .reunion-card.active-card {
+            border-color: #16a34a;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
+            background: #fdfdfd;
+        }
+
+        .reunion-header { display: flex; justify-content: space-between; align-items: center; }
+        .reunion-info h3 { font-weight: 600; color: #1f2937; margin-bottom: 4px; font-size: 16px; }
+        .reunion-badge { display: inline-block; background: #4caf50; color: white; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px; margin-left: 8px; }
+        .reunion-date { font-size: 12px; color: #6b7280; margin-bottom: 4px; }
+        .reunion-time { font-size: 13px; font-weight: 600; color: #16a34a; }
+        .section-arrow { width: 20px; height: 20px; transition: transform 0.3s; fill: none; stroke: #9ca3af; stroke-width: 2; }
+        .reunion-card.active-card .section-arrow { transform: rotate(180deg); stroke: #16a34a; }
+
+        .reunion-timeline-item { position: relative; padding-left: 28px; padding-bottom: 16px; }
+        .reunion-timeline-item::before { content: ''; position: absolute; left: 7px; top: 10px; bottom: -8px; width: 2px; }
+        .reunion-timeline-item:last-child::before { display: none; }
+        .reunion-timeline-dot { position: absolute; left: 0; top: 6px; width: 16px; height: 16px; border-radius: 50%; box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
+        .tesoros .reunion-timeline-dot { background: #16a34a; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2); } .tesoros .reunion-timeline-item::before { background: linear-gradient(to bottom, #16a34a 0%, #86efac 100%); }
+        .maestros .reunion-timeline-dot { background: #ea580c; box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2); } .maestros .reunion-timeline-item::before { background: linear-gradient(to bottom, #ea580c 0%, #fdba74 100%); }
+        .vida .reunion-timeline-dot { background: #b91c1c; box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.2); } .vida .reunion-timeline-item::before { background: linear-gradient(to bottom, #b91c1c 0%, #fca5a5 100%); }
+        .publico .reunion-timeline-dot { background: #7c3aed; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2); } .publico .reunion-timeline-item::before { background: linear-gradient(to bottom, #7c3aed 0%, #c4b5fd 100%); }
+        .atalaya .reunion-timeline-dot { background: #d97706; box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2); } .atalaya .reunion-timeline-item::before { background: linear-gradient(to bottom, #d97706 0%, #fcd34d 100%); }
+        .section-heading { font-size: 13px; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px; }
+        .section-heading.tesoros { color: #16a34a; } .section-heading.maestros { color: #ea580c; } .section-heading.vida { color: #b91c1c; } .section-heading.publico { color: #7c3aed; } .section-heading.atalaya { color: #d97706; }
+        .reunion-item-content { font-size: 13px; color: #374151; line-height: 1.5; }
+        .info-box { background: #f9fafb; border-radius: 12px; padding: 12px; margin-bottom: 16px; font-size: 13px; color: #374151; }
+        .asignaciones-box { background: #f3f4f6; border-radius: 12px; overflow: hidden; margin-top: 16px; }
+        .asignaciones-header { background: #e5e7eb; padding: 10px 16px; font-size: 13px; font-weight: 700; color: #1f2937; text-transform: uppercase; }
+        .asignaciones-content { padding: 8px 16px; }
+        .asignacion-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 13px; }
+        .asignacion-item:last-child { border-bottom: none; }
+        .anuncio { background: #fef3c7; border: 1px solid #fde047; border-radius: 16px; padding: 14px; margin-bottom: 10px; display: flex; gap: 12px; }
+        .anuncio-date { background: #fbbf24; color: #1f2937; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; align-self: flex-start; }
+        .anuncio-text { font-size: 13px; color: #374151; flex: 1; line-height: 1.5; }
+        .footer { text-align: center; color: #6b7280; font-size: 12px; margin-top: 24px; padding-bottom: 16px; }
+        .hidden { display: none; }
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.98); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; padding: 20px; text-align: center; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #16a34a; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #error-details { margin-top: 20px; color: red; font-family: monospace; font-size: 11px; background: #ffe6e6; padding: 10px; border-radius: 8px; border: 1px solid #ffcccc; max-width: 90%; white-space: pre-wrap; display: none; }
+    </style>
+</head>
+<body>
+    <div id="loading-overlay">
+        <div class="spinner" id="spinner"></div>
+        <p id="loading-text" style="color:#166534; font-weight:600; font-size:14px; font-family:'Inter',sans-serif;">Actualizando información...</p>
+        <div id="error-details"></div>
+    </div>
+
+    <div class="container">
+        <div class="header"><h1>Congregación La Cumaca</h1><p>Cartelera Digital</p></div>
+        
+        <div class="card">
+            <div class="card-inner-title">Grupos de Predicación</div>
+            <div class="week-range-top" id="week-text"></div>
+            <div class="carousel-wrapper">
+                <div class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
+                <div class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
+                <div class="carousel" id="carousel"></div>
+            </div>
+            <div class="calendar-toggle-wrapper"><button class="calendar-toggle" onclick="toggleSection('calendario')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg><span id="calendar-toggle-text">Calendario</span></button></div>
+            <div class="section-content" id="calendario-content">
+                <div class="section-inner"><div class="calendar-header"><div class="calendar-nav-btn" onclick="navMes(-1)">❮</div><div class="calendar-month" id="calendar-month"></div><div class="calendar-nav-btn" onclick="navMes(1)">❯</div></div><div class="calendar-grid" id="calendario-grid"></div></div>
+            </div>
+            
+            <div class="grupos-dia-container" id="grupos-dia-container"></div>
+            
+            <div style="padding: 0 20px 20px;"><button class="ver-todos-btn" id="ver-todos-btn" onclick="toggleSection('todos-grupos')"><span id="ver-todos-text">Ver todos los grupos</span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button></div>
+            <div class="section-content" id="todos-grupos-content">
+                <div class="section-inner">
+                    <div id="todos-grupos-timeline" class="timeline-wrapper"></div>
+                    <div id="paginacion-container" class="pagination-container hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="padding: 20px;">
+            <div class="reunion-week-nav">
+                <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
+                <div class="week-nav-text" onclick="resetearSemana()" title="Volver a la semana actual">ESTA SEMANA</div>
+                <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
+            </div>
+            
+            <div class="reunion-card" id="card-reunion-semana" onclick="toggleSection('reunion-semana')">
+                <div class="reunion-header">
+                    <div class="reunion-info"><h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3><p class="reunion-date" id="fecha-semana"></p><p class="reunion-time">6:30 PM</p></div>
+                    <svg class="section-arrow" id="reunion-semana-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </div>
+            </div>
+            <div class="section-content" id="reunion-semana-content"><div class="section-inner" id="reunion-semana-detalle"></div></div>
+            
+            <div class="reunion-card" id="card-reunion-finde" onclick="toggleSection('reunion-finde')">
+                <div class="reunion-header">
+                    <div class="reunion-info"><h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3><p class="reunion-date" id="fecha-finde"></p><p class="reunion-time">10:00 AM</p></div>
+                    <svg class="section-arrow" id="reunion-finde-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </div>
+            </div>
+            <div class="section-content" id="reunion-finde-content"><div class="section-inner" id="reunion-finde-detalle"></div></div>
+        </div>
+
+        <div class="card" style="padding: 20px;">
+            <h2 class="section-title" style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 16px;">Anuncios</h2>
+            <div id="anuncios-lista"></div>
+        </div>
+        <div class="footer"><p>Actualización automática • Conectado</p><p id="data-stats" style="font-size: 10px; color: #9ca3af; margin-top:4px;"></p></div>
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbxWQCoBctEYLdVGexgwcu4z_mXzym78f1EZnTQi4HkjzSil18chRBM-qgt7xhQEqaOX/exec"; 
+
+        // Variables Globales
+        let dbGrupos = [], dbVidaMinisterio = [], dbFinSemana = [], dbAnuncios = [];
+        let fechaHoy = new Date();
+        let fechaSeleccionada = new Date(fechaHoy);
+        let fechaVisualizadaCalendario = new Date(fechaHoy);
+        let semanaOffset = 0;
+        let sectionsExpanded = {};
+        let paginaGruposActual = 1;
+        const diasPorPagina = 3; 
+
+        function toISODate(d) {
+            if(!(d instanceof Date)) return "";
+            return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+        }
+
+        async function iniciarApp() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error("Error HTTP: " + response.status);
+                const data = await response.json();
+                if (data.error) throw new Error(data.message);
+                
+                dbGrupos = data.grupos || [];
+                dbVidaMinisterio = data.vidaMinisterio || [];
+                dbFinSemana = data.finSemana || [];
+                dbAnuncios = data.anuncios || [];
+
+                document.getElementById('loading-overlay').style.opacity = '0';
+                setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 500);
+
+                const total = dbGrupos.length + dbVidaMinisterio.length + dbFinSemana.length;
+                document.getElementById('data-stats').textContent = `Registros: ${total}`;
+                renderAll(); 
+            } catch (error) {
+                console.error(error);
+                document.getElementById('spinner').style.display = 'none';
+                document.getElementById('loading-text').textContent = "ERROR DE CONEXIÓN";
+                document.getElementById('loading-text').style.color = "red";
+                document.getElementById('error-details').style.display = 'block';
+                document.getElementById('error-details').textContent = error.message;
+            }
+        }
+
+        function esMismoDia(f1, f2) {
+            const str1 = f1 instanceof Date ? toISODate(f1) : f1;
+            const str2 = f2 instanceof Date ? toISODate(f2) : f2;
+            return str1 === str2;
+        }
+
+        function renderGruposDia() {
+            const container = document.getElementById('grupos-dia-container');
+            const fechaStr = toISODate(fechaSeleccionada);
+            const data = dbGrupos.find(g => g.fecha === fechaStr);
+            
+            if (!data || !data.grupos || data.grupos.length === 0) {
+                container.innerHTML = `<div class="no-grupos"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:32px;height:32px;margin:0 auto 8px;opacity:0.3"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg><div style="font-size:13px">No hay grupos programados</div></div>`;
+                return;
+            }
+            let htmlInner = '';
+            data.grupos.forEach(g => {
+                htmlInner += `
+                <div class="grupo-item-hoy">
+                    <div class="grupo-bloque-horizontal">
+                        <div class="gh-hora">${g.hora}</div>
+                        <div class="gh-info">
+                            <div class="gh-fila-top">
+                                <div class="gh-territorio">${g.territorio}</div>
+                                <div class="gh-conductor">${g.conductor}</div>
+                            </div>
+                            ${g.gruposAssigned ? `<div class="gh-asignados">${g.gruposAssigned}</div>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = `<div class="grupo-consolidado-card"><div class="grupo-consolidado-header"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Grupos de hoy</div>${htmlInner}</div>`;
+        }
+
+        function renderReuniones() {
+            const d = new Date(fechaHoy);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day == 0 ? -6 : 1) + (semanaOffset * 7);
+            const lunes = new Date(d.setDate(diff));
+            const lunesStr = toISODate(lunes);
+            const domingo = new Date(lunes); domingo.setDate(lunes.getDate() + 6);
+            const domingoStr = toISODate(domingo);
+
+            const buscar = (lista) => lista.find(r => r.fecha >= lunesStr && r.fecha <= domingoStr);
+            const dataSemana = buscar(dbVidaMinisterio);
+            const dataFinde = buscar(dbFinSemana);
+
+            const containerSemana = document.getElementById('reunion-semana-detalle');
+            const fechaSemanaEl = document.getElementById('fecha-semana');
+            const badgeSemana = document.getElementById('badge-semana');
+
+            if (dataSemana) {
+                fechaSemanaEl.textContent = formatearFecha(dataSemana.fecha);
+                esMismoDia(dataSemana.fecha, fechaHoy) ? badgeSemana.classList.remove('hidden') : badgeSemana.classList.add('hidden');
+                const asig = parsearListaFlexible(dataSemana.asignacionesLista || "");
+                const vida = parsearListaFlexible(dataSemana.vidaCristianaLista || "");
+                
+                containerSemana.innerHTML = `
+                    <div class="info-box"><div><strong>Presidente:</strong> ${dataSemana.presidente || ""}</div><div><strong>Oración inicial:</strong> ${dataSemana.oracionInicial || ""}</div></div>
+                    <div class="tesoros"><h4 class="section-heading tesoros">TESOROS</h4>${(dataSemana.tesorosPalabra||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<br><span class="reunion-item-auxiliar">Sala B: ${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
+                    <div class="maestros"><h4 class="section-heading maestros">MAESTROS</h4>${(dataSemana.hagamosMejores||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<br><span class="reunion-item-auxiliar">Sala B: ${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
+                    <div class="vida"><h4 class="section-heading vida">VIDA CRISTIANA</h4>${vida.map(v => `<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${v.rol}</strong><br>${v.nombre}</div></div>`).join('')}</div>
+                    <div class="info-box"><div><strong>Oración final:</strong> ${dataSemana.oracionFinal || ""}</div></div>
+                    <div class="asignaciones-box"><div class="asignaciones-header">Asignaciones</div><div class="asignaciones-content">${asig.map(a=>`<div class="asignacion-item"><div>${a.rol}</div><div>${a.nombre}</div></div>`).join('')}</div></div>`;
+            } else {
+                fechaSemanaEl.textContent = "Sin datos";
+                badgeSemana.classList.add('hidden');
+                containerSemana.innerHTML = `<div class="no-grupos">No hay programación para esta semana</div>`;
+            }
+
+            const containerFinde = document.getElementById('reunion-finde-detalle');
+            const fechaFindeEl = document.getElementById('fecha-finde');
+            const badgeFinde = document.getElementById('badge-finde');
+
+            if (dataFinde) {
+                fechaFindeEl.textContent = formatearFecha(dataFinde.fecha);
+                esMismoDia(dataFinde.fecha, fechaHoy) ? badgeFinde.classList.remove('hidden') : badgeFinde.classList.add('hidden');
+                const asig = parsearListaFlexible(dataFinde.asignacionesLista || "");
+                containerFinde.innerHTML = `
+                    <div class="info-box"><div><strong>Presidente:</strong> ${dataFinde.presidente || ""}</div><div><strong>Oración inicial:</strong> ${dataFinde.oracionInicial || ""}</div></div>
+                    <div class="publico"><h4 class="section-heading publico">DISCURSO</h4><div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${dataFinde.discursoPublico?.tema || ""}</strong><br>${dataFinde.discursoPublico?.orador || ""}<br><span class="reunion-item-auxiliar">Cong. ${dataFinde.discursoPublico?.congregacion || ""}</span></div></div></div>
+                    <div class="atalaya"><h4 class="section-heading atalaya">ATALAYA</h4><div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${dataFinde.estudioAtalaya?.articulo || ""}</strong><br>Conductor: ${dataFinde.estudioAtalaya?.conductor || ""}<br>Lector: ${dataFinde.estudioAtalaya?.lector || ""}</div></div></div>
+                    <div class="info-box"><div><strong>Oración final:</strong> ${dataFinde.oracionFinal || ""}</div></div>
+                    <div class="asignaciones-box"><div class="asignaciones-header">Asignaciones</div><div class="asignaciones-content">${asig.map(a=>`<div class="asignacion-item"><div>${a.rol}</div><div>${a.nombre}</div></div>`).join('')}</div></div>`;
+            } else {
+                fechaFindeEl.textContent = "Sin datos";
+                badgeFinde.classList.add('hidden');
+                containerFinde.innerHTML = `<div class="no-grupos">No hay programación para esta semana</div>`;
+            }
+        }
+
+        function renderAnuncios() {
+            const limpiar = (f) => {
+                if(!f) return "";
+                const parts = f.split('-');
+                if(parts.length === 3) {
+                    const d = new Date(parts[0], parts[1]-1, parts[2]);
+                    const mes = d.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase().replace('.', '');
+                    return `${d.getDate()} ${mes}`;
+                }
+                return f;
+            };
+            const html = dbAnuncios.map(a => `<div class="anuncio"><div class="anuncio-date">${limpiar(a.fechaInicio)} ${a.fechaFin ? '- ' + limpiar(a.fechaFin) : ''}</div><div class="anuncio-text">${a.texto}</div></div>`).join('');
+            document.getElementById('anuncios-lista').innerHTML = html || '<div class="no-grupos">No hay anuncios</div>';
+        }
+
+        function renderAll() {
+            const d = new Date(fechaSeleccionada);
+            const day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
+            const mon = new Date(d.setDate(diff)); const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+            document.getElementById('week-text').textContent = `Semana del ${mon.getDate()} de ${mon.toLocaleDateString('es-ES',{month:'long'})} al ${sun.getDate()} de ${sun.toLocaleDateString('es-ES',{month:'long'})} de ${sun.getFullYear()}`;
+            renderCalendarGrid();
+            renderCarousel();
+            renderGruposDia();
+            renderReuniones();
+            paginaGruposActual = 1;
+            renderTodosGruposPaginados();
+            renderAnuncios();
+        }
+
+        function formatearFecha(fInput) { 
+            if(!fInput) return "";
+            const parts = fInput.split('-');
+            const d = new Date(parts[0], parts[1]-1, parts[2]);
+            return d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+        function parsearListaFlexible(t) { if (!t) return []; return t.split('|').map(i => { const p = i.split(':'); if (p.length > 1) return { rol: p[0].trim(), nombre: p.slice(1).join(':').trim() }; return { rol: i.trim(), nombre: '' }; }); }
+        
+        function renderCalendarGrid() {
+            document.getElementById('calendar-month').textContent = fechaVisualizadaCalendario.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
+            const grid = document.getElementById('calendario-grid'); grid.innerHTML='';
+            ['D','L','M','M','J','V','S'].forEach(d=>grid.innerHTML+=`<div class="calendar-day-header">${d}</div>`);
+            const first = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), 1);
+            const days = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth()+1, 0).getDate();
+            for(let i=0; i<first.getDay(); i++) grid.innerHTML+=`<div></div>`;
+            for(let i=1; i<=days; i++) {
+                let d = document.createElement('div'); d.className='calendar-day'; d.textContent=i;
+                const fStr = `${fechaVisualizadaCalendario.getFullYear()}-${String(fechaVisualizadaCalendario.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                if(fStr === toISODate(fechaSeleccionada)) d.classList.add('selected');
+                if(fStr === toISODate(fechaHoy)) d.classList.add('today');
+                d.onclick=()=>{ fechaSeleccionada = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), i); renderAll(); };
+                grid.appendChild(d);
+            }
+        }
+        
+        function renderCarousel() {
+            const c = document.getElementById('carousel'); c.innerHTML = '';
+            const b = new Date(fechaSeleccionada);
+            for(let i=-10; i<=10; i++) {
+                const f = new Date(b); f.setDate(b.getDate() + i);
+                const card = document.createElement('div');
+                card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`;
+                card.innerHTML = `<div class="date-card-day">${f.toLocaleDateString('es-ES',{weekday:'short'})}</div><div class="date-card-number">${f.getDate()}</div>`;
+                card.onclick = () => { fechaSeleccionada = f; renderAll(); };
+                c.appendChild(card);
+            }
+            setTimeout(() => { const s = c.querySelector('.selected'); if(s) s.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }, 500);
+        }
+        
+        function renderTodosGruposPaginados() {
+            const tl = document.getElementById('todos-grupos-timeline');
+            const pagContainer = document.getElementById('paginacion-container');
+            tl.innerHTML = '';
+            pagContainer.innerHTML = '';
+
+            let listaFechas = [...dbGrupos];
+            listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+            if (listaFechas.length === 0) {
+                tl.innerHTML = '<div class="no-grupos">No hay más grupos programados</div>';
+                pagContainer.classList.add('hidden');
+                return;
+            }
+
+            const totalPaginas = Math.ceil(listaFechas.length / diasPorPagina);
+            if (paginaGruposActual > totalPaginas) paginaGruposActual = 1;
+
+            const inicio = (paginaGruposActual - 1) * diasPorPagina;
+            const fin = inicio + diasPorPagina;
+            const fechasPagina = listaFechas.slice(inicio, fin);
+
+            fechasPagina.forEach(diaData => {
+                const fechaNice = formatearFecha(diaData.fecha);
+                const dayBlock = document.createElement('div');
+                dayBlock.className = 'timeline-day-block';
+                const header = document.createElement('div');
+                header.className = 'timeline-date-header';
+                header.textContent = fechaNice;
+                dayBlock.appendChild(header);
+
+                diaData.grupos.forEach(g => {
+                    const row = document.createElement('div');
+                    row.className = 'timeline-row';
+                    row.innerHTML = `
+                        <div class="grupo-bloque-horizontal">
+                            <div class="gh-hora">${g.hora}</div>
+                            <div class="gh-info">
+                                <div class="gh-fila-top">
+                                    <div class="gh-territorio">${g.territorio}</div>
+                                    <div class="gh-conductor">${g.conductor}</div>
+                                </div>
+                                ${g.gruposAssigned ? `<div class="gh-asignados">${g.gruposAssigned}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    dayBlock.appendChild(row);
+                });
+
+                tl.appendChild(dayBlock);
+            });
+
+            if (totalPaginas > 1) {
+                pagContainer.classList.remove('hidden');
+                for (let i = 1; i <= totalPaginas; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = `page-btn ${i === paginaGruposActual ? 'active' : ''}`;
+                    btn.textContent = i;
+                    btn.onclick = () => { paginaGruposActual = i; renderTodosGruposPaginados(); };
+                    pagContainer.appendChild(btn);
+                }
+            } else {
+                pagContainer.classList.add('hidden');
+            }
+        }
+        
+        function toggleSection(id) { 
+            const c = document.getElementById(id + '-content'); 
+            const card = document.getElementById('card-' + id);
+            
+            sectionsExpanded[id] = !sectionsExpanded[id]; 
+            c.classList.toggle('expanded'); 
+            
+            if (card) {
+                card.classList.toggle('active-card');
+            }
+
+            if(id === 'todos-grupos') { 
+                const btnText = document.getElementById('ver-todos-text');
+                const btn = document.getElementById('ver-todos-btn'); // Obtenemos el botón
+                
+                if (sectionsExpanded[id]) {
+                    btnText.textContent = "Ocultar grupos";
+                    btn.classList.add('expanded'); // AÑADIMOS CLASE PARA GIRAR FLECHA
+                    paginaGruposActual = 1; 
+                    renderTodosGruposPaginados(); 
+                } else {
+                    btnText.textContent = "Ver todos los grupos";
+                    btn.classList.remove('expanded'); // QUITAMOS CLASE
+                }
+            } 
+        }
+
+        function scrollCarousel(d) { document.getElementById('carousel').scrollBy({ left: d * 100, behavior: 'smooth' }); }
+        function cambiarSemana(d) { semanaOffset += d; renderReuniones(); }
+        function resetearSemana() { semanaOffset = 0; renderReuniones(); }
+        function navMes(d) { fechaVisualizadaCalendario.setMonth(fechaVisualizadaCalendario.getMonth() + d); renderCalendarGrid(); }
+
+        iniciarApp();
+    </script>
+</body>
+</html>
