@@ -62,9 +62,9 @@
         
         /* INDICADOR DE MES (GRIS) */
         .month-indicator {
-            margin-left: 20px; margin-bottom: 24px; /* Espacio para el botón flotante */
+            margin-left: 20px; margin-bottom: 24px; 
             font-size: 13px; font-weight: 800; 
-            color: #6b7280; /* GRIS SOLICITADO */
+            color: #6b7280; 
             text-transform: uppercase; letter-spacing: 1px;
         }
 
@@ -82,10 +82,10 @@
         .carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
         @media (hover: none) and (pointer: coarse) { .carousel-arrow { display: none !important; } }
 
-        /* BOTÓN IR A HOY (SOLAPADO) */
+        /* BOTÓN IR A HOY */
         .btn-today-floating {
             position: absolute; 
-            top: -12px; /* Solapando el carrusel */
+            top: -12px; 
             right: 20px;
             background: white; border: 1px solid #16a34a; color: #16a34a;
             font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
@@ -95,7 +95,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .carousel { 
-            padding: 20px 24px 4px 24px; /* Padding top extra para el botón flotante */
+            padding: 20px 24px 4px 24px; 
             display: flex; gap: 10px; 
             overflow-x: auto; scroll-snap-type: x mandatory; 
             -webkit-overflow-scrolling: touch; scrollbar-width: none; 
@@ -176,7 +176,7 @@
         .page-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
         .page-btn:disabled { opacity: 0.4; cursor: default; border-color: #e5e7eb; color: #9ca3af; }
 
-        /* REUNIONES - NAV LIMPIA */
+        /* REUNIONES */
         .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; padding: 12px; }
         .week-nav-arrow { 
             width: 36px; height: 36px; background: transparent; 
@@ -190,7 +190,10 @@
         .reunion-card:hover { border-color: #e5e7eb; }
         .reunion-card.active-card { border-color: #16a34a; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
         .reunion-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .reunion-info h3 { font-weight: 800; color: #374151; margin-bottom: 6px; font-size: 16px; }
+        
+        /* TÍTULOS DE REUNIÓN GRIS SUAVE */
+        .reunion-info h3 { font-weight: 800; color: #6b7280; /* Gris medio solicitado */ margin-bottom: 6px; font-size: 16px; }
+        
         .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
         .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
         .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; }
@@ -215,7 +218,6 @@
         .info-box { background: #f9fafb; border-radius: 12px; padding: 12px; margin-bottom: 20px; font-size: 13px; color: #4b5563; }
         .reunion-block { margin-bottom: 32px; }
 
-        /* ASIGNACIONES MECÁNICAS - TABLA */
         .asignaciones-box { background: #f3f4f6; border-radius: 16px; padding: 16px; margin-top: 16px; }
         .asignaciones-header { font-size: 12px; font-weight: 800; color: #1f2937; text-transform: uppercase; margin-bottom: 12px; }
         .asignaciones-table { width: 100%; border-collapse: collapse; }
@@ -390,9 +392,8 @@
                 
                 renderAll();
                 setupSwipeGestures();
-                setupMonthScrollListener(); // INICIAR DETECTOR DE MES
+                setupMonthScrollListener();
                 
-                // Centrado inicial automático
                 setTimeout(() => goToToday(), 500);
 
             } catch (error) {
@@ -405,26 +406,22 @@
             }
         }
 
-        // DETECTOR DE MES AL SCROLLEAR
         function setupMonthScrollListener() {
             const carousel = document.getElementById('carousel');
             const indicator = document.getElementById('month-indicator');
             
             carousel.addEventListener('scroll', () => {
-                // Encontrar la primera tarjeta visible
                 const cards = document.querySelectorAll('.date-card');
                 const carouselRect = carousel.getBoundingClientRect();
                 
                 for (let card of cards) {
                     const cardRect = card.getBoundingClientRect();
-                    // Si la tarjeta está dentro del área visible (con margen)
                     if (cardRect.left >= carouselRect.left - 20 && cardRect.right <= carouselRect.right + 100) {
-                        // Leer fecha del atributo data (necesitamos agregarlo)
                         if(card.dataset.date) {
                             const d = new Date(card.dataset.date);
                             indicator.textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
                         }
-                        break; // Ya encontramos la primera visible
+                        break;
                     }
                 }
             });
@@ -462,7 +459,6 @@
         function cambiarDiaSeleccionado(d) {
             fechaSeleccionada.setDate(fechaSeleccionada.getDate() + d);
             renderAll();
-            // Scroll suave sin recargar todo el DOM
             const c = document.getElementById('carousel');
             const s = c.querySelector('.selected');
             if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -605,7 +601,7 @@
             if (!esMismoDia(fechaSeleccionada, fechaHoy)) btnToday.style.display = 'flex'; else btnToday.style.display = 'none';
 
             renderCalendarGrid();
-            renderCarousel();
+            renderCarousel(); // CARRUSEL ESTABLE
             renderGruposDia();
             renderReuniones();
             renderTodosGruposPaginados();
@@ -637,18 +633,35 @@
             }
         }
         
+        // --- CARRUSEL ESTABLE (CORREGIDO) ---
         function renderCarousel() {
             const c = document.getElementById('carousel'); c.innerHTML = '';
-            const b = new Date(fechaSeleccionada);
+            // BASE FIJA: SIEMPRE DESDE HOY
+            const b = new Date(fechaHoy);
+            
+            // Si la fecha seleccionada está muy lejos (ej: desde calendario), ajustamos la base
+            const diffTime = Math.abs(fechaSeleccionada - fechaHoy);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            let startBase = b;
+            
+            // Solo si nos fuimos muy lejos (+60 o -10), recentramos el carrusel en la selección
+            if (fechaSeleccionada > new Date(b.getTime() + (60*86400000)) || fechaSeleccionada < new Date(b.getTime() - (10*86400000))) {
+                startBase = new Date(fechaSeleccionada);
+            }
+
             for(let i=-2; i<=60; i++) {
-                const f = new Date(b); f.setDate(b.getDate() + i);
+                const f = new Date(startBase); f.setDate(startBase.getDate() + i);
                 const card = document.createElement('div');
-                // Guardamos fecha para el scroll listener
                 card.dataset.date = toISODate(f);
                 
                 card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`;
                 card.innerHTML = `<div class="date-card-day">${f.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div><div class="date-card-number">${f.getDate()}</div>`;
-                card.onclick = () => { fechaSeleccionada = f; renderAll(); c.scrollIntoView({block: 'nearest', inline: 'center', behavior: 'smooth'}); };
+                card.onclick = () => { 
+                    // AL TOCAR: SOLO ACTUALIZAR SELECCIÓN, NO RECONSTRUIR TODO
+                    fechaSeleccionada = f; 
+                    renderAll(); 
+                    // El scrollIntoView se maneja en renderAll
+                };
                 c.appendChild(card);
             }
         }
