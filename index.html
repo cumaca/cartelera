@@ -33,37 +33,46 @@
             letter-spacing: -0.5px;
         }
         
-        /* NAV MENU SEGMENTADO */
+        /* NAV MENU SEGMENTADO (UNIFICADO) */
         .nav-segment-container { display: flex; justify-content: center; align-items: center; margin-bottom: 32px; }
-        .nav-segment { display: inline-flex; align-items: center; gap: 8px; }
         
-        /* Botones con fondo GRIS */
+        /* Contenedor gris que agrupa los botones */
+        .nav-segment { 
+            display: inline-flex; align-items: center; 
+            background: #f3f4f6; /* Fondo gris suave */
+            border-radius: 12px; 
+            padding: 4px; 
+        }
+        
+        /* Botones transparentes dentro del segmento */
         .nav-btn { 
             text-decoration: none; 
             display: flex; align-items: center; gap: 6px;
-            padding: 10px 16px; 
-            background: #f3f4f6; /* Fondo Gris solicitado */
-            color: #4b5563;
+            padding: 8px 16px; 
+            color: #6b7280;
             font-size: 13px; font-weight: 600; 
             transition: all 0.2s; 
-            border-radius: 12px;
+            background: transparent; /* Sin fondo individual */
+            border-radius: 8px;
         }
-        .nav-btn:hover { color: #1f2937; background: #e5e7eb; }
+        .nav-btn:hover { color: #1f2937; background: rgba(255,255,255,0.5); }
         .nav-btn svg { width: 16px; height: 16px; stroke-width: 2; }
         
+        /* Separador vertical */
+        .nav-divider { width: 1px; height: 14px; background: #d1d5db; margin: 0 2px; }
+
         /* TÍTULOS DE SECCIÓN */
         .section-title-main { 
             font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #374151; 
             margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
         }
-        /* Margen extra para evitar solapamiento con botón HOY */
-        .week-range-top { text-align: left; margin-left: 20px; font-size: 13px; color: #9ca3af; font-weight: 500; margin-bottom: 35px; }
+        .week-range-top { text-align: left; margin-left: 20px; font-size: 13px; color: #9ca3af; font-weight: 500; margin-bottom: 20px; }
 
         /* CARRUSEL */
         .carousel-wrapper { position: relative; padding: 0 10px 20px 10px; }
         
         .carousel-arrow { 
-            position: absolute; top: 40%; transform: translateY(-50%); 
+            position: absolute; top: 50%; transform: translateY(-50%); /* Centrado */
             width: 28px; height: 28px; background: white; 
             border-radius: 50%; border: 1px solid #e5e7eb; 
             cursor: pointer; display: flex; align-items: center; justify-content: center; 
@@ -74,18 +83,22 @@
         
         @media (hover: none) and (pointer: coarse) { .carousel-arrow { display: none !important; } }
 
+        /* BOTÓN HOY BAJADO */
         .btn-today-floating {
-            position: absolute; top: -42px; /* Subido más arriba */
+            position: absolute; 
+            top: 0; /* Alineado arriba del wrapper */
             right: 20px;
             background: white; border: 1px solid #16a34a; color: #16a34a;
             font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 20px;
             cursor: pointer; display: none; align-items: center; gap: 4px; 
             box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15); animation: fadeIn 0.3s ease;
+            z-index: 20;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .carousel { 
-            padding: 4px 24px; display: flex; gap: 10px; 
+            padding: 20px 24px 4px 24px; /* Padding top extra para el botón flotante */
+            display: flex; gap: 10px; 
             overflow-x: auto; scroll-snap-type: x mandatory; 
             -webkit-overflow-scrolling: touch; scrollbar-width: none; 
         }
@@ -97,7 +110,7 @@
         .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; opacity: 0.8; }
         .date-card-number { font-size: 20px; font-weight: 800; line-height: 1; }
 
-        /* CALENDARIO - CORRECCIONES DE ALINEACIÓN */
+        /* CALENDARIO */
         .calendar-toggle-wrapper { display: flex; justify-content: flex-end; padding-right: 20px; margin-top: -10px; margin-bottom: 10px; }
         .calendar-toggle { display: flex; align-items: center; gap: 4px; color: #16a34a; font-size: 12px; font-weight: 700; cursor: pointer; border: none; background: none; padding: 6px 10px; border-radius: 8px; transition: background 0.2s; }
         .calendar-toggle:hover { background: #f0fdf4; }
@@ -106,13 +119,11 @@
         .section-content.expanded { max-height: 5000px; }
         .section-inner { padding: 0 20px 20px; }
         
-        /* Flexbox para alinear flechas y mes perfectamente */
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px; }
         .calendar-nav-btn { cursor: pointer; padding: 8px 12px; color: #4b5563; font-weight: bold; display: flex; align-items: center; justify-content: center; }
         .calendar-month { font-size: 14px; font-weight: 700; color: #374151; text-transform: capitalize; }
         
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; }
-        /* Iniciales centradas y más oscuras */
         .calendar-day-header { text-align: center; font-size: 11px; font-weight: 700; color: #374151; padding: 4px 0; }
         .calendar-day { text-align: center; padding: 8px 4px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: #374151; background: #f9fafb; }
         .calendar-day.selected { background: #16a34a !important; color: white !important; font-weight: 700; }
@@ -134,10 +145,10 @@
         .gh-asignados { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 4px; }
         .no-grupos { text-align: center; padding: 20px; color: #9ca3af; font-style: italic; font-size: 13px; }
 
-        /* BOTÓN VER TODOS (ANCHO) */
+        /* BOTÓN VER TODOS */
         .ver-todos-wrapper { display: flex; justify-content: center; padding: 0 20px 20px; }
         .ver-todos-btn { 
-            width: 100%; /* Ocupa más espacio */
+            width: 100%; 
             padding: 12px 24px; 
             background: transparent; 
             color: #16a34a; 
@@ -173,14 +184,19 @@
         .page-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
         .page-btn:disabled { opacity: 0.4; cursor: default; border-color: #e5e7eb; color: #9ca3af; }
 
-        /* REUNIONES */
-        .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; padding: 12px; border-radius: 16px; background: #f9fafb; }
+        /* REUNIONES - FONDO BLANCO */
+        .reunion-week-nav { 
+            display: flex; align-items: center; justify-content: center; gap: 16px; 
+            margin-bottom: 24px; padding: 12px; 
+            background: white; /* FONDO BLANCO */
+            border-radius: 16px; 
+        }
         .week-nav-arrow { 
             width: 36px; height: 36px; background: white; border: 1px solid #e5e7eb; border-radius: 10px; 
             display: flex; align-items: center; justify-content: center; cursor: pointer; 
-            color: #16a34a; /* VERDE SOLICITADO */
+            color: #16a34a; 
         }
-        .week-nav-arrow svg { stroke: #16a34a; } /* SVG VERDE */
+        .week-nav-arrow svg { stroke: #16a34a; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
 
         .reunion-card { border-radius: 16px; padding: 20px; border: 1px solid #f3f4f6; cursor: pointer; margin-bottom: 20px; background: #fdfdfd; transition: all 0.2s; }
@@ -199,7 +215,6 @@
         .reunion-timeline-item:last-child::before { display: none; }
         .reunion-timeline-dot { position: absolute; left: 0; top: 7px; width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid #e5e7eb; z-index: 1; }
         
-        /* COLORES */
         .tesoros .reunion-timeline-dot { border-color: #10b981; } .tesoros .section-heading { color: #10b981; }
         .maestros .reunion-timeline-dot { border-color: #f59e0b; } .maestros .section-heading { color: #f59e0b; }
         .vida .reunion-timeline-dot { border-color: #ef4444; } .vida .section-heading { color: #ef4444; }
@@ -209,28 +224,17 @@
         .section-heading { font-size: 12px; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase; }
         .reunion-item-content { font-size: 14px; color: #374151; line-height: 1.5; }
         
-        /* NUEVO ESTILO SALA B (Jerarquía + Indentación) */
+        /* SEGUNDA SALA - Indentación */
         .reunion-item-auxiliar { 
-            display: block; 
-            margin-top: 2px; 
-            font-size: 14px; /* Mismo tamaño */
-            color: #374151; /* Mismo color */
-            padding-left: 16px; /* Sangría */
-            border-left: 2px solid #e5e7eb; /* Línea visual sutil */
+            display: block; margin-top: 2px; font-size: 14px; color: #374151; 
+            padding-left: 16px; border-left: 2px solid #e5e7eb; 
         }
         
         .info-box { background: #f9fafb; border-radius: 12px; padding: 12px; margin-bottom: 20px; font-size: 13px; color: #4b5563; }
-        
-        /* Espaciador entre secciones de reunión */
         .reunion-block { margin-bottom: 32px; }
 
-        /* ASIGNACIONES MECÁNICAS */
         .asignaciones-box { background: white; border-top: 1px solid #f3f4f6; margin-top: 16px; padding-top: 16px; }
-        .asignaciones-header { 
-            font-size: 12px; font-weight: 700; 
-            color: #1f2937; /* Negro oscuro solicitado */
-            text-transform: uppercase; margin-bottom: 8px; 
-        }
+        .asignaciones-header { font-size: 12px; font-weight: 700; color: #1f2937; text-transform: uppercase; margin-bottom: 8px; }
         .asignacion-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f9fafb; font-size: 13px; color: #4b5563; }
 
         /* ANUNCIOS */
@@ -246,7 +250,6 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         #error-details { margin-top: 20px; color: #ef4444; font-size: 12px; background: #fef2f2; padding: 10px; border-radius: 8px; max-width: 90%; }
         
-        /* Espaciador de reuniones */
         .meeting-spacer { height: 40px; }
     </style>
 </head>
@@ -268,10 +271,12 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                     Grupos
                 </a>
+                <div class="nav-divider"></div>
                 <a href="#reuniones-section" class="nav-btn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                     Reuniones
                 </a>
+                <div class="nav-divider"></div>
                 <a href="#anuncios-section" class="nav-btn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
                     Anuncios
@@ -516,8 +521,8 @@
                 
                 containerSemana.innerHTML = `
                     <div class="info-box"><div><strong>Presidente:</strong> ${dataSemana.presidente || ""}</div><div><strong>Oración inicial:</strong> ${dataSemana.oracionInicial || ""}</div></div>
-                    <div class="tesoros re-block"><h4 class="section-heading">TESOROS DE LA BIBLIA</h4>${(dataSemana.tesorosPalabra||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<span class="reunion-item-auxiliar">${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
-                    <div class="maestros re-block"><h4 class="section-heading">SEAMOS MEJORES MAESTROS</h4>${(dataSemana.hagamosMejores||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<span class="reunion-item-auxiliar">${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
+                    <div class="tesoros re-block"><h4 class="section-heading">TESOROS DE LA BIBLIA</h4>${(dataSemana.tesorosPalabra||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<span class="reunion-item-auxiliar">Segunda Sala: ${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
+                    <div class="maestros re-block"><h4 class="section-heading">SEAMOS MEJORES MAESTROS</h4>${(dataSemana.hagamosMejores||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<span class="reunion-item-auxiliar">Segunda Sala: ${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
                     <div class="vida re-block"><h4 class="section-heading">NUESTRA VIDA CRISTIANA</h4>${vida.map(v => `<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${v.rol}</strong><br>${v.nombre}</div></div>`).join('')}</div>
                     <div class="info-box"><div><strong>Oración final:</strong> ${dataSemana.oracionFinal || ""}</div></div>
                     <div class="asignaciones-box"><div class="asignaciones-header">Asignaciones Mecánicas</div><div class="asignaciones-content">${asig.map(a=>`<div class="asignacion-item"><div>${a.rol}</div><div>${a.nombre}</div></div>`).join('')}</div></div>`;
@@ -547,7 +552,6 @@
                 containerFinde.innerHTML = `<div class="no-grupos">Sin programación.</div>`;
             }
             
-            // Añadir espaciado entre bloques de reunión
             document.querySelectorAll('.re-block').forEach(el => el.style.marginBottom = "24px");
         }
 
