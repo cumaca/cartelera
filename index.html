@@ -7,169 +7,248 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        /* CAMBIO 1: Fondo blanco minimalista y colores reducidos */
-        body { font-family: 'Inter', sans-serif; background: #ffffff; min-height: 100vh; padding: 16px; color: #374151; }
-        .container { max-width: 480px; margin: 0 auto; padding-bottom: 40px; }
-        /* Tarjetas más limpias, sin blur, borde suave */
-        .card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); margin-bottom: 24px; overflow: hidden; position: relative; }
         
-        /* HEADER MINIMALISTA */
-        .header { text-align: center; padding: 24px 16px 16px; }
-        .header h1 { font-family: 'Inter', sans-serif; font-size: 26px; font-weight: 800; color: #166534; letter-spacing: -0.5px; line-height: 1.2; }
+        /* FONDO Y BASE */
+        body { font-family: 'Inter', sans-serif; background: #ffffff; min-height: 100vh; padding: 16px; color: #4b5563; }
+        .container { max-width: 480px; margin: 0 auto; padding-bottom: 60px; }
         
-        /* NUEVO MENÚ DE EMOJIS */
-        .nav-menu { display: flex; justify-content: center; gap: 32px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f3f4f6; }
-        .nav-item { text-decoration: none; display: flex; flex-direction: column; align-items: center; color: #6b7280; transition: all 0.2s; cursor: pointer; }
-        .nav-icon { font-size: 28px; margin-bottom: 4px; filter: grayscale(100%); opacity: 0.8; transition: all 0.2s; }
-        .nav-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        .nav-item:hover .nav-icon, .nav-item:active .nav-icon { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
-        .nav-item:hover .nav-label { color: #16a34a; }
-
-        /* TÍTULOS DE SECCIÓN (Alineados a la izquierda) */
-        .section-title-main { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 700; color: #1f2937; margin: 20px 20px 16px 20px; text-align: left; }
-        
-        .week-range-top { text-align: center; font-size: 13px; color: #6b7280; font-weight: 500; margin-top: 0px; margin-bottom: 16px; }
-
-        /* CAROUSEL FECHAS (Scroll nativo para deslizar) */
-        .carousel-wrapper { position: relative; padding: 0 20px 20px 20px; }
-        /* Flechas ocultas en móvil para fomentar el swipe */
-        .carousel-arrow { position: absolute; top: 40%; transform: translateY(-50%); width: 32px; height: 32px; background: white; border-radius: 50%; border: 1px solid #e5e7eb; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        @media (hover: none) and (pointer: coarse) { .carousel-arrow { display: none; } } /* Ocultar en táctil */
-        .carousel-arrow:hover { background: #f0fdf4; border-color: #16a34a; }
-        .carousel-arrow-left { left: 0px; } .carousel-arrow-right { right: 0px; }
-        .carousel-arrow svg { width: 16px; height: 16px; stroke: #6b7280; fill: none; stroke-width: 2; }
-        
-        .carousel { 
-            padding: 4px 0; display: flex; gap: 12px; 
-            overflow-x: auto; /* Scroll nativo */
-            scroll-snap-type: x mandatory; /* Ajuste suave */
-            -webkit-overflow-scrolling: touch; /* Inercia en iOS */
-            scrollbar-width: none; /* Ocultar barra Firefox */
+        /* TARJETAS LIMPIAS (Sin bordes, solo sombra suave y espacio) */
+        .card { 
+            background: #ffffff; 
+            border: none; /* Sin borde */
+            border-radius: 20px; 
+            /* Sombra muy sutil para dar volumen sin ensuciar */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+            margin-bottom: 40px; /* MÁS ESPACIO ENTRE SECCIONES */
+            overflow: hidden; 
+            position: relative; 
         }
-        .carousel::-webkit-scrollbar { display: none; /* Ocultar barra Chrome/Safari */ }
+        
+        /* HEADER MINIMALISTA TENUE */
+        .header { text-align: center; padding: 24px 16px 20px; }
+        .header h1 { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 18px; 
+            font-weight: 600; 
+            color: #9ca3af; /* Gris tenue solicitado */
+            letter-spacing: 0.5px; 
+            text-transform: uppercase;
+        }
+        
+        /* NUEVO MENÚ DE BOTONES (PÍLDORAS) */
+        .nav-menu { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+        .nav-btn { 
+            text-decoration: none; 
+            display: flex; align-items: center; gap: 8px;
+            background: #f3f4f6; color: #4b5563;
+            padding: 10px 16px; 
+            border-radius: 99px; /* Forma de píldora */
+            font-size: 13px; font-weight: 600; 
+            transition: all 0.2s; 
+        }
+        .nav-btn:hover, .nav-btn:active { background: #e5e7eb; color: #1f2937; transform: translateY(-1px); }
+        .nav-icon { font-size: 16px; }
 
-        .date-card { scroll-snap-align: center; min-width: 64px; padding: 12px 8px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; background: #f9fafb; border: 2px solid transparent; }
-        .date-card.is-today { border: 2px solid #16a34a; background: #f0fdf4; }
-        .date-card.selected { background: #16a34a; color: white; box-shadow: 0 4px 10px rgba(22, 163, 74, 0.2); transform: translateY(-2px); border-color: #16a34a; }
-        .date-card-day { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280; margin-bottom: 2px; }
-        .date-card.selected .date-card-day { color: rgba(255,255,255,0.9); }
-        .date-card-number { font-size: 22px; font-weight: 800; color: #1f2937; margin-bottom: 0; line-height: 1; }
-        .date-card.selected .date-card-number { color: white; }
+        /* TÍTULOS DE SECCIÓN */
+        .section-title-main { 
+            font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #1f2937; 
+            margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
+        }
+        .week-range-top { text-align: left; margin-left: 20px; font-size: 13px; color: #9ca3af; font-weight: 500; margin-bottom: 20px; }
 
-        /* CALENDARIO (Simplificado) */
+        /* CARRUSEL Y NAVEGACIÓN DE FECHAS */
+        .carousel-container-outer { position: relative; display: flex; align-items: center; padding: 0 10px 20px 10px; gap: 8px; }
+        
+        /* Botón "Hoy" */
+        .btn-today {
+            background: white; border: 1px solid #e5e7eb; color: #16a34a;
+            font-size: 11px; font-weight: 700; text-transform: uppercase;
+            padding: 0 10px; height: 36px; border-radius: 12px;
+            cursor: pointer; flex-shrink: 0; display: flex; align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+        .btn-today:active { background: #f0fdf4; }
+
+        .carousel { 
+            flex-grow: 1;
+            padding: 4px 4px; display: flex; gap: 10px; 
+            overflow-x: auto; 
+            scroll-snap-type: x mandatory; 
+            -webkit-overflow-scrolling: touch; 
+            scrollbar-width: none; 
+        }
+        .carousel::-webkit-scrollbar { display: none; }
+
+        .date-card { scroll-snap-align: center; min-width: 60px; padding: 10px 6px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; background: #f9fafb; border: 1px solid transparent; }
+        .date-card.is-today { border: 1px solid #16a34a; background: #f0fdf4; }
+        /* El VERDE se mantiene SOLO para la selección en el carrusel */
+        .date-card.selected { background: #16a34a; color: white; box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25); transform: translateY(-2px); border-color: #16a34a; }
+        .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; opacity: 0.8; }
+        .date-card-number { font-size: 20px; font-weight: 800; line-height: 1; }
+
+        /* CALENDARIO */
         .calendar-toggle-wrapper { display: flex; justify-content: flex-end; padding-right: 20px; margin-top: -10px; margin-bottom: 10px; }
-        .calendar-toggle { display: flex; align-items: center; gap: 4px; color: #16a34a; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: none; padding: 4px 8px; border-radius: 8px; transition: background 0.2s; }
+        .calendar-toggle { display: flex; align-items: center; gap: 4px; color: #6b7280; font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: none; padding: 6px 10px; border-radius: 8px; transition: background 0.2s; }
+        .calendar-toggle:hover { background: #f3f4f6; color: #1f2937; }
+        
         .section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .section-content.expanded { max-height: 5000px; }
         .section-inner { padding: 0 20px 20px; }
+        
+        /* Estilos Calendario */
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .calendar-nav-btn { cursor: pointer; padding: 8px 12px; color: #16a34a; font-weight: bold; user-select: none; font-size: 16px; }
-        .calendar-month { text-align: center; font-size: 15px; font-weight: 700; color: #374151; text-transform: capitalize; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
-        .calendar-day-header { text-align: center; font-size: 11px; font-weight: 700; color: #9ca3af; padding: 6px 0; }
-        .calendar-day { text-align: center; padding: 8px 4px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 500; color: #374151; background: #f9fafb; }
+        .calendar-nav-btn { cursor: pointer; padding: 8px; color: #4b5563; font-weight: bold; }
+        .calendar-month { font-size: 14px; font-weight: 700; color: #374151; text-transform: capitalize; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .calendar-day-header { text-align: center; font-size: 10px; font-weight: 700; color: #9ca3af; padding: 4px 0; }
+        .calendar-day { text-align: center; padding: 8px 4px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: #374151; background: #f9fafb; }
         .calendar-day.selected { background: #16a34a !important; color: white !important; font-weight: 700; }
-        .calendar-day.today { border: 2px solid #16a34a; color: #16a34a; font-weight: 700; background: #f0fdf4; }
+        .calendar-day.today { border: 1px solid #16a34a; color: #16a34a; font-weight: 700; }
 
-        /* ESTILOS HORIZONTALES */
-        .grupo-bloque-horizontal { display: flex; gap: 14px; align-items: flex-start; }
-        .gh-hora { font-size: 13px; font-weight: 800; color: #16a34a; background: #f0fdf4; border: 1px solid #dcfce7; padding: 5px 0; border-radius: 8px; white-space: nowrap; flex-shrink: 0; width: 75px; text-align: center; margin: 0; line-height: 1.3; }
-        .gh-info { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
-        .gh-fila-top { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
+        /* GRUPOS DEL DÍA (Tarjeta destacada) */
+        .grupos-dia-container { padding: 0 20px 20px; }
+        .grupo-consolidado-card { background: #f9fafb; border-radius: 16px; padding: 16px; border: 1px solid #f3f4f6; }
+        .grupo-consolidado-header { font-size: 13px; font-weight: 800; color: #374151; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .grupo-consolidado-header svg { color: #9ca3af; }
+        
+        .grupo-item-hoy { padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; }
+        .grupo-item-hoy:last-child { padding-bottom: 0; border-bottom: none; margin-bottom: 0; }
+        
+        .grupo-bloque-horizontal { display: flex; gap: 16px; align-items: flex-start; }
+        
+        /* HORA VERDE SOLO AQUÍ (Grupos del día) */
+        .gh-hora { 
+            font-size: 13px; font-weight: 800; color: #16a34a; /* Verde solicitado */
+            background: #ffffff; border: 1px solid #e5e7eb; 
+            padding: 6px 0; border-radius: 8px; 
+            white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; 
+            line-height: 1.3;
+        }
+        
+        .gh-info { flex-grow: 1; display: flex; flex-direction: column; gap: 2px; }
         .gh-territorio { font-size: 15px; font-weight: 700; color: #1f2937; line-height: 1.2; margin-top: 3px; }
-        .gh-conductor { font-size: 13px; color: #6b7280; font-weight: 500; margin-top: 4px; }
-        .gh-asignados { font-size: 13px; color: #15803d; font-weight: 700; }
+        .gh-conductor { font-size: 13px; color: #6b7280; font-weight: 500; margin-top: 2px; }
+        /* Textos GRISES solicitados */
+        .gh-asignados { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 4px; }
+        
+        .no-grupos { text-align: center; padding: 20px; color: #9ca3af; font-style: italic; font-size: 13px; }
 
-        /* GRUPOS HOY (Tarjeta destacada limpia) */
-        .grupos-dia-container { padding: 0 20px 20px; min-height: 100px; }
-        .grupo-consolidado-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px; }
-        .grupo-consolidado-header { font-size: 14px; font-weight: 800; color: #1f2937; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .grupo-consolidado-header svg { color: #16a34a; }
-        .grupo-item-hoy { border-bottom: 1px solid #e5e7eb; padding: 12px 0; }
-        .grupo-item-hoy:last-child { border-bottom: none; padding-bottom: 0; }
-        .grupo-item-hoy .gh-hora { background: white; border-color: #e5e7eb; }
-        .no-grupos { text-align: center; padding: 32px 20px; color: #9ca3af; font-style: italic; }
-
-        /* VER TODOS LOS GRUPOS */
-        .ver-todos-btn { width: 100%; padding: 14px; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
-        .ver-todos-btn:hover, .ver-todos-btn:active { background: #e5e7eb; color: #1f2937; }
-        .ver-todos-btn svg { width: 18px; height: 18px; transition: transform 0.3s; color: #6b7280; }
+        /* VER TODOS LOS GRUPOS (Línea de tiempo GRIS) */
+        .ver-todos-btn { width: 100%; padding: 14px; background: #f9fafb; color: #4b5563; border: 1px solid #f3f4f6; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
+        .ver-todos-btn:hover { background: #f3f4f6; color: #1f2937; }
+        .ver-todos-btn svg { width: 16px; height: 16px; transition: transform 0.3s; color: #9ca3af; }
         .ver-todos-btn.expanded svg { transform: rotate(180deg); }
 
-        /* LÍNEA DE TIEMPO */
-        .timeline-wrapper { padding-top: 10px; }
-        .timeline-day-block { position: relative; padding-left: 24px; border-left: 2px solid #e5e7eb; padding-bottom: 24px; margin-left: 10px; }
-        .timeline-day-block:last-child { border-left-color: transparent; }
-        .timeline-date-header { position: relative; font-size: 15px; font-weight: 800; color: #1f2937; margin-bottom: 16px; text-transform: capitalize; line-height: 1; top: -4px; }
-        .timeline-date-header::before { content: ''; position: absolute; left: -31px; top: 2px; width: 12px; height: 12px; background: #16a34a; border-radius: 50%; box-shadow: 0 0 0 4px white, 0 0 0 6px #16a34a; z-index: 1; }
-        .timeline-row { position: relative; padding-bottom: 20px; }
+        /* ESTILO TIMELINE: Halo y Desvanecimiento */
+        .timeline-wrapper { padding-top: 10px; margin-left: 10px; } /* Ajuste margen */
+        
+        .timeline-day-block { 
+            position: relative; 
+            padding-left: 28px; 
+            /* Línea gris con degradado al final */
+            border-left: 2px solid #e5e7eb; 
+            padding-bottom: 30px; 
+        }
+        
+        .timeline-day-block:last-child { 
+            border-left: 2px solid transparent;
+            /* Efecto desvanecimiento */
+            border-image: linear-gradient(to bottom, #e5e7eb 0%, transparent 100%) 1 100%;
+        }
+
+        /* FECHA: Punto con HALO */
+        .timeline-date-header { 
+            position: relative; 
+            font-size: 15px; font-weight: 800; color: #1f2937; 
+            margin-bottom: 16px; text-transform: capitalize; 
+            line-height: 1; top: -5px; 
+        }
+        .timeline-date-header::before { 
+            content: ''; position: absolute; left: -35px; top: 1px; 
+            width: 12px; height: 12px; 
+            background: #1f2937; /* Gris oscuro */
+            border-radius: 50%; 
+            /* El Halo translúcido */
+            box-shadow: 0 0 0 4px rgba(31, 41, 55, 0.15); 
+            z-index: 1; 
+        }
+
+        /* HORA Y PUNTOS DE GRUPOS FUTUROS (GRISES) */
+        .timeline-row { position: relative; padding-bottom: 24px; }
         .timeline-row:last-child { padding-bottom: 0; }
+        
+        .timeline-row .gh-hora {
+            color: #4b5563; /* Gris */
+            border-color: #e5e7eb;
+            background: #f9fafb;
+            font-weight: 700;
+        }
 
         /* PAGINACIÓN */
-        .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #e5e7eb; }
-        .page-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e5e7eb; background: white; color: #374151; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .page-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
+        .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f3f4f6; }
+        .page-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: white; color: #6b7280; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .page-btn.active { background: #4b5563; color: white; border-color: #4b5563; }
 
         /* REUNIONES */
-        .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px; padding: 16px 12px; background: #f9fafb; border-radius: 16px; }
-        .week-nav-arrow { width: 40px; height: 40px; background: white; border: 1px solid #e5e7eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-        .week-nav-arrow:active { background: #f3f4f6; }
-        .week-nav-arrow svg { width: 20px; height: 20px; stroke: #6b7280; fill: none; stroke-width: 2; }
-        /* ARREGLO CRÍTICO PARA "ESTA SEMANA" EN MÓVIL */
-        .week-nav-text { font-size: 18px; font-weight: 800; color: #1f2937; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; white-space: nowrap; /* Fuerza una línea */ }
+        .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; padding: 12px; border-radius: 16px; background: #f9fafb; }
+        .week-nav-arrow { width: 36px; height: 36px; background: white; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .week-nav-text { font-size: 15px; font-weight: 700; color: #374151; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
 
-        .reunion-card { border-radius: 18px; padding: 18px; border: 1px solid #e5e7eb; cursor: pointer; transition: all 0.2s; margin-bottom: 20px; background: white; }
-        .reunion-card:active { background: #f9fafb; }
-        .reunion-card.active-card { border-color: #16a34a; box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.1); }
-        .reunion-header { display: flex; justify-content: space-between; align-items: center; }
-        .reunion-info h3 { font-weight: 700; color: #1f2937; margin-bottom: 6px; font-size: 17px; }
-        .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px; margin-left: 8px; text-transform: uppercase; }
+        .reunion-card { 
+            border-radius: 16px; padding: 20px; 
+            border: 1px solid #f3f4f6; /* Borde muy sutil */
+            cursor: pointer; margin-bottom: 20px; 
+            background: #fdfdfd; 
+            transition: all 0.2s;
+        }
+        .reunion-card:hover { border-color: #e5e7eb; }
+        .reunion-card.active-card { border-color: #16a34a; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        
+        .reunion-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .reunion-info h3 { font-weight: 800; color: #1f2937; margin-bottom: 6px; font-size: 16px; }
+        .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
         .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
-        .reunion-time { font-size: 14px; font-weight: 700; color: #16a34a; }
-        .section-arrow { width: 22px; height: 22px; transition: transform 0.3s; fill: none; stroke: #9ca3af; stroke-width: 2; }
+        .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; }
+        .section-arrow { width: 20px; height: 20px; transition: transform 0.3s; fill: none; stroke: #9ca3af; stroke-width: 2; margin-top: 2px; }
         .reunion-card.active-card .section-arrow { transform: rotate(180deg); stroke: #16a34a; }
 
-        .reunion-timeline-item { position: relative; padding-left: 28px; padding-bottom: 20px; }
-        .reunion-timeline-item::before { content: ''; position: absolute; left: 7px; top: 10px; bottom: -10px; width: 2px; background: #e5e7eb; }
+        .reunion-timeline-item { position: relative; padding-left: 24px; padding-bottom: 20px; }
+        .reunion-timeline-item::before { content: ''; position: absolute; left: 6px; top: 10px; bottom: -10px; width: 2px; background: #f3f4f6; }
         .reunion-timeline-item:last-child::before { display: none; }
-        .reunion-timeline-dot { position: absolute; left: 0; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: white; border: 3px solid #e5e7eb; z-index: 1; }
-        /* Colores de puntos de reunión */
-        .tesoros .reunion-timeline-dot { border-color: #059669; } .tesoros .section-heading { color: #059669; }
-        .maestros .reunion-timeline-dot { border-color: #d97706; } .maestros .section-heading { color: #d97706; }
-        .vida .reunion-timeline-dot { border-color: #dc2626; } .vida .section-heading { color: #dc2626; }
-        .publico .reunion-timeline-dot { border-color: #7c3aed; } .publico .section-heading { color: #7c3aed; }
-        .atalaya .reunion-timeline-dot { border-color: #0284c7; } .atalaya .section-heading { color: #0284c7; }
+        .reunion-timeline-dot { position: absolute; left: 0; top: 7px; width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid #e5e7eb; z-index: 1; }
         
-        .section-heading { font-size: 13px; font-weight: 800; margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+        /* Colores sutiles para reunión */
+        .tesoros .reunion-timeline-dot { border-color: #10b981; } 
+        .maestros .reunion-timeline-dot { border-color: #f59e0b; }
+        .vida .reunion-timeline-dot { border-color: #ef4444; }
+        .publico .reunion-timeline-dot { border-color: #8b5cf6; }
+        .atalaya .reunion-timeline-dot { border-color: #0ea5e9; }
+        
+        .section-heading { font-size: 12px; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase; color: #9ca3af; }
         .reunion-item-content { font-size: 14px; color: #374151; line-height: 1.5; }
-        .reunion-item-auxiliar { display: block; margin-top: 4px; font-size: 12px; color: #6b7280; font-style: italic; }
-        .info-box { background: #f9fafb; border-radius: 12px; padding: 14px; margin-bottom: 20px; font-size: 14px; color: #374151; border: 1px solid #f3f4f6; }
-        .asignaciones-box { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; overflow: hidden; margin-top: 20px; }
-        .asignaciones-header { background: #f9fafb; padding: 10px 16px; font-size: 13px; font-weight: 700; color: #374151; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
-        .asignaciones-content { padding: 4px 16px; }
-        .asignacion-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
-        .asignacion-item:last-child { border-bottom: none; }
+        .reunion-item-auxiliar { display: block; margin-top: 2px; font-size: 12px; color: #9ca3af; }
+        .info-box { background: #f9fafb; border-radius: 12px; padding: 12px; margin-bottom: 20px; font-size: 13px; color: #4b5563; }
+        .asignaciones-box { background: white; border-top: 1px solid #f3f4f6; margin-top: 16px; padding-top: 16px; }
+        .asignaciones-header { font-size: 12px; font-weight: 700; color: #9ca3af; text-transform: uppercase; margin-bottom: 8px; }
+        .asignacion-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f9fafb; font-size: 13px; color: #4b5563; }
 
         /* ANUNCIOS */
-        .anuncio { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; gap: 14px; align-items: flex-start; }
-        .anuncio-date { background: #f59e0b; color: white; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
-        .anuncio-text { font-size: 14px; color: #374151; flex: 1; line-height: 1.5; font-weight: 500; }
-        .footer { text-align: center; color: #9ca3af; font-size: 12px; margin-top: 32px; padding-bottom: 24px; border-top: 1px solid #f3f4f6; padding-top: 24px; }
+        .anuncio { background: #fffbeb; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start; }
+        .anuncio-date { background: #fbbf24; color: white; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px; white-space: nowrap; margin-top: 2px; }
+        .anuncio-text { font-size: 14px; color: #4b5563; flex: 1; line-height: 1.5; }
+        .footer { text-align: center; color: #d1d5db; font-size: 11px; margin-top: 40px; }
         .hidden { display: none !important; }
 
-        /* LOADING */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.4s ease; }
-        .spinner { width: 40px; height: 40px; border: 3px solid #f3f4f6; border-top: 3px solid #16a34a; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+        .spinner { width: 30px; height: 30px; border: 3px solid #f3f4f6; border-top: 3px solid #1f2937; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #error-details { margin-top: 24px; color: #dc2626; font-family: monospace; font-size: 12px; background: #fef2f2; padding: 16px; border-radius: 12px; border: 1px solid #fee2e2; max-width: 90%; white-space: pre-wrap; }
-        /* Clase para deshabilitar scroll vertical durante swipe horizontal */
-        .no-scroll-y { overflow-y: hidden; }
+        #error-details { margin-top: 20px; color: #ef4444; font-size: 12px; background: #fef2f2; padding: 10px; border-radius: 8px; max-width: 90%; }
     </style>
 </head>
 <body>
     <div id="loading-overlay">
         <div class="spinner" id="spinner"></div>
-        <p id="loading-text" style="color:#374151; font-weight: 600; font-size: 14px;">Cargando cartelera...</p>
+        <p id="loading-text" style="color:#9ca3af; font-weight: 600; font-size: 13px;">Cargando...</p>
         <div id="error-details" class="hidden"></div>
     </div>
 
@@ -179,31 +258,26 @@
         </div>
         
         <div class="nav-menu">
-            <a href="#grupos-section" class="nav-item">
-                <span class="nav-icon">☂️</span>
-                <span class="nav-label">Grupos</span>
-            </a>
-            <a href="#reuniones-section" class="nav-item">
-                <span class="nav-icon">📖</span>
-                <span class="nav-label">Reuniones</span>
-            </a>
-            <a href="#anuncios-section" class="nav-item">
-                <span class="nav-icon">📣</span>
-                <span class="nav-label">Anuncios</span>
-            </a>
+            <a href="#grupos-section" class="nav-btn"><span>☂️</span> Grupos</a>
+            <a href="#reuniones-section" class="nav-btn"><span>📖</span> Reuniones</a>
+            <a href="#anuncios-section" class="nav-btn"><span>📣</span> Anuncios</a>
         </div>
 
         <div class="card" id="grupos-section">
             <h2 class="section-title-main">Grupos de Predicación</h2>
             <div class="week-range-top" id="week-text"></div>
             
-            <div class="carousel-wrapper">
-                <div class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
-                <div class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
+            <div class="carousel-container-outer">
+                <button class="btn-today" onclick="goToToday()">HOY</button>
                 <div class="carousel" id="carousel"></div>
             </div>
 
-            <div class="calendar-toggle-wrapper"><button class="calendar-toggle" onclick="toggleSection('calendario')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg><span id="calendar-toggle-text">Calendario</span></button></div>
+            <div class="calendar-toggle-wrapper">
+                <button class="calendar-toggle" onclick="toggleSection('calendario')">
+                    <span id="calendar-toggle-text">Mostrar calendario</span>
+                </button>
+            </div>
+            
             <div class="section-content" id="calendario-content">
                 <div class="section-inner"><div class="calendar-header"><div class="calendar-nav-btn" onclick="navMes(-1)">❮</div><div class="calendar-month" id="calendar-month"></div><div class="calendar-nav-btn" onclick="navMes(1)">❯</div></div><div class="calendar-grid" id="calendario-grid"></div></div>
             </div>
@@ -212,7 +286,13 @@
                 <div id="grupos-dia-content"></div>
             </div>
             
-            <div style="padding: 0 20px 20px;"><button class="ver-todos-btn" id="ver-todos-btn" onclick="toggleSection('todos-grupos')"><span id="ver-todos-text">Ver todos los grupos</span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button></div>
+            <div style="padding: 0 20px 20px;">
+                <button class="ver-todos-btn" id="ver-todos-btn" onclick="toggleSection('todos-grupos')">
+                    <span id="ver-todos-text">Ver todos los grupos</span>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+            </div>
+            
             <div class="section-content" id="todos-grupos-content">
                 <div class="section-inner">
                     <div id="todos-grupos-timeline" class="timeline-wrapper"></div>
@@ -231,7 +311,11 @@
             
             <div class="reunion-card" id="card-reunion-semana" onclick="toggleSection('reunion-semana')">
                 <div class="reunion-header">
-                    <div class="reunion-info"><h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3><p class="reunion-date" id="fecha-semana"></p><p class="reunion-time">Jueves 6:30 PM</p></div>
+                    <div class="reunion-info">
+                        <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
+                        <p class="reunion-date" id="fecha-semana"></p>
+                        <p class="reunion-time">Jueves 6:30 PM</p>
+                    </div>
                     <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
             </div>
@@ -239,7 +323,11 @@
             
             <div class="reunion-card" id="card-reunion-finde" onclick="toggleSection('reunion-finde')">
                 <div class="reunion-header">
-                    <div class="reunion-info"><h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3><p class="reunion-date" id="fecha-finde"></p><p class="reunion-time">Domingo 10:00 AM</p></div>
+                    <div class="reunion-info">
+                        <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
+                        <p class="reunion-date" id="fecha-finde"></p>
+                        <p class="reunion-time">Domingo 10:00 AM</p>
+                    </div>
                     <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
             </div>
@@ -250,7 +338,8 @@
         <div class="card" style="padding: 20px;">
             <div id="anuncios-lista"></div>
         </div>
-        <div class="footer"><p>Actualización automática • Conectado</p><p id="data-stats" style="font-size: 11px; color: #9ca3af; margin-top:6px;"></p></div>
+        
+        <div class="footer"><p>Conectado • Actualización automática</p><p id="data-stats"></p></div>
     </div>
 
     <script>
@@ -258,6 +347,7 @@
 
         let dbGrupos = [], dbVidaMinisterio = [], dbFinSemana = [], dbAnuncios = [];
         let fechaHoy = new Date();
+        // Variables de fecha seguras
         let fechaSeleccionada = new Date(fechaHoy);
         let fechaVisualizadaCalendario = new Date(fechaHoy);
         let semanaOffset = 0;
@@ -275,7 +365,6 @@
                 const response = await fetch(API_URL);
                 if (!response.ok) throw new Error("Error HTTP: " + response.status);
                 const data = await response.json();
-                if (data.error) throw new Error(data.message);
                 
                 dbGrupos = data.grupos || [];
                 dbVidaMinisterio = data.vidaMinisterio || [];
@@ -286,42 +375,32 @@
                 setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 500);
 
                 const total = dbGrupos.length + dbVidaMinisterio.length + dbFinSemana.length;
-                document.getElementById('data-stats').textContent = `Registros cargados: ${total}`;
+                document.getElementById('data-stats').textContent = `Registros: ${total}`;
                 renderAll();
-                setupSwipeGestures(); // Iniciar detección de gestos
+                setupSwipeGestures();
             } catch (error) {
                 console.error(error);
                 document.getElementById('spinner').style.display = 'none';
-                document.getElementById('loading-text').textContent = "No se pudo conectar";
-                document.getElementById('loading-text').style.color = "#dc2626";
-                const errDetails = document.getElementById('error-details');
-                errDetails.classList.remove('hidden');
-                errDetails.textContent = "Detalles: " + error.message;
+                document.getElementById('loading-text').textContent = "Error de conexión";
+                const err = document.getElementById('error-details');
+                err.classList.remove('hidden');
+                err.textContent = error.message;
             }
         }
 
-        // --- FUNCIONES DE GESTOS TÁCTILES (SWIPE) ---
+        // SWIPE GESTURES
         function setupSwipeGestures() {
-            // Swipe en tarjeta de grupos de hoy (Cambiar día)
             setupSwipe('swipe-grupos-hoy', () => cambiarDiaSeleccionado(1), () => cambiarDiaSeleccionado(-1));
-            // Swipe en navegación de semana (Cambiar semana)
             setupSwipe('swipe-reuniones-semana', () => cambiarSemana(1), () => cambiarSemana(-1));
         }
-
         function setupSwipe(elementId, onSwipeLeft, onSwipeRight) {
             const element = document.getElementById(elementId);
             if (!element) return;
             let touchStartX = 0; let touchStartY = 0;
-            element.addEventListener('touchstart', e => {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, {passive: true});
+            element.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, {passive: true});
             element.addEventListener('touchend', e => {
-                const touchEndX = e.changedTouches[0].screenX;
-                const touchEndY = e.changedTouches[0].screenY;
-                const diffX = touchStartX - touchEndX;
-                const diffY = touchStartY - touchEndY;
-                // Detectar solo si es movimiento horizontal predominante
+                const diffX = touchStartX - e.changedTouches[0].screenX;
+                const diffY = touchStartY - e.changedTouches[0].screenY;
                 if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
                     if (diffX > 0) onSwipeLeft(); else onSwipeRight();
                 }
@@ -331,8 +410,22 @@
         function cambiarDiaSeleccionado(d) {
             fechaSeleccionada.setDate(fechaSeleccionada.getDate() + d);
             renderAll();
+            // Auto scroll carrusel
+            const c = document.getElementById('carousel');
+            const s = c.querySelector('.selected');
+            if(s) c.scrollTo({ left: s.offsetLeft - c.offsetWidth/2 + s.offsetWidth/2, behavior: 'smooth' });
         }
-        // -------------------------------------------
+
+        function goToToday() {
+            fechaSeleccionada = new Date(fechaHoy);
+            semanaOffset = 0;
+            renderAll();
+            const c = document.getElementById('carousel');
+            setTimeout(() => {
+                const s = c.querySelector('.is-today');
+                if(s) c.scrollTo({ left: s.offsetLeft - c.offsetWidth/2 + s.offsetWidth/2, behavior: 'smooth' });
+            }, 100);
+        }
 
         function esMismoDia(f1, f2) {
             const str1 = f1 instanceof Date ? toISODate(f1) : f1;
@@ -366,17 +459,23 @@
                 </div>`;
             });
             const diaSemana = fechaSeleccionada.toLocaleDateString('es-ES', { weekday: 'long' });
-            container.innerHTML = `<div class="grupo-consolidado-card"><div class="grupo-consolidado-header"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Grupos del ${diaSemana}</div>${htmlInner}</div>`;
+            container.innerHTML = `<div class="grupo-consolidado-card"><div class="grupo-consolidado-header"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Grupos del ${diaSemana}</div>${htmlInner}</div>`;
         }
 
         function renderReuniones() {
+            // Lógica de semana Lunes-Domingo
             const d = new Date(fechaHoy);
-            const day = d.getDay();
+            // Ajustar para que si es domingo (0), vaya al lunes pasado (-6)
+            const day = d.getDay(); 
             const diff = d.getDate() - day + (day == 0 ? -6 : 1) + (semanaOffset * 7);
+            
             const lunes = new Date(d.setDate(diff));
             const lunesStr = toISODate(lunes);
             const domingo = new Date(lunes); domingo.setDate(lunes.getDate() + 6);
             const domingoStr = toISODate(domingo);
+
+            // TEXTO RANGO SEMANA (Ej: 26 Ene - 01 Feb)
+            const rangoTexto = `${lunes.getDate()} ${lunes.toLocaleDateString('es-ES',{month:'short'})} - ${domingo.getDate()} ${domingo.toLocaleDateString('es-ES',{month:'short'})}`;
 
             const buscar = (lista) => lista.find(r => r.fecha >= lunesStr && r.fecha <= domingoStr);
             const dataSemana = buscar(dbVidaMinisterio);
@@ -387,7 +486,7 @@
             const badgeSemana = document.getElementById('badge-semana');
 
             if (dataSemana) {
-                fechaSemanaEl.textContent = formatearFecha(dataSemana.fecha);
+                fechaSemanaEl.textContent = rangoTexto; // Mostrar RANGO
                 esMismoDia(dataSemana.fecha, fechaHoy) ? badgeSemana.classList.remove('hidden') : badgeSemana.classList.add('hidden');
                 const asig = parsearListaFlexible(dataSemana.asignacionesLista || "");
                 const vida = parsearListaFlexible(dataSemana.vidaCristianaLista || "");
@@ -400,9 +499,9 @@
                     <div class="info-box"><div><strong>Oración final:</strong> ${dataSemana.oracionFinal || ""}</div></div>
                     <div class="asignaciones-box"><div class="asignaciones-header">Asignaciones Auxiliares</div><div class="asignaciones-content">${asig.map(a=>`<div class="asignacion-item"><div>${a.rol}</div><div>${a.nombre}</div></div>`).join('')}</div></div>`;
             } else {
-                fechaSemanaEl.textContent = "No hay datos disponibles";
+                fechaSemanaEl.textContent = rangoTexto + " (Sin datos)";
                 badgeSemana.classList.add('hidden');
-                containerSemana.innerHTML = `<div class="no-grupos">Sin programación.</div>`;
+                containerSemana.innerHTML = `<div class="no-grupos">Sin programación cargada.</div>`;
             }
 
             const containerFinde = document.getElementById('reunion-finde-detalle');
@@ -420,7 +519,7 @@
                     <div class="info-box"><div><strong>Oración final:</strong> ${dataFinde.oracionFinal || ""}</div></div>
                     ${asig.length > 0 ? `<div class="asignaciones-box"><div class="asignaciones-header">Otras Asignaciones</div><div class="asignaciones-content">${asig.map(a=>`<div class="asignacion-item"><div>${a.rol}</div><div>${a.nombre}</div></div>`).join('')}</div></div>` : ''}`;
             } else {
-                fechaFindeEl.textContent = "No hay datos disponibles";
+                fechaFindeEl.textContent = "Sin datos";
                 badgeFinde.classList.add('hidden');
                 containerFinde.innerHTML = `<div class="no-grupos">Sin programación.</div>`;
             }
@@ -446,6 +545,7 @@
             const day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
             const mon = new Date(d.setDate(diff)); const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
             document.getElementById('week-text').textContent = `Semana del ${mon.getDate()} de ${mon.toLocaleDateString('es-ES',{month:'long'})} al ${sun.getDate()} de ${sun.toLocaleDateString('es-ES',{month:'long'})}`;
+            
             renderCalendarGrid();
             renderCarousel();
             renderGruposDia();
@@ -483,7 +583,8 @@
         function renderCarousel() {
             const c = document.getElementById('carousel'); c.innerHTML = '';
             const b = new Date(fechaSeleccionada);
-            for(let i=-10; i<=10; i++) {
+            // CARGAR MÁS DÍAS (-10 a +60)
+            for(let i=-10; i<=60; i++) {
                 const f = new Date(b); f.setDate(b.getDate() + i);
                 const card = document.createElement('div');
                 card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`;
@@ -491,27 +592,34 @@
                 card.onclick = () => { fechaSeleccionada = f; renderAll(); c.scrollTo({ left: card.offsetLeft - c.offsetWidth/2 + card.offsetWidth/2, behavior: 'smooth' }); };
                 c.appendChild(card);
             }
-            // Auto-scroll al seleccionado
-            setTimeout(() => { const s = c.querySelector('.selected'); if(s) c.scrollTo({ left: s.offsetLeft - c.offsetWidth/2 + s.offsetWidth/2, behavior: 'smooth' }); }, 100);
         }
         
         function renderTodosGruposPaginados() {
             const tl = document.getElementById('todos-grupos-timeline');
             const pagContainer = document.getElementById('paginacion-container');
             tl.innerHTML = ''; pagContainer.innerHTML = '';
-            let listaFechas = [...dbGrupos]; listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-            if (listaFechas.length === 0) { tl.innerHTML = '<div class="no-grupos">No hay datos futuros.</div>'; pagContainer.classList.add('hidden'); return; }
+            
+            // FILTRO: Solo mostrar fechas futuras (>= HOY)
+            const hoyStr = toISODate(fechaHoy);
+            let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr);
+            
+            listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+            if (listaFechas.length === 0) { tl.innerHTML = '<div class="no-grupos">No hay grupos futuros programados.</div>'; pagContainer.classList.add('hidden'); return; }
+            
             const totalPaginas = Math.ceil(listaFechas.length / diasPorPagina);
             if (paginaGruposActual > totalPaginas) paginaGruposActual = 1;
             const inicio = (paginaGruposActual - 1) * diasPorPagina;
             const fechasPagina = listaFechas.slice(inicio, inicio + diasPorPagina);
+            
             fechasPagina.forEach(diaData => {
                 const fechaNice = formatearFecha(diaData.fecha);
                 const dayBlock = document.createElement('div'); dayBlock.className = 'timeline-day-block';
                 const header = document.createElement('div'); header.className = 'timeline-date-header'; header.textContent = fechaNice;
                 dayBlock.appendChild(header);
+                
                 diaData.grupos.forEach(g => {
                     const row = document.createElement('div'); row.className = 'timeline-row';
+                    // Aquí usamos estilos GRISES para la línea de tiempo
                     row.innerHTML = `<div class="grupo-bloque-horizontal"><div class="gh-hora">${g.hora}</div><div class="gh-info"><div class="gh-fila-top"><div class="gh-territorio">${g.territorio}</div></div><div class="gh-conductor">${g.conductor}</div>${g.gruposAssigned ? `<div class="gh-asignados">${g.gruposAssigned}</div>` : ''}</div></div>`;
                     dayBlock.appendChild(row);
                 });
@@ -532,11 +640,18 @@
             sectionsExpanded[id] = !sectionsExpanded[id]; 
             c.classList.toggle('expanded'); 
             if (card) card.classList.toggle('active-card');
+            
+            // Lógica Texto Botón GRUPOS
             if(id === 'todos-grupos') { 
                 const btnText = document.getElementById('ver-todos-text');
                 const btn = document.getElementById('ver-todos-btn');
                 if (sectionsExpanded[id]) { btnText.textContent = "Ocultar grupos"; btn.classList.add('expanded'); paginaGruposActual = 1; renderTodosGruposPaginados(); } else { btnText.textContent = "Ver todos los grupos"; btn.classList.remove('expanded'); }
-            } 
+            }
+            // Lógica Texto Botón CALENDARIO
+            if(id === 'calendario') {
+                const calText = document.getElementById('calendar-toggle-text');
+                if (sectionsExpanded[id]) { calText.textContent = "Ocultar calendario"; } else { calText.textContent = "Mostrar calendario"; }
+            }
         }
 
         function scrollCarousel(d) { document.getElementById('carousel').scrollBy({ left: d * 120, behavior: 'smooth' }); }
