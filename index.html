@@ -11,6 +11,7 @@
         body { font-family: 'Inter', sans-serif; background: #ffffff; min-height: 100vh; padding: 16px; color: #4b5563; }
         .container { max-width: 480px; margin: 0 auto; padding-bottom: 60px; }
         
+        /* TARJETAS */
         .card { 
             background: #ffffff; 
             border: none; 
@@ -21,6 +22,7 @@
             position: relative; 
         }
         
+        /* HEADER */
         .header { text-align: center; padding: 24px 16px 20px; }
         .header h1 { 
             font-family: 'Inter', sans-serif; 
@@ -31,7 +33,7 @@
             letter-spacing: -0.5px;
         }
         
-        /* MENU SEGMENTADO */
+        /* NAV MENU SEGMENTADO */
         .nav-segment-container { display: flex; justify-content: center; align-items: center; margin-bottom: 32px; }
         .nav-segment { 
             display: inline-flex; align-items: center; 
@@ -52,11 +54,13 @@
             .nav-btn { padding: 8px 10px; font-size: 12px; gap: 4px; }
         }
 
+        /* TÍTULOS DE SECCIÓN */
         .section-title-main { 
             font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #374151; 
             margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
         }
         
+        /* INDICADOR DE MES (GRIS) */
         .month-indicator {
             margin-left: 20px; margin-bottom: 24px; 
             font-size: 13px; font-weight: 800; 
@@ -75,12 +79,16 @@
             z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,0.05); color: #6b7280;
         }
         .carousel-arrow svg { width: 16px; height: 16px; stroke-width: 2; }
+        
         .carousel-arrow:hover { color: #16a34a; border-color: #16a34a; }
         .carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
         @media (hover: none) and (pointer: coarse) { .carousel-arrow { display: none !important; } }
 
+        /* BOTÓN IR A HOY */
         .btn-today-floating {
-            position: absolute; top: -12px; right: 20px;
+            position: absolute; 
+            top: -12px; 
+            right: 20px;
             background: white; border: 1px solid #16a34a; color: #16a34a;
             font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
             cursor: pointer; display: none; align-items: center; gap: 4px; 
@@ -89,12 +97,14 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .carousel { 
-            padding: 20px 24px 4px 24px; display: flex; gap: 10px; 
+            padding: 20px 24px 4px 24px; 
+            display: flex; gap: 10px; 
             overflow-x: auto; scroll-snap-type: x mandatory; 
             -webkit-overflow-scrolling: touch; scrollbar-width: none; 
         }
         .carousel::-webkit-scrollbar { display: none; }
 
+        /* FECHAS: GRIS MEDIO #6b7280 */
         .date-card { scroll-snap-align: center; min-width: 60px; padding: 10px 6px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; background: #f9fafb; border: 1px solid transparent; color: #6b7280; }
         .date-card.is-today { border: 2px solid #16a34a; background: #ffffff; color: #6b7280; }
         .date-card.selected { background: #16a34a; color: white; box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25); transform: translateY(-2px); border-color: #16a34a; }
@@ -121,11 +131,23 @@
         /* GRUPOS HOY */
         .grupos-dia-container { padding: 0 20px 20px; }
         .grupo-consolidado-card { background: #f9fafb; border-radius: 16px; padding: 16px; border: 1px solid #f3f4f6; }
+        
+        /* TITULO GRUPOS DEL DIA: GRIS MEDIO */
         .grupo-consolidado-header { font-size: 13px; font-weight: 800; color: #6b7280; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .grupo-consolidado-header svg { color: #9ca3af; width: 18px; height: 18px; }
+        
         .grupo-item-hoy { padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; }
         .grupo-item-hoy:last-child { padding-bottom: 0; border-bottom: none; margin-bottom: 0; }
-        .gh-hora-hoy { font-size: 13px; font-weight: 800; color: #6b7280; background: #ffffff; border: 1px solid #d1d5db; padding: 6px 0; border-radius: 8px; white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; line-height: 1.3; }
+        
+        /* HORA: GRIS MEDIO */
+        .gh-hora-hoy { 
+            font-size: 13px; font-weight: 800; 
+            color: #6b7280; /* GRIS MEDIO */
+            background: #ffffff; border: 1px solid #d1d5db; 
+            padding: 6px 0; border-radius: 8px; 
+            white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; line-height: 1.3; 
+        }
+        
         .grupo-row-flex { display: flex; gap: 14px; align-items: flex-start; }
         .grupo-content-col { flex-grow: 1; }
         .gh-top-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
@@ -147,9 +169,11 @@
         .timeline-day-block:last-child { border-left: 2px solid transparent; border-image: linear-gradient(to bottom, #e5e7eb 0%, transparent 100%) 1 100%; }
         .timeline-date-header { position: relative; font-size: 15px; font-weight: 800; color: #9ca3af; margin-bottom: 16px; text-transform: capitalize; line-height: 1; top: -5px; transition: color 0.3s; }
         .timeline-date-header::before { content: ''; position: absolute; left: -35px; top: 1px; width: 12px; height: 12px; background: #9ca3af; border-radius: 50%; box-shadow: 0 0 0 4px rgba(156, 163, 175, 0.15); z-index: 1; transition: all 0.3s; }
+        
         .timeline-day-block.active-day .timeline-date-header { color: #16a34a; }
         .timeline-day-block.active-day .timeline-date-header::before { background: #16a34a; box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2); }
         .timeline-day-block.active-day .gh-hora-timeline { color: #16a34a; border-color: #16a34a; background: #f0fdf4; }
+
         .timeline-row { position: relative; padding-bottom: 24px; }
         .gh-hora-timeline { font-size: 13px; font-weight: 700; color: #9ca3af; background: #f9fafb; border: 1px solid #e5e7eb; padding: 6px 0; border-radius: 8px; white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; transition: all 0.3s; }
 
@@ -161,7 +185,12 @@
 
         /* REUNIONES */
         .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; padding: 12px; }
-        .week-nav-arrow { width: 36px; height: 36px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #16a34a; }
+        .week-nav-arrow { 
+            width: 36px; height: 36px; background: transparent; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer; 
+            color: #16a34a; 
+        }
+        /* CORRECCIÓN FLECHAS NAV */
         .week-nav-arrow svg { width: 20px; height: 20px; stroke: #16a34a; stroke-width: 2.5; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
 
@@ -170,10 +199,14 @@
         .reunion-card.active-card { border-color: #16a34a; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
         .reunion-header { display: flex; justify-content: space-between; align-items: flex-start; }
         
+        /* TÍTULO REUNIÓN: GRIS MEDIO */
         .reunion-info h3 { font-weight: 800; color: #6b7280; margin-bottom: 6px; font-size: 16px; }
+        
         .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
         .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
         .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; }
+        
+        /* CORRECCIÓN FLECHA SECCIÓN */
         .section-arrow { width: 20px; height: 20px; transition: transform 0.3s; fill: none; stroke: #9ca3af; stroke-width: 2; margin-top: 2px; }
         .reunion-card.active-card .section-arrow { transform: rotate(180deg); stroke: #16a34a; }
 
@@ -190,7 +223,9 @@
         
         .section-heading { font-size: 12px; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase; }
         .reunion-item-content { font-size: 14px; color: #374151; line-height: 1.5; }
+        /* TÍTULOS PARTES: GRIS MEDIO */
         .reunion-item-content strong { color: #6b7280; }
+        
         .reunion-item-auxiliar { display: block; margin-top: 2px; font-size: 14px; color: #374151; padding-left: 16px; border-left: 2px solid #e5e7eb; }
         
         .info-box { background: #f9fafb; border-radius: 12px; padding: 12px; margin-bottom: 20px; font-size: 13px; color: #4b5563; }
@@ -531,7 +566,7 @@
             const badgeFinde = document.getElementById('badge-finde');
 
             if (dataFinde) {
-                // FECHA SIMPLIFICADA
+                // FECHA SIMPLIFICADA (22 de febrero)
                 const fParts = dataFinde.fecha.split('-');
                 const fDate = new Date(fParts[0], fParts[1]-1, fParts[2]);
                 fechaFindeEl.textContent = fDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
@@ -570,6 +605,7 @@
 
         function renderAll() {
             const d = new Date(fechaSeleccionada);
+            // Actualizar Indicador Mes
             document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
 
             const day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
@@ -579,7 +615,7 @@
             if (!esMismoDia(fechaSeleccionada, fechaHoy)) btnToday.style.display = 'flex'; else btnToday.style.display = 'none';
 
             renderCalendarGrid();
-            renderCarousel();
+            renderCarousel(); // CARRUSEL ESTABLE
             renderGruposDia();
             renderReuniones();
             renderTodosGruposPaginados();
