@@ -5,990 +5,637 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cartelera Digital - La Cumaca</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --jw-blue: #4472C4;
+            --jw-green: #70AD47;
+            --jw-gold: #9B6D17;
+            --jw-red: #942926;
+            --jw-gray-bg: #F1F1F1;
+            --jw-text-main: #212121;
+            --jw-text-secondary: #5d5d5d;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body { font-family: 'Inter', sans-serif; background: #ffffff; min-height: 100vh; padding: 16px; color: #4b5563; }
-        .container { max-width: 480px; margin: 0 auto; padding-bottom: 60px; }
-        
-        /* TARJETAS */
-        .card { 
-            background: #ffffff; 
-            border: none; 
-            border-radius: 20px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
-            margin-bottom: 48px; 
-            overflow: hidden; 
-            position: relative; 
-        }
-        
-        /* HEADER */
-        .header { text-align: center; padding: 24px 16px 20px; }
-        .header h1 { 
+        body { 
             font-family: 'Inter', sans-serif; 
-            font-size: 20px; 
-            font-weight: 700; 
-            color: #9ca3af; 
-            text-transform: capitalize; 
-            letter-spacing: -0.5px;
-        }
-        
-        /* NAV MENU SEGMENTADO */
-        .nav-segment-container { display: flex; justify-content: center; align-items: center; margin-bottom: 32px; }
-        .nav-segment { 
-            display: inline-flex; align-items: center; 
-            background: #f3f4f6; border-radius: 12px; padding: 4px; 
-        }
-        .nav-btn { 
-            text-decoration: none; 
-            display: flex; align-items: center; gap: 6px;
-            padding: 8px 16px; 
-            color: #6b7280; font-size: 13px; font-weight: 600; 
-            transition: all 0.2s; border-radius: 8px;
-        }
-        .nav-btn:hover { color: #1f2937; background: rgba(255,255,255,0.5); }
-        .nav-btn svg { width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; }
-        .nav-divider { width: 1px; height: 14px; background: #d1d5db; margin: 0 2px; }
-
-        @media (max-width: 380px) {
-            .nav-btn { padding: 8px 10px; font-size: 12px; gap: 4px; }
-        }
-
-        /* TÍTULOS DE SECCIÓN */
-        .section-title-main { 
-            font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #374151; 
-            margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
-        }
-        
-        /* INDICADOR DE MES (GRIS) */
-        .month-indicator {
-            margin-left: 20px; margin-bottom: 24px; 
-            font-size: 13px; font-weight: 800; 
-            color: #6b7280; 
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        /* CARRUSEL */
-        .carousel-wrapper { position: relative; padding: 0 10px 20px 10px; }
-        
-        .carousel-arrow { 
-            position: absolute; top: 50%; transform: translateY(-50%); 
-            width: 28px; height: 28px; background: white; 
-            border-radius: 50%; border: 1px solid #e5e7eb; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; 
-            z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,0.05); color: #6b7280;
-        }
-        .carousel-arrow svg { width: 16px; height: 16px; stroke-width: 2; }
-        
-        .carousel-arrow:hover { color: #16a34a; border-color: #16a34a; }
-        .carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
-        @media (hover: none) and (pointer: coarse) { .carousel-arrow { display: none !important; } }
-
-        /* BOTÓN IR A HOY */
-        .btn-today-floating {
-            position: absolute; 
-            top: -12px; 
-            right: 20px;
-            background: white; border: 1px solid #16a34a; color: #16a34a;
-            font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
-            cursor: pointer; display: none; align-items: center; gap: 4px; 
-            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15); animation: fadeIn 0.3s ease; z-index: 20;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .carousel { 
-            padding: 20px 24px 4px 24px; 
-            display: flex; gap: 10px; 
-            overflow-x: auto; scroll-snap-type: x mandatory; 
-            -webkit-overflow-scrolling: touch; scrollbar-width: none; 
-        }
-        .carousel::-webkit-scrollbar { display: none; }
-
-        /* FECHAS: GRIS MEDIO #6b7280 */
-        .date-card { scroll-snap-align: center; min-width: 60px; padding: 10px 6px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; background: #f9fafb; border: 1px solid transparent; color: #6b7280; }
-        .date-card.is-today { border: 2px solid #16a34a; background: #ffffff; color: #6b7280; }
-        .date-card.selected { background: #16a34a; color: white; box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25); transform: translateY(-2px); border-color: #16a34a; }
-        .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; opacity: 0.8; }
-        .date-card-number { font-size: 20px; font-weight: 800; line-height: 1; }
-
-        /* CALENDARIO */
-        .calendar-toggle-wrapper { display: flex; justify-content: flex-end; padding-right: 20px; margin-top: -10px; margin-bottom: 10px; }
-        .calendar-toggle { display: flex; align-items: center; gap: 4px; color: #16a34a; font-size: 12px; font-weight: 700; cursor: pointer; border: none; background: none; padding: 6px 10px; border-radius: 8px; transition: background 0.2s; }
-        .calendar-toggle svg { width: 14px; height: 14px; }
-        .calendar-toggle:hover { background: #f0fdf4; }
-        .section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .section-content.expanded { max-height: 5000px; }
-        .section-inner { padding: 0 20px 20px; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px; }
-        .calendar-nav-btn { cursor: pointer; padding: 8px 12px; color: #4b5563; font-weight: bold; display: flex; align-items: center; justify-content: center; }
-        .calendar-month { font-size: 14px; font-weight: 700; color: #374151; text-transform: capitalize; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; }
-        .calendar-day-header { text-align: center; font-size: 11px; font-weight: 700; color: #374151; padding: 4px 0; }
-        .calendar-day { text-align: center; padding: 8px 4px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: #374151; background: #f9fafb; }
-        .calendar-day.selected { background: #16a34a !important; color: white !important; font-weight: 700; }
-        .calendar-day.today { border: 1px solid #16a34a; color: #16a34a; font-weight: 700; }
-
-        /* GRUPOS HOY */
-        .grupos-dia-container { padding: 0 20px 20px; }
-        .grupo-consolidado-card { background: #f9fafb; border-radius: 16px; padding: 16px; border: 1px solid #f3f4f6; }
-        
-        /* TITULO GRUPOS DEL DIA: GRIS MEDIO */
-        .grupo-consolidado-header { font-size: 13px; font-weight: 800; color: #6b7280; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .grupo-consolidado-header svg { color: #9ca3af; width: 18px; height: 18px; }
-        
-        .grupo-item-hoy { padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; }
-        .grupo-item-hoy:last-child { padding-bottom: 0; border-bottom: none; margin-bottom: 0; }
-        
-        /* HORA: GRIS MEDIO */
-        .gh-hora-hoy { 
-            font-size: 13px; font-weight: 800; 
-            color: #6b7280; 
-            background: #ffffff; border: 1px solid #d1d5db; 
-            padding: 6px 0; border-radius: 8px; 
-            white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; line-height: 1.3; 
-        }
-        
-        .grupo-row-flex { display: flex; gap: 14px; align-items: flex-start; }
-        .grupo-content-col { flex-grow: 1; }
-        .gh-top-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
-        .gh-territorio { font-size: 15px; font-weight: 700; color: #374151; line-height: 1.2; margin-top: 3px; }
-        .gh-conductor { font-size: 13px; color: #6b7280; font-weight: 500; }
-        .gh-asignados { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 4px; }
-        .no-grupos { text-align: center; padding: 20px; color: #9ca3af; font-style: italic; font-size: 13px; }
-
-        /* BOTÓN VER TODOS */
-        .ver-todos-wrapper { display: flex; justify-content: center; padding: 0 20px 20px; }
-        .ver-todos-btn { width: 100%; padding: 12px 24px; background: transparent; color: #16a34a; border: 1px solid #16a34a; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
-        .ver-todos-btn:hover { background: #f0fdf4; }
-        .ver-todos-btn svg { width: 16px; height: 16px; transition: transform 0.3s; color: #16a34a; }
-        .ver-todos-btn.expanded svg { transform: rotate(180deg); }
-
-        /* TIMELINE */
-        .timeline-wrapper { padding-top: 10px; margin-left: 10px; } 
-        .timeline-day-block { position: relative; padding-left: 28px; border-left: 2px solid #e5e7eb; padding-bottom: 30px; transition: all 0.3s; }
-        .timeline-day-block:last-child { border-left: 2px solid transparent; border-image: linear-gradient(to bottom, #e5e7eb 0%, transparent 100%) 1 100%; }
-        .timeline-date-header { position: relative; font-size: 15px; font-weight: 800; color: #9ca3af; margin-bottom: 16px; text-transform: capitalize; line-height: 1; top: -5px; transition: color 0.3s; }
-        .timeline-date-header::before { content: ''; position: absolute; left: -35px; top: 1px; width: 12px; height: 12px; background: #9ca3af; border-radius: 50%; box-shadow: 0 0 0 4px rgba(156, 163, 175, 0.15); z-index: 1; transition: all 0.3s; }
-        
-        .timeline-day-block.active-day .timeline-date-header { color: #16a34a; }
-        .timeline-day-block.active-day .timeline-date-header::before { background: #16a34a; box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2); }
-        .timeline-day-block.active-day .gh-hora-timeline { color: #16a34a; border-color: #16a34a; background: #f0fdf4; }
-
-        .timeline-row { position: relative; padding-bottom: 24px; }
-        .gh-hora-timeline { font-size: 13px; font-weight: 700; color: #9ca3af; background: #f9fafb; border: 1px solid #e5e7eb; padding: 6px 0; border-radius: 8px; white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; transition: all 0.3s; }
-
-        .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f3f4f6; }
-        .page-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: white; color: #6b7280; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .page-btn:hover { color: #16a34a; border-color: #16a34a; }
-        .page-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
-        .page-btn:disabled { opacity: 0.4; cursor: default; border-color: #e5e7eb; color: #9ca3af; }
-
-        /* REUNIONES */
-        .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; padding: 12px; }
-        .week-nav-arrow { 
-            width: 36px; height: 36px; background: transparent; 
-            display: flex; align-items: center; justify-content: center; cursor: pointer; 
-            color: #16a34a; 
-        }
-        .week-nav-arrow svg { width: 20px; height: 20px; stroke: #16a34a; stroke-width: 2.5; }
-        .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
-
-        .reunion-card { border-radius: 16px; padding: 20px; border: 1px solid #f3f4f6; cursor: pointer; margin-bottom: 20px; background: #fdfdfd; transition: all 0.2s; }
-        .reunion-card:hover { border-color: #e5e7eb; }
-        .reunion-card.active-card { border-color: #16a34a; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        .reunion-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        
-        /* TÍTULO REUNIÓN: GRIS MEDIO */
-        .reunion-info h3 { font-weight: 800; color: #6b7280; margin-bottom: 6px; font-size: 16px; }
-        
-        .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
-        .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
-        .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; }
-        
-        .section-arrow { width: 20px; height: 20px; transition: transform 0.3s; fill: none; stroke: #9ca3af; stroke-width: 2; margin-top: 2px; }
-        .reunion-card.active-card .section-arrow { transform: rotate(180deg); stroke: #16a34a; }
-
-        /* SECCIONES DE REUNIÓN - ESTILO JW.ORG */
-        .reunion-section-block { margin-bottom: 24px; border-radius: 12px; overflow: hidden; }
-        
-        /* TESOROS - FONDO GRIS CLARO */
-        .tesoros-section { background: #F1F1F1; padding: 16px; }
-        .tesoros-section .section-heading { 
-            font-size: 15px; font-weight: 700; color: #4b5563; 
-            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
-        }
-        
-        /* MAESTROS - CAFÉ/DORADO */
-        .maestros-section { background: #FFF9F0; padding: 16px; border-left: 4px solid #9B6D17; }
-        .maestros-section .section-heading { 
-            font-size: 15px; font-weight: 700; color: #9B6D17; 
-            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
-        }
-        
-        /* VIDA - ROJO VINO */
-        .vida-section { background: #FFF5F5; padding: 16px; border-left: 4px solid #942926; }
-        .vida-section .section-heading { 
-            font-size: 15px; font-weight: 700; color: #942926; 
-            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
-        }
-        
-        /* PÚBLICO - MORADO */
-        .publico-section { background: #F5F3FF; padding: 16px; border-left: 4px solid #8b5cf6; }
-        .publico-section .section-heading { 
-            font-size: 15px; font-weight: 700; color: #8b5cf6; 
-            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
-        }
-        
-        /* ATALAYA - AZUL */
-        .atalaya-section { background: #F0F9FF; padding: 16px; border-left: 4px solid #0ea5e9; }
-        .atalaya-section .section-heading { 
-            font-size: 15px; font-weight: 700; color: #0ea5e9; 
-            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
-        }
-        
-        /* ITEMS DE REUNIÓN */
-        .reunion-item { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .reunion-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        
-        .reunion-item-header { 
-            font-size: 14px; font-weight: 600; color: #374151; 
-            margin-bottom: 6px; line-height: 1.4;
-        }
-        .reunion-item-time { 
-            font-size: 13px; color: #6b7280; 
-            margin-left: 4px; font-weight: 500;
-        }
-        
-        .reunion-item-principal { 
-            font-size: 14px; color: #4b5563; 
-            line-height: 1.5; margin-top: 4px; 
-        }
-        
-        .reunion-item-auxiliar { 
-            font-size: 14px; color: #6b7280; 
-            margin-top: 4px; padding-left: 16px; 
-            border-left: 2px solid #e5e7eb; 
+            background: #F9F9F9; 
+            color: var(--jw-text-main);
+            padding: 16px;
+            font-size: 14px;
             line-height: 1.5;
         }
-        
-        .cancion-item { 
-            font-size: 14px; font-weight: 600; color: #374151; 
-            margin-bottom: 12px; 
-        }
-        
-        /* INFO BOX */
-        .info-box { 
-            background: #f9fafb; border-radius: 12px; 
-            padding: 12px; margin-bottom: 20px; 
-            font-size: 13px; color: #4b5563; 
-        }
-        .info-box div { margin-bottom: 6px; }
-        .info-box div:last-child { margin-bottom: 0; }
-        .info-box strong { color: #374151; font-weight: 600; }
 
-        /* ASIGNACIONES BOX */
-        .asignaciones-box { 
-            background: #f3f4f6; border-radius: 16px; 
-            padding: 16px; margin-top: 20px; 
-        }
-        .asignaciones-header { 
-            font-size: 13px; font-weight: 800; 
-            color: #6b7280; text-transform: uppercase; 
-            margin-bottom: 12px; letter-spacing: 0.5px;
-        }
-        .asignaciones-table { width: 100%; border-collapse: collapse; }
-        .asignaciones-table tr { border-bottom: 1px solid #e5e7eb; }
-        .asignaciones-table tr:last-child { border-bottom: none; }
-        .asignaciones-table td { 
-            padding: 8px 0; font-size: 13px; 
-            color: #4b5563; vertical-align: top; 
-        }
-        .asignaciones-table td:first-child { 
-            font-weight: 600; color: #6b7280; 
-            width: 40%; padding-right: 12px; 
+        .container { max-width: 500px; margin: 0 auto; padding-bottom: 60px; }
+
+        /* HEADER */
+        .header h1 {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #757575;
+            margin: 20px 0;
+            letter-spacing: -0.5px;
         }
 
-        /* ANUNCIOS */
-        .anuncio { background: #fffbeb; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start; }
-        .anuncio-date { background: #d97706; color: white; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px; white-space: nowrap; margin-top: 2px; }
-        .anuncio-text { font-size: 14px; color: #4b5563; flex: 1; line-height: 1.5; }
-        
-        .footer { text-align: center; color: #d1d5db; font-size: 11px; margin-top: 40px; }
-        .hidden { display: none !important; }
+        /* TARJETAS PRINCIPALES */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+            overflow: hidden;
+            padding: 20px;
+        }
 
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.4s ease; }
-        .spinner { width: 30px; height: 30px; border: 3px solid #f3f4f6; border-top: 3px solid #1f2937; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #error-details { margin-top: 20px; color: #ef4444; font-size: 12px; background: #fef2f2; padding: 10px; border-radius: 8px; max-width: 90%; }
+        .section-title-main {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin: 0 0 16px 0;
+            padding-left: 4px;
+        }
+
+        /* --- ESTILOS REUNIONES (JW STYLE) --- */
         
-        .meeting-spacer { height: 40px; }
+        /* Contenedor de la Reunión */
+        .reunion-block {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .reunion-header-info {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 12px;
+            margin-bottom: 8px;
+        }
+        .reunion-header-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+        .reunion-date {
+            color: var(--jw-text-secondary);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .reunion-basic-data {
+            font-size: 13px;
+            color: var(--jw-text-secondary);
+            margin-top: 4px;
+        }
+
+        /* SECCIÓN: TESOROS */
+        .section-tesoros {
+            background-color: var(--jw-gray-bg);
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .section-tesoros h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #4a4a4a; /* Gris oscuro para título tesoros */
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        /* SECCIÓN: MAESTROS */
+        .section-maestros {
+            border-left: 5px solid var(--jw-gold);
+            padding: 8px 16px;
+            background: #fff;
+        }
+        .section-maestros h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--jw-gold);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        /* SECCIÓN: VIDA CRISTIANA */
+        .section-vida {
+            border-left: 5px solid var(--jw-red);
+            padding: 8px 16px;
+            background: #fff;
+        }
+        .section-vida h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--jw-red);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        /* ITEMS DE PARTES */
+        .part-item {
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .part-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .part-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 4px;
+        }
+        .part-time {
+            font-weight: 400;
+            font-size: 13px;
+            color: #757575;
+            margin-left: 4px;
+        }
+        .part-assignee {
+            font-size: 14px;
+            color: #212121;
+            padding-left: 12px; /* Sangría ligera */
+        }
+        
+        /* SEGUNDA SALA */
+        .second-room {
+            margin-top: 6px;
+            padding-left: 16px;
+            border-left: 2px solid #ddd;
+            font-size: 13px;
+            color: #555;
+        }
+        .second-room-label {
+            font-weight: 600;
+            font-size: 12px;
+            color: #757575;
+            text-transform: uppercase;
+            margin-right: 4px;
+        }
+
+        /* ASIGNACIONES (TABLA) */
+        .assignments-container {
+            background: #F3F4F6;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 10px;
+        }
+        .assignments-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .assignments-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        .assign-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 4px;
+        }
+        .assign-row:last-child { border-bottom: none; }
+        .assign-label { font-size: 12px; font-weight: 700; color: #666; width: 45%; }
+        .assign-value { font-size: 13px; color: #333; width: 55%; text-align: right; }
+
+        /* ESTILOS COMUNES (Botones, Carrusel, etc - Mantenidos) */
+        .month-indicator { margin-left: 4px; margin-bottom: 12px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; }
+        .carousel-wrapper { position: relative; padding: 0 0 20px 0; }
+        .carousel { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px; }
+        .date-card { min-width: 55px; padding: 8px 4px; border-radius: 10px; text-align: center; cursor: pointer; background: #f3f4f6; color: #6b7280; border: 1px solid transparent; }
+        .date-card.selected { background: var(--jw-blue); color: white; box-shadow: 0 4px 8px rgba(68, 114, 196, 0.3); }
+        .date-card.is-today { border-color: var(--jw-blue); background: #fff; color: var(--jw-blue); }
+        .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; }
+        .date-card-number { font-size: 18px; font-weight: 700; }
+        
+        .nav-segment-container { display: flex; justify-content: center; margin-bottom: 24px; }
+        .nav-segment { background: white; border-radius: 20px; padding: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .nav-btn { text-decoration: none; padding: 8px 16px; color: #666; font-size: 13px; font-weight: 600; border-radius: 16px; }
+        .nav-btn:hover { background: #f5f5f5; }
+        
+        .anuncio { background: #fff; padding: 12px; border-left: 4px solid #F59E0B; margin-bottom: 10px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .anuncio-date { font-size: 11px; font-weight: 700; color: #F59E0B; margin-bottom: 4px; }
+        
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #F9F9F9; z-index: 999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .spinner { width: 30px; height: 30px; border: 3px solid #ddd; border-top-color: var(--jw-blue); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .hidden { display: none; }
+        
+        /* GRUPOS HOY */
+        .grupo-hoy-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+        .grupo-row { display: flex; gap: 10px; align-items: flex-start; }
+        .grupo-time { background: #fff; padding: 4px 8px; border-radius: 6px; border: 1px solid #ddd; font-weight: 700; font-size: 12px; color: #555; }
+        .grupo-details { flex: 1; }
+        .grupo-terr { font-weight: 700; color: #333; font-size: 14px; }
+        .grupo-cond { font-size: 13px; color: #666; }
+
     </style>
 </head>
 <body>
+
     <div id="loading-overlay">
-        <div class="spinner" id="spinner"></div>
-        <p id="loading-text" style="color:#9ca3af; font-weight: 600; font-size: 13px;">Cargando...</p>
-        <div id="error-details" class="hidden"></div>
+        <div class="spinner"></div>
+        <p style="margin-top:10px; color:#888; font-size:12px;">Cargando programación...</p>
     </div>
 
     <div class="container">
         <div class="header">
             <h1>Cartelera Cong. La Cumaca</h1>
         </div>
-        
+
         <div class="nav-segment-container">
             <div class="nav-segment">
-                <a href="#grupos-section" class="nav-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                    Grupos
-                </a>
-                <div class="nav-divider"></div>
-                <a href="#reuniones-section" class="nav-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                    Reuniones
-                </a>
-                <div class="nav-divider"></div>
-                <a href="#anuncios-section" class="nav-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
-                    Anuncios
-                </a>
+                <a href="#grupos" class="nav-btn">Grupos</a>
+                <span style="color:#ddd">|</span>
+                <a href="#reuniones" class="nav-btn">Reuniones</a>
+                <span style="color:#ddd">|</span>
+                <a href="#anuncios" class="nav-btn">Anuncios</a>
             </div>
         </div>
 
-        <div class="card" id="grupos-section">
-            <h2 class="section-title-main">Grupos de Predicación</h2>
-            <div id="month-indicator" class="month-indicator"></div>
-            
+        <div id="grupos" class="card">
+            <h2 class="section-title-main">Predicación</h2>
+            <div class="month-indicator" id="month-indicator"></div>
             <div class="carousel-wrapper">
-                <button id="btn-today" class="btn-today-floating" onclick="goToToday()">Ir a Hoy</button>
-                <div class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
-                <div class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
                 <div class="carousel" id="carousel"></div>
+                <button onclick="goToToday()" style="position:absolute; top:-35px; right:0; background:none; border:none; color:var(--jw-blue); font-weight:600; font-size:12px; cursor:pointer;">Ir a Hoy</button>
             </div>
-
-            <div class="calendar-toggle-wrapper">
-                <button class="calendar-toggle" onclick="toggleSection('calendario')">
-                    <span id="calendar-toggle-text">Mostrar calendario</span>
-                </button>
-            </div>
-            
-            <div class="section-content" id="calendario-content">
-                <div class="section-inner"><div class="calendar-header"><div class="calendar-nav-btn" onclick="navMes(-1)">❮</div><div class="calendar-month" id="calendar-month"></div><div class="calendar-nav-btn" onclick="navMes(1)">❯</div></div><div class="calendar-grid" id="calendario-grid"></div></div>
-            </div>
-            
-            <div id="swipe-grupos-hoy" class="grupos-dia-container">
-                <div id="grupos-dia-content"></div>
-            </div>
-            
-            <div class="ver-todos-wrapper">
-                <button class="ver-todos-btn" id="ver-todos-btn" onclick="toggleSection('todos-grupos')">
-                    <span id="ver-todos-text">Ver todos los grupos</span>
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-            </div>
-            
-            <div class="section-content" id="todos-grupos-content">
-                <div class="section-inner">
-                    <div id="swipe-timeline" class="timeline-wrapper"></div>
-                    <div id="paginacion-container" class="pagination-container hidden"></div>
-                </div>
-            </div>
+            <div id="grupos-dia-content"></div>
         </div>
 
-        <h2 class="section-title-main" id="reuniones-section">Programa de Reuniones</h2>
-        <div class="card" id="card-programa-reuniones" style="padding: 20px;">
-            <div class="reunion-week-nav">
-                <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
-                <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
-                <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
-            </div>
-            
-            <div class="reunion-card" id="card-reunion-semana" onclick="toggleSection('reunion-semana')">
-                <div class="reunion-header">
-                    <div class="reunion-info">
-                        <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
-                        <p class="reunion-date" id="fecha-semana"></p>
-                        <p class="reunion-time">Jueves 6:30 PM</p>
-                    </div>
-                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </div>
-            </div>
-            <div class="section-content" id="reunion-semana-content"><div class="section-inner" id="reunion-semana-detalle"></div></div>
-            
-            <div class="meeting-spacer"></div>
-
-            <div class="reunion-card" id="card-reunion-finde" onclick="toggleSection('reunion-finde')">
-                <div class="reunion-header">
-                    <div class="reunion-info">
-                        <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
-                        <p class="reunion-date" id="fecha-finde"></p>
-                        <p class="reunion-time">Domingo 10:00 AM</p>
-                    </div>
-                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </div>
-            </div>
-            <div class="section-content" id="reunion-finde-content"><div class="section-inner" id="reunion-finde-detalle"></div></div>
-        </div>
-
-        <h2 class="section-title-main" id="anuncios-section">Anuncios</h2>
-        <div class="card" style="padding: 20px;">
-            <div id="anuncios-lista"></div>
-        </div>
+        <h2 class="section-title-main" id="reuniones" style="margin-left: 10px;">Reuniones</h2>
         
-        <div class="footer"><p>Actualización automática • Conectado</p><p id="data-stats"></p></div>
+        <div class="card" id="card-vida">
+            <div class="reunion-header-info">
+                <h3>Nuestra Vida y Ministerio</h3>
+                <div class="reunion-date" id="vida-fecha">--</div>
+                <div class="reunion-basic-data" id="vida-basico"></div>
+            </div>
+            <div id="vida-content" class="reunion-block">
+                </div>
+        </div>
+
+        <div class="card" id="card-finde">
+            <div class="reunion-header-info">
+                <h3>Reunión Pública</h3>
+                <div class="reunion-date" id="finde-fecha">--</div>
+                <div class="reunion-basic-data" id="finde-basico"></div>
+            </div>
+            <div id="finde-content" class="reunion-block">
+                </div>
+        </div>
+
+        <h2 class="section-title-main" id="anuncios" style="margin-left: 10px;">Anuncios</h2>
+        <div class="card">
+            <div id="anuncios-content"></div>
+        </div>
+
+        <div style="text-align:center; color:#ccc; font-size:11px; margin-top:20px;">
+            Diseño JW Compatible • Última act. <span id="last-update"></span>
+        </div>
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxWQCoBctEYLdVGexgwcu4z_mXzym78f1EZnTQi4HkjzSil18chRBM-qgt7xhQEqaOX/exec"; 
+        // === TU URL DEL SCRIPT DE GOOGLE VA AQUÍ ===
+        const API_URL = "https://script.google.com/macros/s/AKfycbyNCWWfmCYV0IssJCtcJ9C8QVLd5AzJJS99MIOAazfdXWAbtOPwJLncn81ynxQAwvDZ/exec"; 
 
-        let dbGrupos = [], dbVidaMinisterio = [], dbFinSemana = [], dbAnuncios = [];
-        let fechaHoy = new Date();
-        let fechaSeleccionada = new Date(fechaHoy);
-        let fechaVisualizadaCalendario = new Date(fechaHoy);
-        let semanaOffset = 0;
-        let sectionsExpanded = {};
-        let paginaGruposActual = 1;
-        const diasPorPagina = 3; 
+        let db = { grupos: [], vida: [], finde: [], anuncios: [] };
+        let selectedDate = new Date();
+        const today = new Date();
 
-        function toISODate(d) {
-            if(!(d instanceof Date)) return "";
-            return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-        }
+        function toISO(d) { return d.toISOString().split('T')[0]; }
+        function sameDay(d1, d2) { return toISO(d1) === toISO(d2); }
 
-        async function iniciarApp() {
+        async function init() {
             try {
-                const response = await fetch(API_URL);
-                if (!response.ok) throw new Error("Error HTTP: " + response.status);
-                const data = await response.json();
+                const res = await fetch(API_URL);
+                const data = await res.json();
                 
-                dbGrupos = data.grupos || [];
-                dbVidaMinisterio = data.vidaMinisterio || [];
-                dbFinSemana = data.finSemana || [];
-                dbAnuncios = data.anuncios || [];
+                db.grupos = data.grupos;
+                db.vida = data.vidaMinisterio; // Usa el nombre de la pestaña del Excel
+                db.finde = data.finSemana;
+                db.anuncios = data.anuncios;
 
-                document.getElementById('loading-overlay').style.opacity = '0';
-                setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 500);
-
-                const total = dbGrupos.length + dbVidaMinisterio.length + dbFinSemana.length;
-                document.getElementById('data-stats').textContent = `Registros: ${total}`;
+                document.getElementById('loading-overlay').style.display = 'none';
+                document.getElementById('last-update').innerText = new Date().toLocaleTimeString();
                 
-                renderAll();
-                setupSwipeGestures();
-                setupMonthScrollListener();
-                
-                setTimeout(() => goToToday(), 500);
-
-            } catch (error) {
-                console.error(error);
-                document.getElementById('spinner').style.display = 'none';
-                document.getElementById('loading-text').textContent = "Error de conexión";
-                const err = document.getElementById('error-details');
-                err.classList.remove('hidden');
-                err.textContent = error.message;
+                renderCarousel();
+                renderGrupos();
+                renderReuniones(); // La función lógica principal
+                renderAnuncios();
+            } catch (e) {
+                alert("Error cargando datos. Revisa tu conexión.");
+                console.error(e);
             }
         }
 
-        function setupMonthScrollListener() {
-            const carousel = document.getElementById('carousel');
-            const indicator = document.getElementById('month-indicator');
+        // === LÓGICA DE REUNIONES (CORE) ===
+        function renderReuniones() {
+            // Buscar la reunión de esta semana (Lun-Dom basado en la fecha seleccionada)
+            const day = selectedDate.getDay();
+            const diff = selectedDate.getDate() - day + (day == 0 ? -6 : 1); // Lunes
+            const monday = new Date(selectedDate); 
+            monday.setDate(diff);
+            const sunday = new Date(monday); 
+            sunday.setDate(monday.getDate() + 6);
+
+            const monStr = toISO(monday);
+            const sunStr = toISO(sunday);
+
+            // Filtrar datos
+            const vidaData = db.vida.find(r => r.fecha >= monStr && r.fecha <= sunStr);
+            const findeData = db.finde.find(r => r.fecha >= monStr && r.fecha <= sunStr);
+
+            // --- RENDER ENTRE SEMANA ---
+            const vContainer = document.getElementById('vida-content');
+            const vFecha = document.getElementById('vida-fecha');
+            const vBasico = document.getElementById('vida-basico');
             
-            carousel.addEventListener('scroll', () => {
-                const cards = document.querySelectorAll('.date-card');
-                const carouselRect = carousel.getBoundingClientRect();
+            if (vidaData) {
+                vFecha.textContent = formatDate(vidaData.fecha);
+                vBasico.innerHTML = `Presidente: <strong>${vidaData.presidente}</strong> • Oración: ${vidaData.oracionInicial}`;
                 
-                for (let card of cards) {
-                    const cardRect = card.getBoundingClientRect();
-                    if (cardRect.left >= carouselRect.left - 20 && cardRect.right <= carouselRect.right + 100) {
-                        if(card.dataset.date) {
-                            const d = new Date(card.dataset.date);
-                            indicator.textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
-                        }
-                        break;
-                    }
-                }
-            });
-        }
+                let html = '';
 
-        function setupSwipeGestures() {
-            setupSwipe('swipe-grupos-hoy', () => cambiarDiaSeleccionado(1), () => cambiarDiaSeleccionado(-1));
-            setupSwipe('card-programa-reuniones', () => cambiarSemana(1), () => cambiarSemana(-1));
-            setupSwipe('swipe-timeline', () => {
-                const hoyStr = toISODate(fechaHoy);
-                let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr);
-                if(paginaGruposActual < Math.ceil(listaFechas.length/diasPorPagina)) {
-                    paginaGruposActual++; renderTodosGruposPaginados();
-                }
-            }, () => {
-                if(paginaGruposActual > 1) {
-                    paginaGruposActual--; renderTodosGruposPaginados();
-                }
-            });
-        }
-        
-        function setupSwipe(elementId, onSwipeLeft, onSwipeRight) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            let touchStartX = 0; let touchStartY = 0;
-            element.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, {passive: true});
-            element.addEventListener('touchend', e => {
-                const diffX = touchStartX - e.changedTouches[0].screenX;
-                const diffY = touchStartY - e.changedTouches[0].screenY;
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                    if (diffX > 0) onSwipeLeft(); else onSwipeRight();
-                }
-            }, {passive: true});
-        }
-
-        function cambiarDiaSeleccionado(d) {
-            fechaSeleccionada.setDate(fechaSeleccionada.getDate() + d);
-            renderAll();
-            const c = document.getElementById('carousel');
-            const s = c.querySelector('.selected');
-            if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
-        }
-
-        function goToToday() {
-            fechaSeleccionada = new Date(fechaHoy);
-            semanaOffset = 0;
-            renderAll();
-            const c = document.getElementById('carousel');
-            setTimeout(() => {
-                const s = c.querySelector('.is-today');
-                if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
-            }, 100);
-        }
-
-        function esMismoDia(f1, f2) {
-            const str1 = f1 instanceof Date ? toISODate(f1) : f1;
-            const str2 = f2 instanceof Date ? toISODate(f2) : f2;
-            return str1 === str2;
-        }
-
-        function renderGruposDia() {
-            const container = document.getElementById('grupos-dia-content');
-            const fechaStr = toISODate(fechaSeleccionada);
-            const data = dbGrupos.find(g => g.fecha === fechaStr);
-            
-            if (!data || !data.grupos || data.grupos.length === 0) {
-                container.innerHTML = `<div class="no-grupos">No hay grupos programados para este día.</div>`;
-                return;
-            }
-            let htmlInner = '';
-            data.grupos.forEach(g => {
-                htmlInner += `
-                <div class="grupo-item-hoy">
-                    <div class="grupo-row-flex">
-                        <div class="gh-hora-hoy">${g.hora}</div>
-                        <div class="grupo-content-col">
-                            <div class="gh-top-row">
-                                <div class="gh-territorio">${g.territorio}</div>
-                                <div class="gh-conductor">${g.conductor}</div>
-                            </div>
-                            ${g.gruposAssigned ? `<div class="gh-asignados">${g.gruposAssigned}</div>` : ''}
-                        </div>
+                // 1. TESOROS
+                html += `
+                <div class="section-tesoros">
+                    <h4>Tesoros de la Biblia</h4>
+                    <div class="part-item">
+                        <div class="part-title">Canción ${vidaData.tesoros_cancion}</div>
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">Palabras de introducción</span><span class="part-time">(${vidaData.tesoros_introduccion_tiempo})</span>
+                        <div class="part-assignee">${vidaData.tesoros_introduccion_hermano}</div>
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">${vidaData.tesoros_parte1_titulo}</span><span class="part-time">(${vidaData.tesoros_parte1_tiempo})</span>
+                        <div class="part-assignee">${vidaData.tesoros_parte1_principal}</div>
+                        ${renderSecondRoom(vidaData.tesoros_parte1_segundaSala)}
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">${vidaData.tesoros_parte2_titulo}</span><span class="part-time">(${vidaData.tesoros_parte2_tiempo})</span>
+                        <div class="part-assignee">${vidaData.tesoros_parte2_principal}</div>
+                        ${renderSecondRoom(vidaData.tesoros_parte2_segundaSala)}
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">Lectura de la Biblia: ${vidaData.tesoros_lectura_textos}</span><span class="part-time">(${vidaData.tesoros_lectura_tiempo})</span>
+                        <div class="part-assignee">Estudiante: <strong>${vidaData.tesoros_lectura_estudiante}</strong></div>
+                        ${renderSecondRoom(vidaData.tesoros_lectura_segundaSala)}
                     </div>
                 </div>`;
-            });
-            const diaSemana = fechaSeleccionada.toLocaleDateString('es-ES', { weekday: 'long' });
-            container.innerHTML = `<div class="grupo-consolidado-card"><div class="grupo-consolidado-header"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Grupos del ${diaSemana}</div>${htmlInner}</div>`;
-        }
 
-        function renderReuniones() {
-            const d = new Date(fechaHoy);
-            const day = d.getDay(); 
-            const diff = d.getDate() - day + (day == 0 ? -6 : 1) + (semanaOffset * 7);
-            const lunes = new Date(d.setDate(diff));
-            const lunesStr = toISODate(lunes);
-            const domingo = new Date(lunes); domingo.setDate(lunes.getDate() + 6);
-            const domingoStr = toISODate(domingo);
-            const rangoTexto = `${lunes.getDate()} ${lunes.toLocaleDateString('es-ES',{month:'short'})} - ${domingo.getDate()} ${domingo.toLocaleDateString('es-ES',{month:'short'})}`;
+                // 2. MAESTROS (Dinámico 1-5 partes)
+                html += `<div class="section-maestros"><h4>Seamos Mejores Maestros</h4>`;
+                if(vidaData.maestros_salaAuxiliar) {
+                   html += `<div style="font-size:12px; margin-bottom:10px; color:#666; font-style:italic;">Sala Auxiliar: ${vidaData.maestros_salaAuxiliar}</div>`;
+                }
 
-            const buscar = (lista) => lista.find(r => r.fecha >= lunesStr && r.fecha <= domingoStr);
-            const dataSemana = buscar(dbVidaMinisterio);
-            const dataFinde = buscar(dbFinSemana);
-
-            const containerSemana = document.getElementById('reunion-semana-detalle');
-            const fechaSemanaEl = document.getElementById('fecha-semana');
-            const badgeSemana = document.getElementById('badge-semana');
-
-            if (dataSemana) {
-                fechaSemanaEl.textContent = rangoTexto;
-                esMismoDia(dataSemana.fecha, fechaHoy) ? badgeSemana.classList.remove('hidden') : badgeSemana.classList.add('hidden');
-                
-                let htmlSemana = `
-                    <div class="info-box">
-                        <div><strong>Presidente:</strong> ${dataSemana.presidente || ""}</div>
-                        <div><strong>Oración inicial:</strong> ${dataSemana.oracionInicial || ""}</div>
-                    </div>
-                    
-                    <div class="reunion-section-block tesoros-section">
-                        <div class="section-heading">📖 TESOROS DE LA BIBLIA</div>
-                        
-                        ${dataSemana.tesoros_cancion ? `<div class="cancion-item">♪ Canción ${dataSemana.tesoros_cancion}</div>` : ''}
-                        
-                        ${dataSemana.tesoros_introduccion_hermano ? `
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">
-                                Palabras de introducción
-                                ${dataSemana.tesoros_introduccion_tiempo ? `<span class="reunion-item-time">(${dataSemana.tesoros_introduccion_tiempo})</span>` : ''}
-                            </div>
-                            <div class="reunion-item-principal">${dataSemana.tesoros_introduccion_hermano}</div>
-                        </div>` : ''}
-                        
-                        ${dataSemana.tesoros_parte1_titulo ? `
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">
-                                ${dataSemana.tesoros_parte1_titulo}
-                                ${dataSemana.tesoros_parte1_tiempo ? `<span class="reunion-item-time">(${dataSemana.tesoros_parte1_tiempo})</span>` : ''}
-                            </div>
-                            ${dataSemana.tesoros_parte1_principal ? `<div class="reunion-item-principal">Sala Principal: ${dataSemana.tesoros_parte1_principal}</div>` : ''}
-                            ${dataSemana.tesoros_parte1_segundaSala ? `<div class="reunion-item-auxiliar">Segunda Sala: ${dataSemana.tesoros_parte1_segundaSala}</div>` : ''}
-                        </div>` : ''}
-                        
-                        ${dataSemana.tesoros_parte2_titulo ? `
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">
-                                ${dataSemana.tesoros_parte2_titulo}
-                                ${dataSemana.tesoros_parte2_tiempo ? `<span class="reunion-item-time">(${dataSemana.tesoros_parte2_tiempo})</span>` : ''}
-                            </div>
-                            ${dataSemana.tesoros_parte2_principal ? `<div class="reunion-item-principal">Sala Principal: ${dataSemana.tesoros_parte2_principal}</div>` : ''}
-                            ${dataSemana.tesoros_parte2_segundaSala ? `<div class="reunion-item-auxiliar">Segunda Sala: ${dataSemana.tesoros_parte2_segundaSala}</div>` : ''}
-                        </div>` : ''}
-                        
-                        ${dataSemana.tesoros_lectura_textos ? `
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">
-                                Lectura de la Biblia ${dataSemana.tesoros_lectura_textos}
-                                ${dataSemana.tesoros_lectura_tiempo ? `<span class="reunion-item-time">(${dataSemana.tesoros_lectura_tiempo})</span>` : ''}
-                            </div>
-                            ${dataSemana.tesoros_lectura_estudiante ? `<div class="reunion-item-principal">Estudiante: ${dataSemana.tesoros_lectura_estudiante}</div>` : ''}
-                            ${dataSemana.tesoros_lectura_principal ? `<div class="reunion-item-principal">Sala Principal: ${dataSemana.tesoros_lectura_principal}</div>` : ''}
-                            ${dataSemana.tesoros_lectura_segundaSala ? `<div class="reunion-item-auxiliar">Segunda Sala: ${dataSemana.tesoros_lectura_segundaSala}</div>` : ''}
-                        </div>` : ''}
-                    </div>
-                    
-                    <div class="reunion-section-block maestros-section">
-                        <div class="section-heading">📚 SEAMOS MEJORES MAESTROS</div>
-                        ${dataSemana.maestros_salaAuxiliar ? `<div style="font-size: 13px; color: #6b7280; margin-bottom: 12px;">Sala Auxiliar: ${dataSemana.maestros_salaAuxiliar}</div>` : ''}
-                `;
-                
-                // Partes variables de MAESTROS
-                for (let i = 1; i <= 5; i++) {
-                    const titulo = dataSemana[`maestros_parte${i}_titulo`];
-                    if (titulo) {
-                        const tiempo = dataSemana[`maestros_parte${i}_tiempo`] || '';
-                        const principal = dataSemana[`maestros_parte${i}_principal`] || '';
-                        const ayudante = dataSemana[`maestros_parte${i}_ayudante`] || '';
-                        const segundaSalaPrincipal = dataSemana[`maestros_parte${i}_segundaSala_principal`] || '';
-                        const segundaSalaAyudante = dataSemana[`maestros_parte${i}_segundaSala_ayudante`] || '';
-                        
-                        htmlSemana += `
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">
-                                ${titulo}
-                                ${tiempo ? `<span class="reunion-item-time">(${tiempo})</span>` : ''}
-                            </div>
-                            ${principal ? `<div class="reunion-item-principal">${principal}${ayudante ? ' / ' + ayudante + ' (Ayudante)' : ''}</div>` : ''}
-                            ${segundaSalaPrincipal ? `<div class="reunion-item-auxiliar">Segunda Sala: ${segundaSalaPrincipal}${segundaSalaAyudante ? ' / ' + segundaSalaAyudante + ' (Ayudante)' : ''}</div>` : ''}
+                for(let i=1; i<=5; i++) {
+                    const titulo = vidaData[`maestros_parte${i}_titulo`];
+                    if(titulo) {
+                        html += `
+                        <div class="part-item">
+                            <span class="part-title">${titulo}</span><span class="part-time">(${vidaData[`maestros_parte${i}_tiempo`]})</span>
+                            <div class="part-assignee">${formatHelper(vidaData[`maestros_parte${i}_principal`], vidaData[`maestros_parte${i}_ayudante`])}</div>
+                            ${renderSecondRoom(vidaData[`maestros_parte${i}_segundaSala_principal`], vidaData[`maestros_parte${i}_segundaSala_ayudante`])}
                         </div>`;
                     }
                 }
+                html += `</div>`;
+
+                // 3. VIDA CRISTIANA
+                html += `
+                <div class="section-vida">
+                    <h4>Nuestra Vida Cristiana</h4>
+                    <div class="part-item"><div class="part-title">Canción ${vidaData.vida_cancion1}</div></div>
+                    <div class="part-item">
+                        <span class="part-title">${vidaData.vida_parte1_titulo}</span><span class="part-time">(${vidaData.vida_parte1_tiempo})</span>
+                        <div class="part-assignee">${vidaData.vida_parte1_hermano}</div>
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">Estudio bíblico de la congregación</span><span class="part-time">(${vidaData.vida_estudioBiblico_tiempo})</span>
+                        <div class="part-assignee">${vidaData.vida_estudioBiblico_conductor} / Lector: ${vidaData.vida_estudioBiblico_lector}</div>
+                    </div>
+                    <div class="part-item">
+                         <span class="part-title">Conclusión</span><span class="part-time">(${vidaData.vida_conclusion_tiempo})</span>
+                         <div class="part-assignee">${vidaData.vida_conclusion_hermano} • Oración: ${vidaData.oracionFinal}</div>
+                    </div>
+                    <div class="part-item"><div class="part-title">Canción ${vidaData.vida_cancion2}</div></div>
+                </div>`;
+
+                // 4. ASIGNACIONES (Tabla Gris)
+                html += renderAssignmentsTable(vidaData, 'entreSemana');
                 
-                htmlSemana += `</div>
-                    
-                    <div class="reunion-section-block vida-section">
-                        <div class="section-heading">❤️ NUESTRA VIDA CRISTIANA</div>
-                        
-                        ${dataSemana.vida_cancion1 ? `<div class="cancion-item">♪ Canción ${dataSemana.vida_cancion1}</div>` : ''}
-                        
-                        ${dataSemana.vida_parte1_titulo ? `
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">
-                                ${dataSemana.vida_parte1_titulo}
-                                ${dataSemana.vida_parte1_tiempo ? `<span class="reunion-item-time">(${dataSemana.vida_parte1_tiempo})</span>` : ''}
-                            </div>
-                            ${dataSemana.vida_parte1_hermano ? `<div class="reunion-item-principal">${dataSemana.vida_parte1_hermano}</div>` : ''}
-                        </div>` : ''}
-                        
-                        ${dataSemana.vida_estudioBiblico_conductor ? `
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">
-                                Estudio bíblico de la congregación
-                                ${dataSemana.vida_estudioBiblico_tiempo ? `<span class="reunion-item-time">(${dataSemana.vida_estudioBiblico_tiempo})</span>` : ''}
-                            </div>
-                            <div class="reunion-item-principal">Conductor/Lector: ${dataSemana.vida_estudioBiblico_conductor}${dataSemana.vida_estudioBiblico_lector ? ' / ' + dataSemana.vida_estudioBiblico_lector : ''}</div>
-                        </div>` : ''}
-                        
-                        ${dataSemana.vida_conclusion_hermano ? `
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">
-                                Palabras de conclusión
-                                ${dataSemana.vida_conclusion_tiempo ? `<span class="reunion-item-time">(${dataSemana.vida_conclusion_tiempo})</span>` : ''}
-                            </div>
-                            <div class="reunion-item-principal">${dataSemana.vida_conclusion_hermano}</div>
-                        </div>` : ''}
-                        
-                        ${dataSemana.vida_cancion2 ? `<div class="cancion-item">♪ Canción ${dataSemana.vida_cancion2}</div>` : ''}
-                    </div>
-                    
-                    <div class="info-box">
-                        <div><strong>Oración final:</strong> ${dataSemana.oracionFinal || ""}</div>
-                    </div>
-                    
-                    <div class="asignaciones-box">
-                        <div class="asignaciones-header">📋 Asignaciones y Responsabilidades</div>
-                        
-                        ${dataSemana.limpiezaSuperficial ? `<div style="margin-bottom: 12px; font-size: 13px; color: #4b5563;"><strong>Limpieza - Jueves:</strong> Superficial Grupo ${dataSemana.limpiezaSuperficial}</div>` : ''}
-                        
-                        <table class="asignaciones-table">
-                            ${dataSemana.acomodadorAuditorio1 || dataSemana.acomodadorAuditorio2 ? `<tr><td>Auditorio:</td><td>${[dataSemana.acomodadorAuditorio1, dataSemana.acomodadorAuditorio2].filter(Boolean).join(', ')}</td></tr>` : ''}
-                            ${dataSemana.acomodadorPuerta ? `<tr><td>Puerta Principal:</td><td>${dataSemana.acomodadorPuerta}</td></tr>` : ''}
-                            ${dataSemana.microfonos1 || dataSemana.microfonos2 ? `<tr><td>Micrófonos:</td><td>${[dataSemana.microfonos1, dataSemana.microfonos2].filter(Boolean).join(', ')}</td></tr>` : ''}
-                            ${dataSemana.audioVideo1 || dataSemana.audioVideo2 ? `<tr><td>Audio y Video:</td><td>${[dataSemana.audioVideo1, dataSemana.audioVideo2].filter(Boolean).join(', ')}</td></tr>` : ''}
-                            ${dataSemana.plataforma ? `<tr><td>Plataforma:</td><td>${dataSemana.plataforma}</td></tr>` : ''}
-                            ${dataSemana.encargado ? `<tr><td>Encargado:</td><td>${dataSemana.encargado}</td></tr>` : ''}
-                        </table>
-                    </div>
-                `;
-                
-                containerSemana.innerHTML = htmlSemana;
+                vContainer.innerHTML = html;
             } else {
-                fechaSemanaEl.textContent = rangoTexto + " (Sin datos)";
-                badgeSemana.classList.add('hidden');
-                containerSemana.innerHTML = `<div class="no-grupos">Sin programación cargada.</div>`;
+                vContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No hay programación disponible.</div>';
+                vFecha.textContent = "Sin datos"; vBasico.innerHTML = "";
             }
 
-            // FIN DE SEMANA
-            const containerFinde = document.getElementById('reunion-finde-detalle');
-            const fechaFindeEl = document.getElementById('fecha-finde');
-            const badgeFinde = document.getElementById('badge-finde');
+            // --- RENDER FIN DE SEMANA ---
+            const fContainer = document.getElementById('finde-content');
+            const fFecha = document.getElementById('finde-fecha');
+            const fBasico = document.getElementById('finde-basico');
 
-            if (dataFinde) {
-                const fParts = dataFinde.fecha.split('-');
-                const fDate = new Date(fParts[0], fParts[1]-1, fParts[2]);
-                fechaFindeEl.textContent = fDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+            if (findeData) {
+                fFecha.textContent = formatDate(findeData.fecha);
+                fBasico.innerHTML = `Presidente: <strong>${findeData.presidente}</strong>`;
 
-                esMismoDia(dataFinde.fecha, fechaHoy) ? badgeFinde.classList.remove('hidden') : badgeFinde.classList.add('hidden');
+                let html = '';
                 
-                let htmlFinde = `
-                    <div class="info-box">
-                        <div><strong>Presidente:</strong> ${dataFinde.presidente || ""}</div>
-                        <div><strong>Oración inicial:</strong> ${dataFinde.oracionInicial || ""}</div>
+                // DISCURSO
+                html += `
+                <div class="section-tesoros" style="background:white; border:1px solid #eee; margin-bottom:15px;">
+                    <div class="part-item" style="border:none;">
+                        <span class="part-title">Discurso Público</span>
+                        <div style="font-size:16px; font-weight:700; color:var(--jw-text-main); margin-top:4px;">"${findeData.discursoPublico_tema}"</div>
+                        <div class="part-assignee" style="margin-top:4px;">${findeData.discursoPublico_orador} <span style="font-size:12px; color:#666;">(${findeData.discursoPublico_congregacion})</span></div>
                     </div>
-                    
-                    <div class="reunion-section-block publico-section">
-                        <div class="section-heading">🎤 DISCURSO PÚBLICO</div>
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">${dataFinde.discursoPublico_tema || ""}</div>
-                            <div class="reunion-item-principal">${dataFinde.discursoPublico_orador || ""}</div>
-                            ${dataFinde.discursoPublico_congregacion ? `<div class="reunion-item-auxiliar">Cong. ${dataFinde.discursoPublico_congregacion}</div>` : ''}
+                </div>`;
+
+                // ATALAYA
+                html += `
+                <div class="section-tesoros" style="background:white; border:1px solid #eee;">
+                    <div class="part-item" style="border:none;">
+                        <span class="part-title">Estudio de La Atalaya</span>
+                        <div style="font-size:15px; font-weight:600; margin-top:4px;">${findeData.estudioAtalaya_articulo}</div>
+                        <div class="part-assignee" style="margin-top:4px;">
+                            Conductor: ${findeData.estudioAtalaya_conductor}<br>
+                            Lector: ${findeData.estudioAtalaya_lector}
                         </div>
                     </div>
-                    
-                    <div class="reunion-section-block atalaya-section">
-                        <div class="section-heading">🗼 ESTUDIO DE LA ATALAYA</div>
-                        <div class="reunion-item">
-                            <div class="reunion-item-header">${dataFinde.estudioAtalaya_articulo || ""}</div>
-                            ${dataFinde.estudioAtalaya_conductor ? `<div class="reunion-item-principal">Conductor: ${dataFinde.estudioAtalaya_conductor}</div>` : ''}
-                            ${dataFinde.estudioAtalaya_lector ? `<div class="reunion-item-principal">Lector: ${dataFinde.estudioAtalaya_lector}</div>` : ''}
-                        </div>
-                    </div>
-                    
-                    <div class="info-box">
-                        <div><strong>Oración final:</strong> ${dataFinde.oracionFinal || ""}</div>
-                    </div>
-                    
-                    <div class="asignaciones-box">
-                        <div class="asignaciones-header">📋 Asignaciones y Responsabilidades</div>
-                        
-                        ${dataFinde.limpiezaAFondo ? `<div style="margin-bottom: 8px; font-size: 13px; color: #4b5563;"><strong>Limpieza - Domingo:</strong> A Fondo Grupo ${dataFinde.limpiezaAFondo}</div>` : ''}
-                        ${dataFinde.hospitalidad ? `<div style="margin-bottom: 12px; font-size: 13px; color: #4b5563;"><strong>Hospitalidad - Domingo:</strong> Grupo ${dataFinde.hospitalidad}</div>` : ''}
-                        
-                        <table class="asignaciones-table">
-                            ${dataFinde.acomodadorAuditorio1 || dataFinde.acomodadorAuditorio2 ? `<tr><td>Auditorio:</td><td>${[dataFinde.acomodadorAuditorio1, dataFinde.acomodadorAuditorio2].filter(Boolean).join(', ')}</td></tr>` : ''}
-                            ${dataFinde.acomodadorPuerta ? `<tr><td>Puerta Principal:</td><td>${dataFinde.acomodadorPuerta}</td></tr>` : ''}
-                            ${dataFinde.microfonos1 || dataFinde.microfonos2 ? `<tr><td>Micrófonos:</td><td>${[dataFinde.microfonos1, dataFinde.microfonos2].filter(Boolean).join(', ')}</td></tr>` : ''}
-                            ${dataFinde.audioVideo1 || dataFinde.audioVideo2 ? `<tr><td>Audio y Video:</td><td>${[dataFinde.audioVideo1, dataFinde.audioVideo2].filter(Boolean).join(', ')}</td></tr>` : ''}
-                            ${dataFinde.plataforma ? `<tr><td>Plataforma:</td><td>${dataFinde.plataforma}</td></tr>` : ''}
-                            ${dataFinde.encargado ? `<tr><td>Encargado:</td><td>${dataFinde.encargado}</td></tr>` : ''}
-                        </table>
-                    </div>
-                `;
-                
-                containerFinde.innerHTML = htmlFinde;
+                </div>`;
+
+                // ORACIÓN FINAL
+                html += `<div style="margin-top:15px; font-size:13px; padding-left:4px;">Canción Final y Oración: <strong>${findeData.oracionFinal}</strong></div>`;
+
+                // ASIGNACIONES FINDE
+                html += renderAssignmentsTable(findeData, 'finSemana');
+
+                fContainer.innerHTML = html;
             } else {
-                fechaFindeEl.textContent = "Sin datos";
-                badgeFinde.classList.add('hidden');
-                containerFinde.innerHTML = `<div class="no-grupos">Sin programación.</div>`;
+                fContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No hay programación disponible.</div>';
+                fFecha.textContent = "Sin datos"; fBasico.innerHTML = "";
             }
+        }
+
+        // --- HELPERS DE RENDERIZADO ---
+        function renderSecondRoom(principal, ayudante) {
+            if (!principal) return '';
+            let text = principal;
+            if (ayudante) text += ` / ${ayudante} (Ayudante)`;
+            return `<div class="second-room"><span class="second-room-label">Segunda Sala:</span> ${text}</div>`;
+        }
+
+        function formatHelper(principal, ayudante) {
+            if (!ayudante) return principal;
+            return `${principal} / ${ayudante} (Ayudante)`;
+        }
+
+        function renderAssignmentsTable(data, type) {
+            // Construye la tabla gris al final
+            if (!data) return '';
+            
+            let items = '';
+            // Limpieza y Hospitalidad son especiales (solo numero grupo)
+            if (type === 'entreSemana' && data.limpiezaSuperficial) items += rowAsig('Limpieza Superficial', 'Grupo ' + data.limpiezaSuperficial);
+            if (type === 'finSemana' && data.limpiezaAFondo) items += rowAsig('Limpieza a Fondo', 'Grupo ' + data.limpiezaAFondo);
+            if (type === 'finSemana' && data.hospitalidad) items += rowAsig('Hospitalidad', 'Grupo ' + data.hospitalidad);
+            
+            // Asignaciones comunes
+            if(data.acomodadorAuditorio1) items += rowAsig('Acomodadores', `${data.acomodadorAuditorio1} | ${data.acomodadorAuditorio2||''}`);
+            if(data.acomodadorPuerta) items += rowAsig('Puerta', data.acomodadorPuerta);
+            if(data.microfonos1) items += rowAsig('Micrófonos', `${data.microfonos1} | ${data.microfonos2||''}`);
+            if(data.audioVideo1) items += rowAsig('Audio/Video', `${data.audioVideo1} | ${data.audioVideo2||''}`);
+            if(data.plataforma) items += rowAsig('Plataforma', data.plataforma);
+
+            return `
+            <div class="assignments-container">
+                <div class="assignments-title">Asignaciones y Responsabilidades</div>
+                <div class="assignments-grid">
+                    ${items}
+                </div>
+            </div>`;
+        }
+
+        function rowAsig(label, value) {
+            if(!value) return '';
+            return `<div class="assign-row"><span class="assign-label">${label}</span><span class="assign-value">${value}</span></div>`;
+        }
+
+        // === FUNCIONES GENERALES Y GRUPOS ===
+        function renderGrupos() {
+            const container = document.getElementById('grupos-dia-content');
+            const dateStr = toISO(selectedDate);
+            const data = db.grupos.find(g => g.fecha === dateStr);
+
+            if(!data || !data.grupos) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#999; font-style:italic;">No hay grupos hoy.</div>';
+                return;
+            }
+
+            // Manejo de JSON en grupos (según tu archivo CSV antiguo/nuevo)
+            let gruposArr = [];
+            try {
+                // Si viene como string JSON parsealo, si ya es objeto úsalo
+                gruposArr = (typeof data.grupos === 'string') ? JSON.parse(data.grupos) : data.grupos;
+            } catch(e) {
+                console.log("Error parseando grupos, asumiendo estructura plana no soportada aún o error data");
+                container.innerHTML = "Error en formato de grupos"; return;
+            }
+
+            container.innerHTML = gruposArr.map(g => `
+                <div class="grupo-hoy-card">
+                    <div class="grupo-row">
+                        <div class="grupo-time">${g.hora}</div>
+                        <div class="grupo-details">
+                            <div class="grupo-terr">${g.territorio}</div>
+                            <div class="grupo-cond">Cond: ${g.conductor}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function renderAnuncios() {
-            const limpiar = (f) => {
-                if(!f) return "";
-                const parts = f.split('-');
-                if(parts.length === 3) {
-                    const d = new Date(parts[0], parts[1]-1, parts[2]);
-                    const mes = d.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase().replace('.', '');
-                    return `${d.getDate()} ${mes}`;
-                }
-                return f;
-            };
-            const html = dbAnuncios.map(a => `<div class="anuncio"><div class="anuncio-date">${limpiar(a.fechaInicio)} ${a.fechaFin ? '- ' + limpiar(a.fechaFin) : ''}</div><div class="anuncio-text">${a.texto}</div></div>`).join('');
-            document.getElementById('anuncios-lista').innerHTML = html || '<div class="no-grupos">No hay anuncios recientes.</div>';
-        }
-
-        function renderAll() {
-            const d = new Date(fechaSeleccionada);
-            document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
-
-            const day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
-            const mon = new Date(d.setDate(diff)); const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+            const container = document.getElementById('anuncios-content');
+            const now = toISO(new Date());
+            // Filtrar anuncios vigentes
+            const validos = db.anuncios.filter(a => a.fechaInicio <= now && a.fechaFin >= now);
             
-            const btnToday = document.getElementById('btn-today');
-            if (!esMismoDia(fechaSeleccionada, fechaHoy)) btnToday.style.display = 'flex'; else btnToday.style.display = 'none';
-
-            renderCalendarGrid();
-            renderCarousel();
-            renderGruposDia();
-            renderReuniones();
-            renderTodosGruposPaginados();
-            renderAnuncios();
-        }
-
-        function formatearFecha(fInput) { 
-            if(!fInput) return "";
-            const parts = fInput.split('-');
-            const d = new Date(parts[0], parts[1]-1, parts[2]);
-            return d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-        }
-        
-        function renderCalendarGrid() {
-            document.getElementById('calendar-month').textContent = fechaVisualizadaCalendario.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
-            const grid = document.getElementById('calendario-grid'); grid.innerHTML='';
-            ['D','L','M','M','J','V','S'].forEach(d=>grid.innerHTML+=`<div class="calendar-day-header">${d}</div>`);
-            const first = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), 1);
-            const days = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth()+1, 0).getDate();
-            for(let i=0; i<first.getDay(); i++) grid.innerHTML+=`<div></div>`;
-            for(let i=1; i<=days; i++) {
-                let d = document.createElement('div'); d.className='calendar-day'; d.textContent=i;
-                const fStr = `${fechaVisualizadaCalendario.getFullYear()}-${String(fechaVisualizadaCalendario.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
-                if(fStr === toISODate(fechaSeleccionada)) d.classList.add('selected');
-                if(fStr === toISODate(fechaHoy)) d.classList.add('today');
-                d.onclick=()=>{ fechaSeleccionada = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), i); renderAll(); };
-                grid.appendChild(d);
+            if(validos.length === 0) {
+                container.innerHTML = '<div style="text-align:center; color:#999;">No hay anuncios.</div>';
+                return;
             }
+            
+            container.innerHTML = validos.map(a => `
+                <div class="anuncio">
+                    <div class="anuncio-date">Vigente hasta: ${formatDateShort(a.fechaFin)}</div>
+                    <div>${a.texto}</div>
+                </div>
+            `).join('');
         }
-        
+
         function renderCarousel() {
-            const c = document.getElementById('carousel'); c.innerHTML = '';
+            const c = document.getElementById('carousel');
+            c.innerHTML = '';
             
-            const b = new Date(fechaHoy);
-            let startBase = b;
-            
-            if (fechaSeleccionada > new Date(b.getTime() + (60*86400000)) || fechaSeleccionada < new Date(b.getTime() - (10*86400000))) {
-                startBase = new Date(fechaSeleccionada);
-            }
-
-            for(let i=-2; i<=60; i++) {
-                const f = new Date(startBase); f.setDate(startBase.getDate() + i);
-                const card = document.createElement('div');
-                card.dataset.date = toISODate(f);
+            // Generar +/- 15 días
+            for(let i=-5; i<=15; i++) {
+                let d = new Date(today);
+                d.setDate(today.getDate() + i);
                 
-                card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`;
-                card.innerHTML = `<div class="date-card-day">${f.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div><div class="date-card-number">${f.getDate()}</div>`;
-                card.onclick = () => { 
-                    fechaSeleccionada = f; 
-                    renderAll(); 
+                let el = document.createElement('div');
+                el.className = `date-card ${sameDay(d, selectedDate) ? 'selected' : ''} ${sameDay(d, today) ? 'is-today' : ''}`;
+                el.innerHTML = `
+                    <div class="date-card-day">${d.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div>
+                    <div class="date-card-number">${d.getDate()}</div>
+                `;
+                el.onclick = () => {
+                    selectedDate = d;
+                    renderCarousel(); // Re-render para actualizar selección
+                    renderGrupos();
+                    renderReuniones();
+                    document.getElementById('month-indicator').innerText = d.toLocaleDateString('es-ES', {month:'long'});
                 };
-                c.appendChild(card);
+                c.appendChild(el);
             }
-        }
-        
-        function renderTodosGruposPaginados() {
-            const tl = document.getElementById('swipe-timeline');
-            const pagContainer = document.getElementById('paginacion-container');
-            tl.innerHTML = ''; pagContainer.innerHTML = '';
-            
-            const hoyStr = toISODate(fechaHoy);
-            let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr);
-            listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-            
-            if (listaFechas.length === 0) { tl.innerHTML = '<div class="no-grupos">No hay grupos futuros programados.</div>'; pagContainer.classList.add('hidden'); return; }
-            
-            const totalPaginas = Math.ceil(listaFechas.length / diasPorPagina);
-            if (paginaGruposActual > totalPaginas) paginaGruposActual = 1;
-            const inicio = (paginaGruposActual - 1) * diasPorPagina;
-            const fechasPagina = listaFechas.slice(inicio, inicio + diasPorPagina);
-            
-            fechasPagina.forEach(diaData => {
-                const fechaNice = formatearFecha(diaData.fecha);
-                const dayBlock = document.createElement('div'); 
-                dayBlock.className = 'timeline-day-block';
-                if (esMismoDia(diaData.fecha, fechaSeleccionada)) dayBlock.classList.add('active-day');
-
-                const header = document.createElement('div'); header.className = 'timeline-date-header'; header.textContent = fechaNice;
-                dayBlock.appendChild(header);
-                
-                diaData.grupos.forEach(g => {
-                    const row = document.createElement('div'); row.className = 'timeline-row';
-                    row.innerHTML = `<div class="grupo-row-flex"><div class="gh-hora-timeline">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.gruposAssigned ? `<div class="gh-asignados">${g.gruposAssigned}</div>` : ''}</div></div>`;
-                    dayBlock.appendChild(row);
-                });
-                tl.appendChild(dayBlock);
-            });
-            
-            if (totalPaginas > 1) {
-                pagContainer.classList.remove('hidden');
-                
-                const btnPrev = document.createElement('button');
-                btnPrev.className = 'page-btn';
-                btnPrev.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>';
-                btnPrev.disabled = paginaGruposActual === 1;
-                btnPrev.onclick = () => { paginaGruposActual--; renderTodosGruposPaginados(); };
-                pagContainer.appendChild(btnPrev);
-
-                for (let i = 1; i <= totalPaginas; i++) {
-                    const btn = document.createElement('button');
-                    btn.className = `page-btn ${i === paginaGruposActual ? 'active' : ''}`;
-                    btn.textContent = i;
-                    btn.onclick = () => { paginaGruposActual = i; renderTodosGruposPaginados(); };
-                    pagContainer.appendChild(btn);
-                }
-
-                const btnNext = document.createElement('button');
-                btnNext.className = 'page-btn';
-                btnNext.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>';
-                btnNext.disabled = paginaGruposActual === totalPaginas;
-                btnNext.onclick = () => { paginaGruposActual++; renderTodosGruposPaginados(); };
-                pagContainer.appendChild(btnNext);
-            } else { pagContainer.classList.add('hidden'); }
-        }
-        
-        function toggleSection(id) { 
-            const c = document.getElementById(id + '-content'); 
-            const card = document.getElementById('card-' + id);
-            sectionsExpanded[id] = !sectionsExpanded[id]; 
-            c.classList.toggle('expanded'); 
-            if (card) card.classList.toggle('active-card');
-            
-            if(id === 'todos-grupos') { 
-                const btnText = document.getElementById('ver-todos-text');
-                const btn = document.getElementById('ver-todos-btn');
-                if (sectionsExpanded[id]) { btnText.textContent = "Ocultar grupos"; btn.classList.add('expanded'); paginaGruposActual = 1; renderTodosGruposPaginados(); } else { btnText.textContent = "Ver todos los grupos"; btn.classList.remove('expanded'); }
-            }
-            if(id === 'calendario') {
-                const calText = document.getElementById('calendar-toggle-text');
-                if (sectionsExpanded[id]) { calText.textContent = "Ocultar calendario"; } else { calText.textContent = "Mostrar calendario"; }
-            }
+            document.getElementById('month-indicator').innerText = selectedDate.toLocaleDateString('es-ES', {month:'long'});
         }
 
-        function scrollCarousel(d) { document.getElementById('carousel').scrollBy({ left: d * 120, behavior: 'smooth' }); }
-        function cambiarSemana(d) { semanaOffset += d; renderReuniones(); }
-        function resetearSemana() { semanaOffset = 0; renderReuniones(); }
-        function navMes(d) { fechaVisualizadaCalendario.setMonth(fechaVisualizadaCalendario.getMonth() + d); renderCalendarGrid(); }
+        function goToToday() {
+            selectedDate = new Date();
+            renderCarousel();
+            renderGrupos();
+            renderReuniones();
+        }
 
-        iniciarApp();
+        function formatDate(isoStr) {
+            if(!isoStr) return '';
+            // Ajuste zona horaria simple
+            const parts = isoStr.split('-');
+            const d = new Date(parts[0], parts[1]-1, parts[2]);
+            return d.toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long'});
+        }
+
+        function formatDateShort(isoStr) {
+            const parts = isoStr.split('-');
+            return `${parts[2]}/${parts[1]}`;
+        }
+
+        // ARRANCAR
+        init();
     </script>
 </body>
 </html>
