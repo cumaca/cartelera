@@ -142,7 +142,7 @@
         /* HORA: GRIS MEDIO */
         .gh-hora-hoy { 
             font-size: 13px; font-weight: 800; 
-            color: #6b7280; /* GRIS MEDIO */
+            color: #6b7280; 
             background: #ffffff; border: 1px solid #d1d5db; 
             padding: 6px 0; border-radius: 8px; 
             white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; line-height: 1.3; 
@@ -190,7 +190,6 @@
             display: flex; align-items: center; justify-content: center; cursor: pointer; 
             color: #16a34a; 
         }
-        /* CORRECCIÓN FLECHAS NAV */
         .week-nav-arrow svg { width: 20px; height: 20px; stroke: #16a34a; stroke-width: 2.5; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
 
@@ -206,39 +205,108 @@
         .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
         .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; }
         
-        /* CORRECCIÓN FLECHA SECCIÓN */
         .section-arrow { width: 20px; height: 20px; transition: transform 0.3s; fill: none; stroke: #9ca3af; stroke-width: 2; margin-top: 2px; }
         .reunion-card.active-card .section-arrow { transform: rotate(180deg); stroke: #16a34a; }
 
-        .reunion-timeline-item { position: relative; padding-left: 24px; padding-bottom: 20px; }
-        .reunion-timeline-item::before { content: ''; position: absolute; left: 6px; top: 10px; bottom: -10px; width: 2px; background: #f3f4f6; }
-        .reunion-timeline-item:last-child::before { display: none; }
-        .reunion-timeline-dot { position: absolute; left: 0; top: 7px; width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid #e5e7eb; z-index: 1; }
+        /* SECCIONES DE REUNIÓN - ESTILO JW.ORG */
+        .reunion-section-block { margin-bottom: 24px; border-radius: 12px; overflow: hidden; }
         
-        .tesoros .reunion-timeline-dot { border-color: #10b981; } .tesoros .section-heading { color: #10b981; }
-        .maestros .reunion-timeline-dot { border-color: #f59e0b; } .maestros .section-heading { color: #f59e0b; }
-        .vida .reunion-timeline-dot { border-color: #ef4444; } .vida .section-heading { color: #ef4444; }
-        .publico .reunion-timeline-dot { border-color: #8b5cf6; } .publico .section-heading { color: #8b5cf6; }
-        .atalaya .reunion-timeline-dot { border-color: #0ea5e9; } .atalaya .section-heading { color: #0ea5e9; }
+        /* TESOROS - FONDO GRIS CLARO */
+        .tesoros-section { background: #F1F1F1; padding: 16px; }
+        .tesoros-section .section-heading { 
+            font-size: 15px; font-weight: 700; color: #4b5563; 
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
+        }
         
-        .section-heading { font-size: 12px; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase; }
-        .reunion-item-content { font-size: 14px; color: #374151; line-height: 1.5; }
-        /* TÍTULOS PARTES: GRIS MEDIO */
-        .reunion-item-content strong { color: #6b7280; }
+        /* MAESTROS - CAFÉ/DORADO */
+        .maestros-section { background: #FFF9F0; padding: 16px; border-left: 4px solid #9B6D17; }
+        .maestros-section .section-heading { 
+            font-size: 15px; font-weight: 700; color: #9B6D17; 
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
+        }
         
-        .reunion-item-auxiliar { display: block; margin-top: 2px; font-size: 14px; color: #374151; padding-left: 16px; border-left: 2px solid #e5e7eb; }
+        /* VIDA - ROJO VINO */
+        .vida-section { background: #FFF5F5; padding: 16px; border-left: 4px solid #942926; }
+        .vida-section .section-heading { 
+            font-size: 15px; font-weight: 700; color: #942926; 
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
+        }
         
-        .info-box { background: #f9fafb; border-radius: 12px; padding: 12px; margin-bottom: 20px; font-size: 13px; color: #4b5563; }
-        .reunion-block { margin-bottom: 32px; }
+        /* PÚBLICO - MORADO */
+        .publico-section { background: #F5F3FF; padding: 16px; border-left: 4px solid #8b5cf6; }
+        .publico-section .section-heading { 
+            font-size: 15px; font-weight: 700; color: #8b5cf6; 
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
+        }
+        
+        /* ATALAYA - AZUL */
+        .atalaya-section { background: #F0F9FF; padding: 16px; border-left: 4px solid #0ea5e9; }
+        .atalaya-section .section-heading { 
+            font-size: 15px; font-weight: 700; color: #0ea5e9; 
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px; 
+        }
+        
+        /* ITEMS DE REUNIÓN */
+        .reunion-item { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .reunion-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        
+        .reunion-item-header { 
+            font-size: 14px; font-weight: 600; color: #374151; 
+            margin-bottom: 6px; line-height: 1.4;
+        }
+        .reunion-item-time { 
+            font-size: 13px; color: #6b7280; 
+            margin-left: 4px; font-weight: 500;
+        }
+        
+        .reunion-item-principal { 
+            font-size: 14px; color: #4b5563; 
+            line-height: 1.5; margin-top: 4px; 
+        }
+        
+        .reunion-item-auxiliar { 
+            font-size: 14px; color: #6b7280; 
+            margin-top: 4px; padding-left: 16px; 
+            border-left: 2px solid #e5e7eb; 
+            line-height: 1.5;
+        }
+        
+        .cancion-item { 
+            font-size: 14px; font-weight: 600; color: #374151; 
+            margin-bottom: 12px; 
+        }
+        
+        /* INFO BOX */
+        .info-box { 
+            background: #f9fafb; border-radius: 12px; 
+            padding: 12px; margin-bottom: 20px; 
+            font-size: 13px; color: #4b5563; 
+        }
+        .info-box div { margin-bottom: 6px; }
+        .info-box div:last-child { margin-bottom: 0; }
+        .info-box strong { color: #374151; font-weight: 600; }
 
-        .asignaciones-box { background: #f3f4f6; border-radius: 16px; padding: 16px; margin-top: 16px; }
-        /* TÍTULO ASIGNACIONES: GRIS MEDIO #6b7280 */
-        .asignaciones-header { font-size: 12px; font-weight: 800; color: #6b7280; text-transform: uppercase; margin-bottom: 12px; }
+        /* ASIGNACIONES BOX */
+        .asignaciones-box { 
+            background: #f3f4f6; border-radius: 16px; 
+            padding: 16px; margin-top: 20px; 
+        }
+        .asignaciones-header { 
+            font-size: 13px; font-weight: 800; 
+            color: #6b7280; text-transform: uppercase; 
+            margin-bottom: 12px; letter-spacing: 0.5px;
+        }
         .asignaciones-table { width: 100%; border-collapse: collapse; }
         .asignaciones-table tr { border-bottom: 1px solid #e5e7eb; }
         .asignaciones-table tr:last-child { border-bottom: none; }
-        .asignaciones-table td { padding: 8px 0; font-size: 13px; color: #4b5563; }
-        .asignaciones-table td:first-child { font-weight: 600; color: #6b7280; width: 40%; }
+        .asignaciones-table td { 
+            padding: 8px 0; font-size: 13px; 
+            color: #4b5563; vertical-align: top; 
+        }
+        .asignaciones-table td:first-child { 
+            font-weight: 600; color: #6b7280; 
+            width: 40%; padding-right: 12px; 
+        }
 
         /* ANUNCIOS */
         .anuncio { background: #fffbeb; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start; }
@@ -456,6 +524,7 @@
                 }
             });
         }
+        
         function setupSwipe(elementId, onSwipeLeft, onSwipeRight) {
             const element = document.getElementById(elementId);
             if (!element) return;
@@ -545,47 +614,213 @@
             if (dataSemana) {
                 fechaSemanaEl.textContent = rangoTexto;
                 esMismoDia(dataSemana.fecha, fechaHoy) ? badgeSemana.classList.remove('hidden') : badgeSemana.classList.add('hidden');
-                const asig = parsearListaFlexible(dataSemana.asignacionesLista || "");
-                const vida = parsearListaFlexible(dataSemana.vidaCristianaLista || "");
                 
-                containerSemana.innerHTML = `
-                    <div class="info-box"><div><strong>Presidente:</strong> ${dataSemana.presidente || ""}</div><div><strong>Oración inicial:</strong> ${dataSemana.oracionInicial || ""}</div></div>
-                    <div class="tesoros re-block"><h4 class="section-heading">TESOROS DE LA BIBLIA</h4>${(dataSemana.tesorosPalabra||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<span class="reunion-item-auxiliar">Segunda Sala: ${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
-                    <div class="maestros re-block"><h4 class="section-heading">SEAMOS MEJORES MAESTROS</h4>${(dataSemana.hagamosMejores||[]).map(i=>`<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${i.titulo}</strong><br>${i.principal} ${i.auxiliar?`<span class="reunion-item-auxiliar">Segunda Sala: ${i.auxiliar}</span>`:''}</div></div>`).join('')}</div>
-                    <div class="vida re-block"><h4 class="section-heading">NUESTRA VIDA CRISTIANA</h4>${vida.map(v => `<div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${v.rol}</strong><br>${v.nombre}</div></div>`).join('')}</div>
-                    <div class="info-box"><div><strong>Oración final:</strong> ${dataSemana.oracionFinal || ""}</div></div>
-                    <div class="asignaciones-box"><div class="asignaciones-header">Asignaciones Mecánicas</div><table class="asignaciones-table">${asig.map(a=>`<tr><td>${a.rol}</td><td>${a.nombre}</td></tr>`).join('')}</table></div>`;
+                let htmlSemana = `
+                    <div class="info-box">
+                        <div><strong>Presidente:</strong> ${dataSemana.presidente || ""}</div>
+                        <div><strong>Oración inicial:</strong> ${dataSemana.oracionInicial || ""}</div>
+                    </div>
+                    
+                    <div class="reunion-section-block tesoros-section">
+                        <div class="section-heading">📖 TESOROS DE LA BIBLIA</div>
+                        
+                        ${dataSemana.tesoros_cancion ? `<div class="cancion-item">♪ Canción ${dataSemana.tesoros_cancion}</div>` : ''}
+                        
+                        ${dataSemana.tesoros_introduccion_hermano ? `
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">
+                                Palabras de introducción
+                                ${dataSemana.tesoros_introduccion_tiempo ? `<span class="reunion-item-time">(${dataSemana.tesoros_introduccion_tiempo})</span>` : ''}
+                            </div>
+                            <div class="reunion-item-principal">${dataSemana.tesoros_introduccion_hermano}</div>
+                        </div>` : ''}
+                        
+                        ${dataSemana.tesoros_parte1_titulo ? `
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">
+                                ${dataSemana.tesoros_parte1_titulo}
+                                ${dataSemana.tesoros_parte1_tiempo ? `<span class="reunion-item-time">(${dataSemana.tesoros_parte1_tiempo})</span>` : ''}
+                            </div>
+                            ${dataSemana.tesoros_parte1_principal ? `<div class="reunion-item-principal">Sala Principal: ${dataSemana.tesoros_parte1_principal}</div>` : ''}
+                            ${dataSemana.tesoros_parte1_segundaSala ? `<div class="reunion-item-auxiliar">Segunda Sala: ${dataSemana.tesoros_parte1_segundaSala}</div>` : ''}
+                        </div>` : ''}
+                        
+                        ${dataSemana.tesoros_parte2_titulo ? `
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">
+                                ${dataSemana.tesoros_parte2_titulo}
+                                ${dataSemana.tesoros_parte2_tiempo ? `<span class="reunion-item-time">(${dataSemana.tesoros_parte2_tiempo})</span>` : ''}
+                            </div>
+                            ${dataSemana.tesoros_parte2_principal ? `<div class="reunion-item-principal">Sala Principal: ${dataSemana.tesoros_parte2_principal}</div>` : ''}
+                            ${dataSemana.tesoros_parte2_segundaSala ? `<div class="reunion-item-auxiliar">Segunda Sala: ${dataSemana.tesoros_parte2_segundaSala}</div>` : ''}
+                        </div>` : ''}
+                        
+                        ${dataSemana.tesoros_lectura_textos ? `
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">
+                                Lectura de la Biblia ${dataSemana.tesoros_lectura_textos}
+                                ${dataSemana.tesoros_lectura_tiempo ? `<span class="reunion-item-time">(${dataSemana.tesoros_lectura_tiempo})</span>` : ''}
+                            </div>
+                            ${dataSemana.tesoros_lectura_estudiante ? `<div class="reunion-item-principal">Estudiante: ${dataSemana.tesoros_lectura_estudiante}</div>` : ''}
+                            ${dataSemana.tesoros_lectura_principal ? `<div class="reunion-item-principal">Sala Principal: ${dataSemana.tesoros_lectura_principal}</div>` : ''}
+                            ${dataSemana.tesoros_lectura_segundaSala ? `<div class="reunion-item-auxiliar">Segunda Sala: ${dataSemana.tesoros_lectura_segundaSala}</div>` : ''}
+                        </div>` : ''}
+                    </div>
+                    
+                    <div class="reunion-section-block maestros-section">
+                        <div class="section-heading">📚 SEAMOS MEJORES MAESTROS</div>
+                        ${dataSemana.maestros_salaAuxiliar ? `<div style="font-size: 13px; color: #6b7280; margin-bottom: 12px;">Sala Auxiliar: ${dataSemana.maestros_salaAuxiliar}</div>` : ''}
+                `;
+                
+                // Partes variables de MAESTROS
+                for (let i = 1; i <= 5; i++) {
+                    const titulo = dataSemana[`maestros_parte${i}_titulo`];
+                    if (titulo) {
+                        const tiempo = dataSemana[`maestros_parte${i}_tiempo`] || '';
+                        const principal = dataSemana[`maestros_parte${i}_principal`] || '';
+                        const ayudante = dataSemana[`maestros_parte${i}_ayudante`] || '';
+                        const segundaSalaPrincipal = dataSemana[`maestros_parte${i}_segundaSala_principal`] || '';
+                        const segundaSalaAyudante = dataSemana[`maestros_parte${i}_segundaSala_ayudante`] || '';
+                        
+                        htmlSemana += `
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">
+                                ${titulo}
+                                ${tiempo ? `<span class="reunion-item-time">(${tiempo})</span>` : ''}
+                            </div>
+                            ${principal ? `<div class="reunion-item-principal">${principal}${ayudante ? ' / ' + ayudante + ' (Ayudante)' : ''}</div>` : ''}
+                            ${segundaSalaPrincipal ? `<div class="reunion-item-auxiliar">Segunda Sala: ${segundaSalaPrincipal}${segundaSalaAyudante ? ' / ' + segundaSalaAyudante + ' (Ayudante)' : ''}</div>` : ''}
+                        </div>`;
+                    }
+                }
+                
+                htmlSemana += `</div>
+                    
+                    <div class="reunion-section-block vida-section">
+                        <div class="section-heading">❤️ NUESTRA VIDA CRISTIANA</div>
+                        
+                        ${dataSemana.vida_cancion1 ? `<div class="cancion-item">♪ Canción ${dataSemana.vida_cancion1}</div>` : ''}
+                        
+                        ${dataSemana.vida_parte1_titulo ? `
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">
+                                ${dataSemana.vida_parte1_titulo}
+                                ${dataSemana.vida_parte1_tiempo ? `<span class="reunion-item-time">(${dataSemana.vida_parte1_tiempo})</span>` : ''}
+                            </div>
+                            ${dataSemana.vida_parte1_hermano ? `<div class="reunion-item-principal">${dataSemana.vida_parte1_hermano}</div>` : ''}
+                        </div>` : ''}
+                        
+                        ${dataSemana.vida_estudioBiblico_conductor ? `
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">
+                                Estudio bíblico de la congregación
+                                ${dataSemana.vida_estudioBiblico_tiempo ? `<span class="reunion-item-time">(${dataSemana.vida_estudioBiblico_tiempo})</span>` : ''}
+                            </div>
+                            <div class="reunion-item-principal">Conductor/Lector: ${dataSemana.vida_estudioBiblico_conductor}${dataSemana.vida_estudioBiblico_lector ? ' / ' + dataSemana.vida_estudioBiblico_lector : ''}</div>
+                        </div>` : ''}
+                        
+                        ${dataSemana.vida_conclusion_hermano ? `
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">
+                                Palabras de conclusión
+                                ${dataSemana.vida_conclusion_tiempo ? `<span class="reunion-item-time">(${dataSemana.vida_conclusion_tiempo})</span>` : ''}
+                            </div>
+                            <div class="reunion-item-principal">${dataSemana.vida_conclusion_hermano}</div>
+                        </div>` : ''}
+                        
+                        ${dataSemana.vida_cancion2 ? `<div class="cancion-item">♪ Canción ${dataSemana.vida_cancion2}</div>` : ''}
+                    </div>
+                    
+                    <div class="info-box">
+                        <div><strong>Oración final:</strong> ${dataSemana.oracionFinal || ""}</div>
+                    </div>
+                    
+                    <div class="asignaciones-box">
+                        <div class="asignaciones-header">📋 Asignaciones y Responsabilidades</div>
+                        
+                        ${dataSemana.limpiezaSuperficial ? `<div style="margin-bottom: 12px; font-size: 13px; color: #4b5563;"><strong>Limpieza - Jueves:</strong> Superficial Grupo ${dataSemana.limpiezaSuperficial}</div>` : ''}
+                        
+                        <table class="asignaciones-table">
+                            ${dataSemana.acomodadorAuditorio1 || dataSemana.acomodadorAuditorio2 ? `<tr><td>Auditorio:</td><td>${[dataSemana.acomodadorAuditorio1, dataSemana.acomodadorAuditorio2].filter(Boolean).join(', ')}</td></tr>` : ''}
+                            ${dataSemana.acomodadorPuerta ? `<tr><td>Puerta Principal:</td><td>${dataSemana.acomodadorPuerta}</td></tr>` : ''}
+                            ${dataSemana.microfonos1 || dataSemana.microfonos2 ? `<tr><td>Micrófonos:</td><td>${[dataSemana.microfonos1, dataSemana.microfonos2].filter(Boolean).join(', ')}</td></tr>` : ''}
+                            ${dataSemana.audioVideo1 || dataSemana.audioVideo2 ? `<tr><td>Audio y Video:</td><td>${[dataSemana.audioVideo1, dataSemana.audioVideo2].filter(Boolean).join(', ')}</td></tr>` : ''}
+                            ${dataSemana.plataforma ? `<tr><td>Plataforma:</td><td>${dataSemana.plataforma}</td></tr>` : ''}
+                            ${dataSemana.encargado ? `<tr><td>Encargado:</td><td>${dataSemana.encargado}</td></tr>` : ''}
+                        </table>
+                    </div>
+                `;
+                
+                containerSemana.innerHTML = htmlSemana;
             } else {
                 fechaSemanaEl.textContent = rangoTexto + " (Sin datos)";
                 badgeSemana.classList.add('hidden');
                 containerSemana.innerHTML = `<div class="no-grupos">Sin programación cargada.</div>`;
             }
 
+            // FIN DE SEMANA
             const containerFinde = document.getElementById('reunion-finde-detalle');
             const fechaFindeEl = document.getElementById('fecha-finde');
             const badgeFinde = document.getElementById('badge-finde');
 
             if (dataFinde) {
-                // FECHA SIMPLIFICADA (22 de febrero)
                 const fParts = dataFinde.fecha.split('-');
                 const fDate = new Date(fParts[0], fParts[1]-1, fParts[2]);
                 fechaFindeEl.textContent = fDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
 
                 esMismoDia(dataFinde.fecha, fechaHoy) ? badgeFinde.classList.remove('hidden') : badgeFinde.classList.add('hidden');
-                const asig = parsearListaFlexible(dataFinde.asignacionesLista || "");
-                containerFinde.innerHTML = `
-                    <div class="info-box"><div><strong>Presidente:</strong> ${dataFinde.presidente || ""}</div><div><strong>Oración inicial:</strong> ${dataFinde.oracionInicial || ""}</div></div>
-                    <div class="publico re-block"><h4 class="section-heading">DISCURSO PÚBLICO</h4><div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${dataFinde.discursoPublico?.tema || ""}</strong><br>${dataFinde.discursoPublico?.orador || ""}<br><span class="reunion-item-auxiliar">Cong. ${dataFinde.discursoPublico?.congregacion || ""}</span></div></div></div>
-                    <div class="atalaya re-block"><h4 class="section-heading">ESTUDIO DE LA ATALAYA</h4><div class="reunion-timeline-item"><div class="reunion-timeline-dot"></div><div class="reunion-item-content"><strong>${dataFinde.estudioAtalaya?.articulo || ""}</strong><br>Conductor: ${dataFinde.estudioAtalaya?.conductor || ""}<br>Lector: ${dataFinde.estudioAtalaya?.lector || ""}</div></div></div>
-                    <div class="info-box"><div><strong>Oración final:</strong> ${dataFinde.oracionFinal || ""}</div></div>
-                    ${asig.length > 0 ? `<div class="asignaciones-box"><div class="asignaciones-header">Asignaciones Mecánicas</div><table class="asignaciones-table">${asig.map(a=>`<tr><td>${a.rol}</td><td>${a.nombre}</td></tr>`).join('')}</table></div>` : ''}`;
+                
+                let htmlFinde = `
+                    <div class="info-box">
+                        <div><strong>Presidente:</strong> ${dataFinde.presidente || ""}</div>
+                        <div><strong>Oración inicial:</strong> ${dataFinde.oracionInicial || ""}</div>
+                    </div>
+                    
+                    <div class="reunion-section-block publico-section">
+                        <div class="section-heading">🎤 DISCURSO PÚBLICO</div>
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">${dataFinde.discursoPublico_tema || ""}</div>
+                            <div class="reunion-item-principal">${dataFinde.discursoPublico_orador || ""}</div>
+                            ${dataFinde.discursoPublico_congregacion ? `<div class="reunion-item-auxiliar">Cong. ${dataFinde.discursoPublico_congregacion}</div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="reunion-section-block atalaya-section">
+                        <div class="section-heading">🗼 ESTUDIO DE LA ATALAYA</div>
+                        <div class="reunion-item">
+                            <div class="reunion-item-header">${dataFinde.estudioAtalaya_articulo || ""}</div>
+                            ${dataFinde.estudioAtalaya_conductor ? `<div class="reunion-item-principal">Conductor: ${dataFinde.estudioAtalaya_conductor}</div>` : ''}
+                            ${dataFinde.estudioAtalaya_lector ? `<div class="reunion-item-principal">Lector: ${dataFinde.estudioAtalaya_lector}</div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div><strong>Oración final:</strong> ${dataFinde.oracionFinal || ""}</div>
+                    </div>
+                    
+                    <div class="asignaciones-box">
+                        <div class="asignaciones-header">📋 Asignaciones y Responsabilidades</div>
+                        
+                        ${dataFinde.limpiezaAFondo ? `<div style="margin-bottom: 8px; font-size: 13px; color: #4b5563;"><strong>Limpieza - Domingo:</strong> A Fondo Grupo ${dataFinde.limpiezaAFondo}</div>` : ''}
+                        ${dataFinde.hospitalidad ? `<div style="margin-bottom: 12px; font-size: 13px; color: #4b5563;"><strong>Hospitalidad - Domingo:</strong> Grupo ${dataFinde.hospitalidad}</div>` : ''}
+                        
+                        <table class="asignaciones-table">
+                            ${dataFinde.acomodadorAuditorio1 || dataFinde.acomodadorAuditorio2 ? `<tr><td>Auditorio:</td><td>${[dataFinde.acomodadorAuditorio1, dataFinde.acomodadorAuditorio2].filter(Boolean).join(', ')}</td></tr>` : ''}
+                            ${dataFinde.acomodadorPuerta ? `<tr><td>Puerta Principal:</td><td>${dataFinde.acomodadorPuerta}</td></tr>` : ''}
+                            ${dataFinde.microfonos1 || dataFinde.microfonos2 ? `<tr><td>Micrófonos:</td><td>${[dataFinde.microfonos1, dataFinde.microfonos2].filter(Boolean).join(', ')}</td></tr>` : ''}
+                            ${dataFinde.audioVideo1 || dataFinde.audioVideo2 ? `<tr><td>Audio y Video:</td><td>${[dataFinde.audioVideo1, dataFinde.audioVideo2].filter(Boolean).join(', ')}</td></tr>` : ''}
+                            ${dataFinde.plataforma ? `<tr><td>Plataforma:</td><td>${dataFinde.plataforma}</td></tr>` : ''}
+                            ${dataFinde.encargado ? `<tr><td>Encargado:</td><td>${dataFinde.encargado}</td></tr>` : ''}
+                        </table>
+                    </div>
+                `;
+                
+                containerFinde.innerHTML = htmlFinde;
             } else {
                 fechaFindeEl.textContent = "Sin datos";
                 badgeFinde.classList.add('hidden');
                 containerFinde.innerHTML = `<div class="no-grupos">Sin programación.</div>`;
             }
-            
-            document.querySelectorAll('.re-block').forEach(el => el.style.marginBottom = "24px");
         }
 
         function renderAnuncios() {
@@ -605,7 +840,6 @@
 
         function renderAll() {
             const d = new Date(fechaSeleccionada);
-            // Actualizar Indicador Mes
             document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
 
             const day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
@@ -615,7 +849,7 @@
             if (!esMismoDia(fechaSeleccionada, fechaHoy)) btnToday.style.display = 'flex'; else btnToday.style.display = 'none';
 
             renderCalendarGrid();
-            renderCarousel(); // CARRUSEL ESTABLE
+            renderCarousel();
             renderGruposDia();
             renderReuniones();
             renderTodosGruposPaginados();
@@ -628,7 +862,6 @@
             const d = new Date(parts[0], parts[1]-1, parts[2]);
             return d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
-        function parsearListaFlexible(t) { if (!t) return []; return t.split('|').map(i => { const p = i.split(':'); if (p.length > 1) return { rol: p[0].trim(), nombre: p.slice(1).join(':').trim() }; return { rol: i.trim(), nombre: '' }; }); }
         
         function renderCalendarGrid() {
             document.getElementById('calendar-month').textContent = fechaVisualizadaCalendario.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
@@ -647,12 +880,9 @@
             }
         }
         
-        // --- CARRUSEL ESTABLE Y FLUIDO ---
         function renderCarousel() {
             const c = document.getElementById('carousel'); c.innerHTML = '';
             
-            // Si nos fuimos muy lejos (+60 o -10), recentramos el carrusel en la selección
-            // De lo contrario, mantenemos la base en HOY para evitar saltos.
             const b = new Date(fechaHoy);
             let startBase = b;
             
@@ -670,7 +900,6 @@
                 card.onclick = () => { 
                     fechaSeleccionada = f; 
                     renderAll(); 
-                    // El scroll suave se hace al final de renderAll -> c.scrollIntoView
                 };
                 c.appendChild(card);
             }
@@ -763,4 +992,3 @@
     </script>
 </body>
 </html>
-
