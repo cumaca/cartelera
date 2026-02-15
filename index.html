@@ -1,6 +1,254 @@
-<script>
-        // === IMPORTANTE: ASEGÚRATE DE QUE ESTA SEA TU URL DE LA "NUEVA IMPLEMENTACIÓN" ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbxWQCoBctEYLdVGexgwcu4z_mXzym78f1EZnTQi4HkjzSil18chRBM-qgt7xhQEqaOX/exec"; 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cartelera Digital - La Cumaca</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        
+        :root {
+            --jw-blue: #4472C4;
+            --jw-gold: #9B6D17;
+            --jw-red: #942926;
+            --jw-gray: #4a4a4a;
+            --bg-color: #F9F9F9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-color); 
+            color: #212121;
+            padding: 16px;
+            line-height: 1.5;
+        }
+
+        .container { max-width: 500px; margin: 0 auto; padding-bottom: 60px; }
+
+        /* HEADER */
+        .header h1 {
+            text-align: center; font-size: 20px; font-weight: 700; color: #9ca3af; 
+            margin: 20px 0; letter-spacing: -0.5px;
+        }
+
+        /* TARJETAS PRINCIPALES */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .section-title-main {
+            font-size: 20px; font-weight: 800; color: #374151;
+            margin: 0 0 16px 10px;
+        }
+
+        /* --- ESTILOS DE LÍNEA DE TIEMPO (RESTITUIDOS) --- */
+        
+        .reunion-header-info {
+            margin-bottom: 24px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 12px;
+        }
+        .reunion-header-info h3 { font-size: 18px; font-weight: 800; color: #4b5563; }
+        .reunion-date { color: #6b7280; font-weight: 600; font-size: 14px; margin-top: 4px; }
+        .reunion-basic-data { font-size: 13px; color: #6b7280; margin-top: 4px; }
+
+        /* Estructura del Item de Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 24px; /* Espacio para la línea */
+            padding-bottom: 24px;
+        }
+        
+        /* La línea vertical conectora */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 6px; /* Centrado con el punto */
+            top: 10px;
+            bottom: -10px; /* Conecta con el siguiente */
+            width: 2px;
+            background: #e5e7eb;
+        }
+        /* Eliminar línea en el último elemento de cada bloque */
+        .timeline-item:last-child::before { display: none; }
+
+        /* El punto (Dot) */
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #ccc; /* Color por defecto */
+            z-index: 2;
+        }
+
+        /* Colores de los puntos según sección (Estilo JW) */
+        .dot-tesoros { border-color: var(--jw-gray); }
+        .dot-maestros { border-color: var(--jw-gold); }
+        .dot-vida { border-color: var(--jw-red); }
+        .dot-publico { border-color: var(--jw-blue); }
+        
+        /* Títulos de Sección (Tesoros, Maestros...) */
+        .section-heading {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 20px 0 12px 0;
+            padding-left: 4px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 4px;
+        }
+        
+        /* Colores de títulos */
+        .text-tesoros { color: var(--jw-gray); }
+        .text-maestros { color: var(--jw-gold); }
+        .text-vida { color: var(--jw-red); }
+        .text-publico { color: var(--jw-blue); }
+
+        /* Contenido de la parte */
+        .part-content { font-size: 14px; line-height: 1.4; color: #374151; }
+        .part-title { font-weight: 700; color: #1f2937; display: inline; }
+        .part-time { font-size: 12px; color: #6b7280; font-weight: 400; margin-left: 4px; }
+        .part-who { margin-top: 2px; color: #4b5563; }
+        
+        /* Segunda Sala */
+        .second-room {
+            margin-top: 4px;
+            padding-left: 12px;
+            border-left: 2px solid #e5e7eb;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        /* ASIGNACIONES (Tabla Gris al final) */
+        .assignments-container {
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .assignments-title {
+            font-size: 12px; font-weight: 800; color: #6b7280;
+            text-transform: uppercase; margin-bottom: 12px;
+            text-align: center;
+        }
+        .assign-row {
+            display: flex; justify-content: space-between; align-items: baseline;
+            border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; margin-bottom: 6px;
+        }
+        .assign-row:last-child { border-bottom: none; margin-bottom: 0; }
+        .assign-label { font-size: 12px; font-weight: 700; color: #6b7280; width: 45%; }
+        .assign-value { font-size: 13px; color: #374151; width: 55%; text-align: right; }
+
+        /* --- ESTILOS COMUNES (Mantenidos) --- */
+        .month-indicator { margin-left: 14px; margin-bottom: 12px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; }
+        .carousel-wrapper { position: relative; padding: 0 0 20px 0; }
+        .carousel { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px 10px; }
+        .date-card { min-width: 55px; padding: 10px 4px; border-radius: 12px; text-align: center; cursor: pointer; background: #f3f4f6; color: #6b7280; border: 1px solid transparent; transition: all 0.2s; }
+        .date-card.selected { background: var(--jw-gold); color: white; box-shadow: 0 4px 10px rgba(155, 109, 23, 0.3); transform: translateY(-2px); }
+        .date-card.is-today { border-color: var(--jw-gold); background: #fff; color: var(--jw-gold); font-weight: bold; }
+        .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; }
+        .date-card-number { font-size: 18px; font-weight: 800; }
+        
+        .nav-segment-container { display: flex; justify-content: center; margin-bottom: 24px; }
+        .nav-segment { background: white; border-radius: 12px; padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: inline-flex; }
+        .nav-btn { text-decoration: none; padding: 8px 16px; color: #6b7280; font-size: 13px; font-weight: 600; border-radius: 8px; transition: 0.2s; }
+        .nav-btn:hover { background: #f9fafb; color: #111; }
+        
+        .anuncio { background: #fffbeb; padding: 14px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #fef3c7; }
+        .anuncio-date { font-size: 11px; font-weight: 800; color: #d97706; margin-bottom: 4px; text-transform: uppercase; }
+        
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #F9F9F9; z-index: 999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.3s; }
+        .spinner { width: 30px; height: 30px; border: 3px solid #e5e7eb; border-top-color: var(--jw-gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .grupo-hoy-card { background: #f9fafb; border: 1px solid #f3f4f6; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+        .grupo-row { display: flex; gap: 12px; align-items: flex-start; }
+        .grupo-time { background: #fff; padding: 6px 10px; border-radius: 8px; border: 1px solid #e5e7eb; font-weight: 800; font-size: 12px; color: #6b7280; white-space: nowrap; }
+        .grupo-details { flex: 1; }
+        .grupo-terr { font-weight: 700; color: #374151; font-size: 15px; line-height: 1.2; margin-bottom: 2px; }
+        .grupo-cond { font-size: 13px; color: #6b7280; }
+
+        .hidden { display: none; }
+
+    </style>
+</head>
+<body>
+
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p style="margin-top:10px; color:#9ca3af; font-size:12px; font-weight:600;">Actualizando...</p>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Cartelera Cong. La Cumaca</h1>
+        </div>
+
+        <div class="nav-segment-container">
+            <div class="nav-segment">
+                <a href="#grupos" class="nav-btn">Grupos</a>
+                <a href="#reuniones" class="nav-btn">Reuniones</a>
+                <a href="#anuncios" class="nav-btn">Anuncios</a>
+            </div>
+        </div>
+
+        <div id="grupos" class="card">
+            <h2 class="section-title-main">Predicación</h2>
+            <div class="month-indicator" id="month-indicator"></div>
+            <div class="carousel-wrapper">
+                <div class="carousel" id="carousel"></div>
+                <button onclick="goToToday()" style="position:absolute; top:-40px; right:0; background:white; border:1px solid var(--jw-gold); color:var(--jw-gold); font-weight:700; font-size:11px; cursor:pointer; padding:4px 10px; border-radius:20px;">Ir a Hoy</button>
+            </div>
+            <div id="grupos-dia-content"></div>
+        </div>
+
+        <h2 class="section-title-main" id="reuniones" style="margin-left: 10px;">Reuniones</h2>
+        
+        <div class="card" id="card-vida">
+            <div class="reunion-header-info">
+                <h3>Nuestra Vida y Ministerio</h3>
+                <div class="reunion-date" id="vida-fecha">--</div>
+                <div class="reunion-basic-data" id="vida-basico"></div>
+            </div>
+            <div id="vida-content">
+                </div>
+        </div>
+
+        <div class="card" id="card-finde">
+            <div class="reunion-header-info">
+                <h3>Reunión Pública</h3>
+                <div class="reunion-date" id="finde-fecha">--</div>
+                <div class="reunion-basic-data" id="finde-basico"></div>
+            </div>
+            <div id="finde-content">
+                </div>
+        </div>
+
+        <h2 class="section-title-main" id="anuncios" style="margin-left: 10px;">Anuncios</h2>
+        <div class="card">
+            <div id="anuncios-content"></div>
+        </div>
+
+        <div style="text-align:center; color:#d1d5db; font-size:11px; margin-top:30px;">
+            Conectado • Última act. <span id="last-update"></span>
+        </div>
+    </div>
+
+    <script>
+        // URL DEL SCRIPT (TU VERSIÓN MÁS RECIENTE)
+        const API_URL = "https://script.google.com/macros/s/AKfycbyJjuC_GrFTLKTNZ1o-IqsFUdvtXOOS21ufa-Wrz2j4Or1B7kKQyHtrvfN9HWMkSGnZ/exec"; 
 
         let db = { grupos: [], vida: [], finde: [], anuncios: [] };
         let selectedDate = new Date();
@@ -12,72 +260,233 @@
         async function init() {
             try {
                 const res = await fetch(API_URL);
-                if (!res.ok) throw new Error("Error de conexión con Google Sheets");
+                if (!res.ok) throw new Error("Error HTTP");
                 const data = await res.json();
                 
-                // Asignamos datos protegiéndonos de nombres de pestañas incorrectos
                 db.grupos = data.grupos || [];
                 db.vida = data.vidaMinisterio || []; 
                 db.finde = data.finSemana || [];
                 db.anuncios = data.anuncios || [];
 
-                document.getElementById('loading-overlay').style.display = 'none';
-                document.getElementById('last-update').innerText = new Date().toLocaleTimeString();
+                document.getElementById('loading-overlay').style.opacity = '0';
+                setTimeout(()=>document.getElementById('loading-overlay').style.display = 'none', 300);
+                document.getElementById('last-update').innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 
                 renderCarousel();
                 renderGrupos();
                 renderReuniones();
                 renderAnuncios();
             } catch (e) {
-                document.getElementById('loading-overlay').innerHTML = `<p style="color:red; text-align:center; padding:20px;">Error: ${e.message}<br><br>Verifica que publicaste el script como "Nueva Implementación".</p>`;
                 console.error(e);
+                document.getElementById('loading-overlay').innerHTML = `<p style="color:#ef4444; padding:20px; text-align:center;">Error de conexión.<br>Intenta recargar.</p>`;
             }
         }
 
-        // === CORRECCIÓN CLAVE: LÓGICA DE GRUPOS HÍBRIDA ===
+        function renderReuniones() {
+            const day = selectedDate.getDay();
+            const diff = selectedDate.getDate() - day + (day == 0 ? -6 : 1); 
+            const monday = new Date(selectedDate); monday.setDate(diff);
+            const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+
+            const monStr = toISO(monday);
+            const sunStr = toISO(sunday);
+
+            const vidaData = db.vida.find(r => (r.fecha === monStr) || (r.fecha >= monStr && r.fecha <= sunStr));
+            const findeData = db.finde.find(r => (r.fecha === sunStr) || (r.fecha >= monStr && r.fecha <= sunStr));
+
+            // --- RENDER ENTRE SEMANA (LINEA DE TIEMPO) ---
+            const vContainer = document.getElementById('vida-content');
+            const vFecha = document.getElementById('vida-fecha');
+            const vBasico = document.getElementById('vida-basico');
+            
+            if (vidaData) {
+                vFecha.textContent = formatDate(vidaData.fecha);
+                vBasico.innerHTML = `Presidente: <strong>${vidaData.presidente}</strong> • Oración: ${vidaData.oracionInicial}`;
+                
+                let html = `
+                <div class="section-heading text-tesoros">Tesoros de la Biblia</div>
+                
+                ${renderTimelineItem('Canción ' + vidaData.tesoros_cancion, '', '', 'dot-tesoros')}
+                
+                ${renderTimelineItem('Palabras de introducción', vidaData.tesoros_introduccion_tiempo, vidaData.tesoros_introduccion_hermano, 'dot-tesoros')}
+                
+                ${renderTimelineItem(vidaData.tesoros_parte1_titulo, vidaData.tesoros_parte1_tiempo, vidaData.tesoros_parte1_principal, 'dot-tesoros', vidaData.tesoros_parte1_segundaSala)}
+                
+                ${renderTimelineItem(vidaData.tesoros_parte2_titulo, vidaData.tesoros_parte2_tiempo, vidaData.tesoros_parte2_principal, 'dot-tesoros', vidaData.tesoros_parte2_segundaSala)}
+                
+                ${renderTimelineItem('Lectura de la Biblia: ' + vidaData.tesoros_lectura_textos, vidaData.tesoros_lectura_tiempo, 'Estudiante: <strong>' + vidaData.tesoros_lectura_estudiante + '</strong>', 'dot-tesoros', vidaData.tesoros_lectura_segundaSala)}
+
+                <div class="section-heading text-maestros">Seamos Mejores Maestros</div>
+                ${vidaData.maestros_salaAuxiliar ? `<div style="font-size:12px; color:#6b7280; margin-bottom:10px; padding-left:24px;">Sala Auxiliar: ${vidaData.maestros_salaAuxiliar}</div>` : ''}
+                `;
+
+                for(let i=1; i<=5; i++) {
+                    const titulo = vidaData[`maestros_parte${i}_titulo`];
+                    if(titulo) {
+                        html += renderTimelineItem(titulo, vidaData[`maestros_parte${i}_tiempo`], formatHelper(vidaData[`maestros_parte${i}_principal`], vidaData[`maestros_parte${i}_ayudante`]), 'dot-maestros', renderSecondRoomStr(vidaData[`maestros_parte${i}_segundaSala_principal`], vidaData[`maestros_parte${i}_segundaSala_ayudante`]));
+                    }
+                }
+
+                // VIDA CRISTIANA
+                html += `<div class="section-heading text-vida">Nuestra Vida Cristiana</div>`;
+                html += renderTimelineItem('Canción ' + vidaData.vida_cancion1, '', '', 'dot-vida');
+                html += renderTimelineItem(vidaData.vida_parte1_titulo, vidaData.vida_parte1_tiempo, vidaData.vida_parte1_hermano, 'dot-vida');
+                html += renderTimelineItem('Estudio bíblico de la congregación', vidaData.vida_estudioBiblico_tiempo, `${vidaData.vida_estudioBiblico_conductor} / Lector: ${vidaData.vida_estudioBiblico_lector}`, 'dot-vida');
+                html += renderTimelineItem('Palabras de conclusión', vidaData.vida_conclusion_tiempo, `${vidaData.vida_conclusion_hermano} • Oración: ${vidaData.oracionFinal}`, 'dot-vida');
+                html += renderTimelineItem('Canción ' + vidaData.vida_cancion2, '', '', 'dot-vida');
+
+                // ASIGNACIONES
+                html += renderAssignmentsTable(vidaData, 'entreSemana');
+                
+                vContainer.innerHTML = html;
+            } else {
+                vContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#9ca3af;">No hay programación disponible.</div>';
+                vFecha.textContent = "Sin datos"; vBasico.innerHTML = "";
+            }
+
+            // --- RENDER FIN DE SEMANA ---
+            const fContainer = document.getElementById('finde-content');
+            const fFecha = document.getElementById('finde-fecha');
+            const fBasico = document.getElementById('finde-basico');
+
+            if (findeData) {
+                fFecha.textContent = formatDate(findeData.fecha);
+                fBasico.innerHTML = `Presidente: <strong>${findeData.presidente}</strong>`;
+
+                let html = `
+                <div class="section-heading text-publico">Discurso Público</div>
+                <div class="timeline-item">
+                    <div class="timeline-dot dot-publico"></div>
+                    <div class="part-content">
+                        <div style="font-size:16px; font-weight:700; color:#111;">"${findeData.discursoPublico_tema}"</div>
+                        <div class="part-who" style="margin-top:4px;">${findeData.discursoPublico_orador}</div>
+                        <div style="font-size:12px; color:#6b7280;">${findeData.discursoPublico_congregacion}</div>
+                    </div>
+                </div>
+
+                <div class="section-heading text-publico">Estudio de La Atalaya</div>
+                <div class="timeline-item">
+                    <div class="timeline-dot dot-publico"></div>
+                    <div class="part-content">
+                        <div class="part-title">${findeData.estudioAtalaya_articulo}</div>
+                        <div class="part-who" style="margin-top:4px;">
+                            Conductor: ${findeData.estudioAtalaya_conductor}<br>
+                            Lector: ${findeData.estudioAtalaya_lector}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot dot-publico"></div>
+                    <div class="part-content">
+                        <div class="part-title">Canción Final y Oración</div>
+                        <div class="part-who">${findeData.oracionFinal}</div>
+                    </div>
+                </div>
+                `;
+                
+                html += renderAssignmentsTable(findeData, 'finSemana');
+                fContainer.innerHTML = html;
+            } else {
+                fContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#9ca3af;">No hay programación disponible.</div>';
+                fFecha.textContent = "Sin datos"; fBasico.innerHTML = "";
+            }
+        }
+
+        // --- FUNCIONES AUXILIARES PARA TIMELINE ---
+        
+        function renderTimelineItem(title, time, who, dotClass, secondRoomHTML = '') {
+            let timeSpan = time ? `<span class="part-time">(${time})</span>` : '';
+            let whoDiv = who ? `<div class="part-who">${who}</div>` : '';
+            
+            // Si secondRoomHTML viene como texto plano (no HTML), lo formateamos
+            let sr = '';
+            if(secondRoomHTML && !secondRoomHTML.includes('<div')) {
+                 sr = `<div class="second-room">Segunda Sala: ${secondRoomHTML}</div>`;
+            } else {
+                 sr = secondRoomHTML || '';
+            }
+
+            return `
+            <div class="timeline-item">
+                <div class="timeline-dot ${dotClass}"></div>
+                <div class="part-content">
+                    <div class="part-title">${title}</div>${timeSpan}
+                    ${whoDiv}
+                    ${sr}
+                </div>
+            </div>`;
+        }
+
+        function renderSecondRoomStr(principal, ayudante) {
+            if (!principal) return '';
+            let text = principal;
+            if (ayudante) text += ` / ${ayudante} (Ayudante)`;
+            return `<div class="second-room"><span style="font-weight:600; font-size:11px; text-transform:uppercase;">Segunda Sala:</span> ${text}</div>`;
+        }
+
+        function formatHelper(principal, ayudante) {
+            if (!ayudante) return principal;
+            return `${principal} / ${ayudante} (Ayudante)`;
+        }
+
+        function renderAssignmentsTable(data, type) {
+            let items = '';
+            if (type === 'entreSemana' && data.limpiezaSuperficial) items += rowAsig('Limpieza Superficial', 'Grupo ' + data.limpiezaSuperficial);
+            if (type === 'finSemana' && data.limpiezaAFondo) items += rowAsig('Limpieza a Fondo', 'Grupo ' + data.limpiezaAFondo);
+            if (type === 'finSemana' && data.hospitalidad) items += rowAsig('Hospitalidad', 'Grupo ' + data.hospitalidad);
+            
+            if(data.acomodadorAuditorio1) items += rowAsig('Acomodadores', `${data.acomodadorAuditorio1} ${data.acomodadorAuditorio2 ? '| '+data.acomodadorAuditorio2 : ''}`);
+            if(data.acomodadorPuerta) items += rowAsig('Puerta', data.acomodadorPuerta);
+            if(data.microfonos1) items += rowAsig('Micrófonos', `${data.microfonos1} ${data.microfonos2 ? '| '+data.microfonos2 : ''}`);
+            if(data.audioVideo1) items += rowAsig('Audio/Video', `${data.audioVideo1} ${data.audioVideo2 ? '| '+data.audioVideo2 : ''}`);
+            if(data.plataforma) items += rowAsig('Plataforma', data.plataforma);
+
+            if(items === '') return '';
+
+            return `
+            <div class="assignments-container">
+                <div class="assignments-title">Asignaciones y Responsabilidades</div>
+                ${items}
+            </div>`;
+        }
+
+        function rowAsig(label, value) {
+            if(!value) return '';
+            return `<div class="assign-row"><span class="assign-label">${label}</span><span class="assign-value">${value}</span></div>`;
+        }
+
         function renderGrupos() {
             const container = document.getElementById('grupos-dia-content');
             const dateStr = toISO(selectedDate);
             
-            // 1. INTENTO "EXCEL FÁCIL" (Múltiples filas con la misma fecha)
-            // Busca todas las filas que coincidan con la fecha seleccionada
-            const flatGroups = db.grupos.filter(g => g.fecha === dateStr || g.Fecha === dateStr); // Soporta mayúscula/minúscula
+            // Lógica híbrida para leer formato nuevo o viejo
+            const flatGroups = db.grupos.filter(g => g.fecha === dateStr || g.Fecha === dateStr); 
 
-            if (flatGroups.length > 0) {
-                // Si encontramos filas individuales, las renderizamos directamente
-                // Verificamos si tienen la columna 'hora' o 'Hora'
-                if (flatGroups[0].hora || flatGroups[0].Hora) {
-                    container.innerHTML = flatGroups.map(g => `
-                        <div class="grupo-hoy-card">
-                            <div class="grupo-row">
-                                <div class="grupo-time">${g.hora || g.Hora}</div>
-                                <div class="grupo-details">
-                                    <div class="grupo-terr">${g.territorio || g.Territorio}</div>
-                                    <div class="grupo-cond">Cond: ${g.conductor || g.Conductor}</div>
-                                </div>
+            if (flatGroups.length > 0 && (flatGroups[0].hora || flatGroups[0].Hora)) {
+                container.innerHTML = flatGroups.map(g => `
+                    <div class="grupo-hoy-card">
+                        <div class="grupo-row">
+                            <div class="grupo-time">${g.hora || g.Hora}</div>
+                            <div class="grupo-details">
+                                <div class="grupo-terr">${g.territorio || g.Territorio}</div>
+                                <div class="grupo-cond">Cond: ${g.conductor || g.Conductor}</div>
                             </div>
                         </div>
-                    `).join('');
-                    return;
-                }
-            }
-
-            // 2. INTENTO "FORMATO ANTIGUO/JSON" (Una fila con columna 'grupos')
-            const data = db.grupos.find(g => g.fecha === dateStr);
-            if(!data || (!data.grupos && !data.Grupos)) {
-                container.innerHTML = '<div style="text-align:center; padding:20px; color:#999; font-style:italic;">No hay grupos hoy.</div>';
+                    </div>
+                `).join('');
                 return;
             }
 
-            let gruposArr = [];
-            try {
-                const raw = data.grupos || data.Grupos;
-                gruposArr = (typeof raw === 'string') ? JSON.parse(raw) : raw;
-            } catch(e) {
-                console.log("Error parseando grupos JSON");
-                container.innerHTML = "Error en formato de datos de grupos"; return;
+            // Fallback al formato antiguo JSON por si acaso
+            const data = db.grupos.find(g => g.fecha === dateStr);
+            if(!data || (!data.grupos && !data.Grupos)) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#9ca3af; font-style:italic;">No hay grupos hoy.</div>';
+                return;
             }
-
+            let gruposArr = [];
+            try { const raw = data.grupos || data.Grupos; gruposArr = (typeof raw === 'string') ? JSON.parse(raw) : raw; } catch(e) {}
+            
             container.innerHTML = gruposArr.map(g => `
                 <div class="grupo-hoy-card">
                     <div class="grupo-row">
@@ -91,182 +500,12 @@
             `).join('');
         }
 
-        function renderReuniones() {
-            const day = selectedDate.getDay();
-            const diff = selectedDate.getDate() - day + (day == 0 ? -6 : 1); 
-            const monday = new Date(selectedDate); monday.setDate(diff);
-            const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
-
-            const monStr = toISO(monday);
-            const sunStr = toISO(sunday);
-
-            // Filtro robusto para fechas
-            const vidaData = db.vida.find(r => (r.fecha === monStr) || (r.fecha >= monStr && r.fecha <= sunStr));
-            const findeData = db.finde.find(r => (r.fecha === sunStr) || (r.fecha >= monStr && r.fecha <= sunStr));
-
-            const vContainer = document.getElementById('vida-content');
-            const vFecha = document.getElementById('vida-fecha');
-            const vBasico = document.getElementById('vida-basico');
-            
-            if (vidaData) {
-                vFecha.textContent = formatDate(vidaData.fecha);
-                vBasico.innerHTML = `Presidente: <strong>${vidaData.presidente}</strong> • Oración: ${vidaData.oracionInicial}`;
-                
-                let html = `
-                <div class="section-tesoros">
-                    <h4>Tesoros de la Biblia</h4>
-                    <div class="part-item"><div class="part-title">Canción ${vidaData.tesoros_cancion}</div></div>
-                    <div class="part-item">
-                        <span class="part-title">Introducción</span><span class="part-time">(${vidaData.tesoros_introduccion_tiempo})</span>
-                        <div class="part-assignee">${vidaData.tesoros_introduccion_hermano}</div>
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">${vidaData.tesoros_parte1_titulo}</span><span class="part-time">(${vidaData.tesoros_parte1_tiempo})</span>
-                        <div class="part-assignee">${vidaData.tesoros_parte1_principal}</div>
-                        ${renderSecondRoom(vidaData.tesoros_parte1_segundaSala)}
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">${vidaData.tesoros_parte2_titulo}</span><span class="part-time">(${vidaData.tesoros_parte2_tiempo})</span>
-                        <div class="part-assignee">${vidaData.tesoros_parte2_principal}</div>
-                        ${renderSecondRoom(vidaData.tesoros_parte2_segundaSala)}
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">Lectura: ${vidaData.tesoros_lectura_textos}</span><span class="part-time">(${vidaData.tesoros_lectura_tiempo})</span>
-                        <div class="part-assignee">Estudiante: <strong>${vidaData.tesoros_lectura_estudiante}</strong></div>
-                        ${renderSecondRoom(vidaData.tesoros_lectura_segundaSala)}
-                    </div>
-                </div>
-                
-                <div class="section-maestros"><h4>Seamos Mejores Maestros</h4>`;
-                
-                if(vidaData.maestros_salaAuxiliar) {
-                   html += `<div style="font-size:12px; margin-bottom:10px; color:#666; font-style:italic;">Sala Auxiliar: ${vidaData.maestros_salaAuxiliar}</div>`;
-                }
-
-                for(let i=1; i<=5; i++) {
-                    const titulo = vidaData[`maestros_parte${i}_titulo`];
-                    if(titulo) {
-                        html += `
-                        <div class="part-item">
-                            <span class="part-title">${titulo}</span><span class="part-time">(${vidaData[`maestros_parte${i}_tiempo`]})</span>
-                            <div class="part-assignee">${formatHelper(vidaData[`maestros_parte${i}_principal`], vidaData[`maestros_parte${i}_ayudante`])}</div>
-                            ${renderSecondRoom(vidaData[`maestros_parte${i}_segundaSala_principal`], vidaData[`maestros_parte${i}_segundaSala_ayudante`])}
-                        </div>`;
-                    }
-                }
-                html += `</div>
-                
-                <div class="section-vida">
-                    <h4>Nuestra Vida Cristiana</h4>
-                    <div class="part-item"><div class="part-title">Canción ${vidaData.vida_cancion1}</div></div>
-                    <div class="part-item">
-                        <span class="part-title">${vidaData.vida_parte1_titulo}</span><span class="part-time">(${vidaData.vida_parte1_tiempo})</span>
-                        <div class="part-assignee">${vidaData.vida_parte1_hermano}</div>
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">Estudio bíblico</span><span class="part-time">(${vidaData.vida_estudioBiblico_tiempo})</span>
-                        <div class="part-assignee">${vidaData.vida_estudioBiblico_conductor} / Lector: ${vidaData.vida_estudioBiblico_lector}</div>
-                    </div>
-                    <div class="part-item">
-                         <span class="part-title">Conclusión</span><span class="part-time">(${vidaData.vida_conclusion_tiempo})</span>
-                         <div class="part-assignee">${vidaData.vida_conclusion_hermano} • Oración: ${vidaData.oracionFinal}</div>
-                    </div>
-                    <div class="part-item"><div class="part-title">Canción ${vidaData.vida_cancion2}</div></div>
-                </div>`;
-
-                html += renderAssignmentsTable(vidaData, 'entreSemana');
-                vContainer.innerHTML = html;
-            } else {
-                vContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No hay programación.</div>';
-                vFecha.textContent = ""; vBasico.innerHTML = "";
-            }
-
-            const fContainer = document.getElementById('finde-content');
-            const fFecha = document.getElementById('finde-fecha');
-            const fBasico = document.getElementById('finde-basico');
-
-            if (findeData) {
-                fFecha.textContent = formatDate(findeData.fecha);
-                fBasico.innerHTML = `Presidente: <strong>${findeData.presidente}</strong>`;
-
-                let html = `
-                <div class="section-tesoros" style="background:white; border:1px solid #eee; margin-bottom:15px;">
-                    <div class="part-item" style="border:none;">
-                        <span class="part-title">Discurso Público</span>
-                        <div style="font-size:16px; font-weight:700; color:#212121; margin-top:4px;">"${findeData.discursoPublico_tema}"</div>
-                        <div class="part-assignee" style="margin-top:4px;">${findeData.discursoPublico_orador} <span style="font-size:12px; color:#666;">(${findeData.discursoPublico_congregacion})</span></div>
-                    </div>
-                </div>
-                <div class="section-tesoros" style="background:white; border:1px solid #eee;">
-                    <div class="part-item" style="border:none;">
-                        <span class="part-title">Estudio de La Atalaya</span>
-                        <div style="font-size:15px; font-weight:600; margin-top:4px;">${findeData.estudioAtalaya_articulo}</div>
-                        <div class="part-assignee" style="margin-top:4px;">
-                            Conductor: ${findeData.estudioAtalaya_conductor}<br>
-                            Lector: ${findeData.estudioAtalaya_lector}
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top:15px; font-size:13px; padding-left:4px;">Oración Final: <strong>${findeData.oracionFinal}</strong></div>`;
-                
-                html += renderAssignmentsTable(findeData, 'finSemana');
-                fContainer.innerHTML = html;
-            } else {
-                fContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No hay programación.</div>';
-                fFecha.textContent = ""; fBasico.innerHTML = "";
-            }
-        }
-
-        function renderSecondRoom(principal, ayudante) {
-            if (!principal) return '';
-            let text = principal;
-            if (ayudante) text += ` / ${ayudante} (Ayudante)`;
-            return `<div class="second-room"><span class="second-room-label">Segunda Sala:</span> ${text}</div>`;
-        }
-
-        function formatHelper(principal, ayudante) {
-            if (!ayudante) return principal;
-            return `${principal} / ${ayudante} (Ayudante)`;
-        }
-
-        function renderAssignmentsTable(data, type) {
-            if (!data) return '';
-            let items = '';
-            
-            // Lógica de limpieza y hospitalidad (Solo números de grupos)
-            if (type === 'entreSemana' && data.limpiezaSuperficial) items += rowAsig('Limpieza Superficial', 'Grupo ' + data.limpiezaSuperficial);
-            if (type === 'finSemana' && data.limpiezaAFondo) items += rowAsig('Limpieza a Fondo', 'Grupo ' + data.limpiezaAFondo);
-            if (type === 'finSemana' && data.hospitalidad) items += rowAsig('Hospitalidad', 'Grupo ' + data.hospitalidad);
-            
-            // Asignaciones comunes
-            if(data.acomodadorAuditorio1) items += rowAsig('Acomodadores', `${data.acomodadorAuditorio1} ${data.acomodadorAuditorio2 ? '| '+data.acomodadorAuditorio2 : ''}`);
-            if(data.acomodadorPuerta) items += rowAsig('Puerta', data.acomodadorPuerta);
-            if(data.microfonos1) items += rowAsig('Micrófonos', `${data.microfonos1} ${data.microfonos2 ? '| '+data.microfonos2 : ''}`);
-            if(data.audioVideo1) items += rowAsig('Audio/Video', `${data.audioVideo1} ${data.audioVideo2 ? '| '+data.audioVideo2 : ''}`);
-            if(data.plataforma) items += rowAsig('Plataforma', data.plataforma);
-
-            if(items === '') return '';
-
-            return `
-            <div class="assignments-container">
-                <div class="assignments-title">Asignaciones y Responsabilidades</div>
-                <div class="assignments-grid">
-                    ${items}
-                </div>
-            </div>`;
-        }
-
-        function rowAsig(label, value) {
-            if(!value) return '';
-            return `<div class="assign-row"><span class="assign-label">${label}</span><span class="assign-value">${value}</span></div>`;
-        }
-
         function renderAnuncios() {
             const container = document.getElementById('anuncios-content');
             const now = toISO(new Date());
             const validos = db.anuncios.filter(a => a.fechaInicio <= now && a.fechaFin >= now);
-            if(validos.length === 0) { container.innerHTML = '<div style="text-align:center; color:#999;">No hay anuncios.</div>'; return; }
-            container.innerHTML = validos.map(a => `<div class="anuncio"><div class="anuncio-date">Vigente hasta: ${formatDateShort(a.fechaFin)}</div><div>${a.texto}</div></div>`).join('');
+            if(validos.length === 0) { container.innerHTML = '<div style="text-align:center; color:#9ca3af;">No hay anuncios.</div>'; return; }
+            container.innerHTML = validos.map(a => `<div class="anuncio"><div class="anuncio-date">Vigente hasta: ${formatDateShort(a.fechaFin)}</div><div style="font-size:14px; color:#4b5563;">${a.texto}</div></div>`).join('');
         }
 
         function renderCarousel() {
@@ -288,3 +527,5 @@
 
         init();
     </script>
+</body>
+</html>
