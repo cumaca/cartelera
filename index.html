@@ -1,313 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cartelera Digital - La Cumaca</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
-        :root {
-            --jw-blue: #4472C4;
-            --jw-green: #70AD47;
-            --jw-gold: #9B6D17;
-            --jw-red: #942926;
-            --jw-gray-bg: #F1F1F1;
-            --jw-text-main: #212121;
-            --jw-text-secondary: #5d5d5d;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: #F9F9F9; 
-            color: var(--jw-text-main);
-            padding: 16px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .container { max-width: 500px; margin: 0 auto; padding-bottom: 60px; }
-
-        /* HEADER */
-        .header h1 {
-            text-align: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: #757575;
-            margin: 20px 0;
-            letter-spacing: -0.5px;
-        }
-
-        /* TARJETAS PRINCIPALES */
-        .card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            margin-bottom: 30px;
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        .section-title-main {
-            font-size: 20px;
-            font-weight: 700;
-            color: #333;
-            margin: 0 0 16px 0;
-            padding-left: 4px;
-        }
-
-        /* --- ESTILOS REUNIONES (JW STYLE) --- */
-        
-        /* Contenedor de la Reunión */
-        .reunion-block {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .reunion-header-info {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 12px;
-            margin-bottom: 8px;
-        }
-        .reunion-header-info h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #333;
-        }
-        .reunion-date {
-            color: var(--jw-text-secondary);
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .reunion-basic-data {
-            font-size: 13px;
-            color: var(--jw-text-secondary);
-            margin-top: 4px;
-        }
-
-        /* SECCIÓN: TESOROS */
-        .section-tesoros {
-            background-color: var(--jw-gray-bg);
-            border-radius: 8px;
-            padding: 16px;
-        }
-        .section-tesoros h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #4a4a4a; /* Gris oscuro para título tesoros */
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-
-        /* SECCIÓN: MAESTROS */
-        .section-maestros {
-            border-left: 5px solid var(--jw-gold);
-            padding: 8px 16px;
-            background: #fff;
-        }
-        .section-maestros h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--jw-gold);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-
-        /* SECCIÓN: VIDA CRISTIANA */
-        .section-vida {
-            border-left: 5px solid var(--jw-red);
-            padding: 8px 16px;
-            background: #fff;
-        }
-        .section-vida h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--jw-red);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-
-        /* ITEMS DE PARTES */
-        .part-item {
-            margin-bottom: 14px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .part-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .part-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #212121;
-            margin-bottom: 4px;
-        }
-        .part-time {
-            font-weight: 400;
-            font-size: 13px;
-            color: #757575;
-            margin-left: 4px;
-        }
-        .part-assignee {
-            font-size: 14px;
-            color: #212121;
-            padding-left: 12px; /* Sangría ligera */
-        }
-        
-        /* SEGUNDA SALA */
-        .second-room {
-            margin-top: 6px;
-            padding-left: 16px;
-            border-left: 2px solid #ddd;
-            font-size: 13px;
-            color: #555;
-        }
-        .second-room-label {
-            font-weight: 600;
-            font-size: 12px;
-            color: #757575;
-            text-transform: uppercase;
-            margin-right: 4px;
-        }
-
-        /* ASIGNACIONES (TABLA) */
-        .assignments-container {
-            background: #F3F4F6;
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 10px;
-        }
-        .assignments-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: #555;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            text-align: center;
-            letter-spacing: 0.5px;
-        }
-        .assignments-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
-        }
-        .assign-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            border-bottom: 1px solid #e5e5e5;
-            padding-bottom: 4px;
-        }
-        .assign-row:last-child { border-bottom: none; }
-        .assign-label { font-size: 12px; font-weight: 700; color: #666; width: 45%; }
-        .assign-value { font-size: 13px; color: #333; width: 55%; text-align: right; }
-
-        /* ESTILOS COMUNES (Botones, Carrusel, etc - Mantenidos) */
-        .month-indicator { margin-left: 4px; margin-bottom: 12px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; }
-        .carousel-wrapper { position: relative; padding: 0 0 20px 0; }
-        .carousel { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px; }
-        .date-card { min-width: 55px; padding: 8px 4px; border-radius: 10px; text-align: center; cursor: pointer; background: #f3f4f6; color: #6b7280; border: 1px solid transparent; }
-        .date-card.selected { background: var(--jw-blue); color: white; box-shadow: 0 4px 8px rgba(68, 114, 196, 0.3); }
-        .date-card.is-today { border-color: var(--jw-blue); background: #fff; color: var(--jw-blue); }
-        .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; }
-        .date-card-number { font-size: 18px; font-weight: 700; }
-        
-        .nav-segment-container { display: flex; justify-content: center; margin-bottom: 24px; }
-        .nav-segment { background: white; border-radius: 20px; padding: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .nav-btn { text-decoration: none; padding: 8px 16px; color: #666; font-size: 13px; font-weight: 600; border-radius: 16px; }
-        .nav-btn:hover { background: #f5f5f5; }
-        
-        .anuncio { background: #fff; padding: 12px; border-left: 4px solid #F59E0B; margin-bottom: 10px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .anuncio-date { font-size: 11px; font-weight: 700; color: #F59E0B; margin-bottom: 4px; }
-        
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #F9F9F9; z-index: 999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-        .spinner { width: 30px; height: 30px; border: 3px solid #ddd; border-top-color: var(--jw-blue); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .hidden { display: none; }
-        
-        /* GRUPOS HOY */
-        .grupo-hoy-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
-        .grupo-row { display: flex; gap: 10px; align-items: flex-start; }
-        .grupo-time { background: #fff; padding: 4px 8px; border-radius: 6px; border: 1px solid #ddd; font-weight: 700; font-size: 12px; color: #555; }
-        .grupo-details { flex: 1; }
-        .grupo-terr { font-weight: 700; color: #333; font-size: 14px; }
-        .grupo-cond { font-size: 13px; color: #666; }
-
-    </style>
-</head>
-<body>
-
-    <div id="loading-overlay">
-        <div class="spinner"></div>
-        <p style="margin-top:10px; color:#888; font-size:12px;">Cargando programación...</p>
-    </div>
-
-    <div class="container">
-        <div class="header">
-            <h1>Cartelera Cong. La Cumaca</h1>
-        </div>
-
-        <div class="nav-segment-container">
-            <div class="nav-segment">
-                <a href="#grupos" class="nav-btn">Grupos</a>
-                <span style="color:#ddd">|</span>
-                <a href="#reuniones" class="nav-btn">Reuniones</a>
-                <span style="color:#ddd">|</span>
-                <a href="#anuncios" class="nav-btn">Anuncios</a>
-            </div>
-        </div>
-
-        <div id="grupos" class="card">
-            <h2 class="section-title-main">Predicación</h2>
-            <div class="month-indicator" id="month-indicator"></div>
-            <div class="carousel-wrapper">
-                <div class="carousel" id="carousel"></div>
-                <button onclick="goToToday()" style="position:absolute; top:-35px; right:0; background:none; border:none; color:var(--jw-blue); font-weight:600; font-size:12px; cursor:pointer;">Ir a Hoy</button>
-            </div>
-            <div id="grupos-dia-content"></div>
-        </div>
-
-        <h2 class="section-title-main" id="reuniones" style="margin-left: 10px;">Reuniones</h2>
-        
-        <div class="card" id="card-vida">
-            <div class="reunion-header-info">
-                <h3>Nuestra Vida y Ministerio</h3>
-                <div class="reunion-date" id="vida-fecha">--</div>
-                <div class="reunion-basic-data" id="vida-basico"></div>
-            </div>
-            <div id="vida-content" class="reunion-block">
-                </div>
-        </div>
-
-        <div class="card" id="card-finde">
-            <div class="reunion-header-info">
-                <h3>Reunión Pública</h3>
-                <div class="reunion-date" id="finde-fecha">--</div>
-                <div class="reunion-basic-data" id="finde-basico"></div>
-            </div>
-            <div id="finde-content" class="reunion-block">
-                </div>
-        </div>
-
-        <h2 class="section-title-main" id="anuncios" style="margin-left: 10px;">Anuncios</h2>
-        <div class="card">
-            <div id="anuncios-content"></div>
-        </div>
-
-        <div style="text-align:center; color:#ccc; font-size:11px; margin-top:20px;">
-            Diseño JW Compatible • Última act. <span id="last-update"></span>
-        </div>
-    </div>
-
-    <script>
-        // === TU URL DEL SCRIPT DE GOOGLE VA AQUÍ ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbyNCWWfmCYV0IssJCtcJ9C8QVLd5AzJJS99MIOAazfdXWAbtOPwJLncn81ynxQAwvDZ/exec"; 
+<script>
+        // === IMPORTANTE: ASEGÚRATE DE QUE ESTA SEA TU URL DE LA "NUEVA IMPLEMENTACIÓN" ===
+        const API_URL = "https://script.google.com/macros/s/AKfycbxWQCoBctEYLdVGexgwcu4z_mXzym78f1EZnTQi4HkjzSil18chRBM-qgt7xhQEqaOX/exec"; 
 
         let db = { grupos: [], vida: [], finde: [], anuncios: [] };
         let selectedDate = new Date();
@@ -319,240 +12,70 @@
         async function init() {
             try {
                 const res = await fetch(API_URL);
+                if (!res.ok) throw new Error("Error de conexión con Google Sheets");
                 const data = await res.json();
                 
-                db.grupos = data.grupos;
-                db.vida = data.vidaMinisterio; // Usa el nombre de la pestaña del Excel
-                db.finde = data.finSemana;
-                db.anuncios = data.anuncios;
+                // Asignamos datos protegiéndonos de nombres de pestañas incorrectos
+                db.grupos = data.grupos || [];
+                db.vida = data.vidaMinisterio || []; 
+                db.finde = data.finSemana || [];
+                db.anuncios = data.anuncios || [];
 
                 document.getElementById('loading-overlay').style.display = 'none';
                 document.getElementById('last-update').innerText = new Date().toLocaleTimeString();
                 
                 renderCarousel();
                 renderGrupos();
-                renderReuniones(); // La función lógica principal
+                renderReuniones();
                 renderAnuncios();
             } catch (e) {
-                alert("Error cargando datos. Revisa tu conexión.");
+                document.getElementById('loading-overlay').innerHTML = `<p style="color:red; text-align:center; padding:20px;">Error: ${e.message}<br><br>Verifica que publicaste el script como "Nueva Implementación".</p>`;
                 console.error(e);
             }
         }
 
-        // === LÓGICA DE REUNIONES (CORE) ===
-        function renderReuniones() {
-            // Buscar la reunión de esta semana (Lun-Dom basado en la fecha seleccionada)
-            const day = selectedDate.getDay();
-            const diff = selectedDate.getDate() - day + (day == 0 ? -6 : 1); // Lunes
-            const monday = new Date(selectedDate); 
-            monday.setDate(diff);
-            const sunday = new Date(monday); 
-            sunday.setDate(monday.getDate() + 6);
-
-            const monStr = toISO(monday);
-            const sunStr = toISO(sunday);
-
-            // Filtrar datos
-            const vidaData = db.vida.find(r => r.fecha >= monStr && r.fecha <= sunStr);
-            const findeData = db.finde.find(r => r.fecha >= monStr && r.fecha <= sunStr);
-
-            // --- RENDER ENTRE SEMANA ---
-            const vContainer = document.getElementById('vida-content');
-            const vFecha = document.getElementById('vida-fecha');
-            const vBasico = document.getElementById('vida-basico');
-            
-            if (vidaData) {
-                vFecha.textContent = formatDate(vidaData.fecha);
-                vBasico.innerHTML = `Presidente: <strong>${vidaData.presidente}</strong> • Oración: ${vidaData.oracionInicial}`;
-                
-                let html = '';
-
-                // 1. TESOROS
-                html += `
-                <div class="section-tesoros">
-                    <h4>Tesoros de la Biblia</h4>
-                    <div class="part-item">
-                        <div class="part-title">Canción ${vidaData.tesoros_cancion}</div>
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">Palabras de introducción</span><span class="part-time">(${vidaData.tesoros_introduccion_tiempo})</span>
-                        <div class="part-assignee">${vidaData.tesoros_introduccion_hermano}</div>
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">${vidaData.tesoros_parte1_titulo}</span><span class="part-time">(${vidaData.tesoros_parte1_tiempo})</span>
-                        <div class="part-assignee">${vidaData.tesoros_parte1_principal}</div>
-                        ${renderSecondRoom(vidaData.tesoros_parte1_segundaSala)}
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">${vidaData.tesoros_parte2_titulo}</span><span class="part-time">(${vidaData.tesoros_parte2_tiempo})</span>
-                        <div class="part-assignee">${vidaData.tesoros_parte2_principal}</div>
-                        ${renderSecondRoom(vidaData.tesoros_parte2_segundaSala)}
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">Lectura de la Biblia: ${vidaData.tesoros_lectura_textos}</span><span class="part-time">(${vidaData.tesoros_lectura_tiempo})</span>
-                        <div class="part-assignee">Estudiante: <strong>${vidaData.tesoros_lectura_estudiante}</strong></div>
-                        ${renderSecondRoom(vidaData.tesoros_lectura_segundaSala)}
-                    </div>
-                </div>`;
-
-                // 2. MAESTROS (Dinámico 1-5 partes)
-                html += `<div class="section-maestros"><h4>Seamos Mejores Maestros</h4>`;
-                if(vidaData.maestros_salaAuxiliar) {
-                   html += `<div style="font-size:12px; margin-bottom:10px; color:#666; font-style:italic;">Sala Auxiliar: ${vidaData.maestros_salaAuxiliar}</div>`;
-                }
-
-                for(let i=1; i<=5; i++) {
-                    const titulo = vidaData[`maestros_parte${i}_titulo`];
-                    if(titulo) {
-                        html += `
-                        <div class="part-item">
-                            <span class="part-title">${titulo}</span><span class="part-time">(${vidaData[`maestros_parte${i}_tiempo`]})</span>
-                            <div class="part-assignee">${formatHelper(vidaData[`maestros_parte${i}_principal`], vidaData[`maestros_parte${i}_ayudante`])}</div>
-                            ${renderSecondRoom(vidaData[`maestros_parte${i}_segundaSala_principal`], vidaData[`maestros_parte${i}_segundaSala_ayudante`])}
-                        </div>`;
-                    }
-                }
-                html += `</div>`;
-
-                // 3. VIDA CRISTIANA
-                html += `
-                <div class="section-vida">
-                    <h4>Nuestra Vida Cristiana</h4>
-                    <div class="part-item"><div class="part-title">Canción ${vidaData.vida_cancion1}</div></div>
-                    <div class="part-item">
-                        <span class="part-title">${vidaData.vida_parte1_titulo}</span><span class="part-time">(${vidaData.vida_parte1_tiempo})</span>
-                        <div class="part-assignee">${vidaData.vida_parte1_hermano}</div>
-                    </div>
-                    <div class="part-item">
-                        <span class="part-title">Estudio bíblico de la congregación</span><span class="part-time">(${vidaData.vida_estudioBiblico_tiempo})</span>
-                        <div class="part-assignee">${vidaData.vida_estudioBiblico_conductor} / Lector: ${vidaData.vida_estudioBiblico_lector}</div>
-                    </div>
-                    <div class="part-item">
-                         <span class="part-title">Conclusión</span><span class="part-time">(${vidaData.vida_conclusion_tiempo})</span>
-                         <div class="part-assignee">${vidaData.vida_conclusion_hermano} • Oración: ${vidaData.oracionFinal}</div>
-                    </div>
-                    <div class="part-item"><div class="part-title">Canción ${vidaData.vida_cancion2}</div></div>
-                </div>`;
-
-                // 4. ASIGNACIONES (Tabla Gris)
-                html += renderAssignmentsTable(vidaData, 'entreSemana');
-                
-                vContainer.innerHTML = html;
-            } else {
-                vContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No hay programación disponible.</div>';
-                vFecha.textContent = "Sin datos"; vBasico.innerHTML = "";
-            }
-
-            // --- RENDER FIN DE SEMANA ---
-            const fContainer = document.getElementById('finde-content');
-            const fFecha = document.getElementById('finde-fecha');
-            const fBasico = document.getElementById('finde-basico');
-
-            if (findeData) {
-                fFecha.textContent = formatDate(findeData.fecha);
-                fBasico.innerHTML = `Presidente: <strong>${findeData.presidente}</strong>`;
-
-                let html = '';
-                
-                // DISCURSO
-                html += `
-                <div class="section-tesoros" style="background:white; border:1px solid #eee; margin-bottom:15px;">
-                    <div class="part-item" style="border:none;">
-                        <span class="part-title">Discurso Público</span>
-                        <div style="font-size:16px; font-weight:700; color:var(--jw-text-main); margin-top:4px;">"${findeData.discursoPublico_tema}"</div>
-                        <div class="part-assignee" style="margin-top:4px;">${findeData.discursoPublico_orador} <span style="font-size:12px; color:#666;">(${findeData.discursoPublico_congregacion})</span></div>
-                    </div>
-                </div>`;
-
-                // ATALAYA
-                html += `
-                <div class="section-tesoros" style="background:white; border:1px solid #eee;">
-                    <div class="part-item" style="border:none;">
-                        <span class="part-title">Estudio de La Atalaya</span>
-                        <div style="font-size:15px; font-weight:600; margin-top:4px;">${findeData.estudioAtalaya_articulo}</div>
-                        <div class="part-assignee" style="margin-top:4px;">
-                            Conductor: ${findeData.estudioAtalaya_conductor}<br>
-                            Lector: ${findeData.estudioAtalaya_lector}
-                        </div>
-                    </div>
-                </div>`;
-
-                // ORACIÓN FINAL
-                html += `<div style="margin-top:15px; font-size:13px; padding-left:4px;">Canción Final y Oración: <strong>${findeData.oracionFinal}</strong></div>`;
-
-                // ASIGNACIONES FINDE
-                html += renderAssignmentsTable(findeData, 'finSemana');
-
-                fContainer.innerHTML = html;
-            } else {
-                fContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No hay programación disponible.</div>';
-                fFecha.textContent = "Sin datos"; fBasico.innerHTML = "";
-            }
-        }
-
-        // --- HELPERS DE RENDERIZADO ---
-        function renderSecondRoom(principal, ayudante) {
-            if (!principal) return '';
-            let text = principal;
-            if (ayudante) text += ` / ${ayudante} (Ayudante)`;
-            return `<div class="second-room"><span class="second-room-label">Segunda Sala:</span> ${text}</div>`;
-        }
-
-        function formatHelper(principal, ayudante) {
-            if (!ayudante) return principal;
-            return `${principal} / ${ayudante} (Ayudante)`;
-        }
-
-        function renderAssignmentsTable(data, type) {
-            // Construye la tabla gris al final
-            if (!data) return '';
-            
-            let items = '';
-            // Limpieza y Hospitalidad son especiales (solo numero grupo)
-            if (type === 'entreSemana' && data.limpiezaSuperficial) items += rowAsig('Limpieza Superficial', 'Grupo ' + data.limpiezaSuperficial);
-            if (type === 'finSemana' && data.limpiezaAFondo) items += rowAsig('Limpieza a Fondo', 'Grupo ' + data.limpiezaAFondo);
-            if (type === 'finSemana' && data.hospitalidad) items += rowAsig('Hospitalidad', 'Grupo ' + data.hospitalidad);
-            
-            // Asignaciones comunes
-            if(data.acomodadorAuditorio1) items += rowAsig('Acomodadores', `${data.acomodadorAuditorio1} | ${data.acomodadorAuditorio2||''}`);
-            if(data.acomodadorPuerta) items += rowAsig('Puerta', data.acomodadorPuerta);
-            if(data.microfonos1) items += rowAsig('Micrófonos', `${data.microfonos1} | ${data.microfonos2||''}`);
-            if(data.audioVideo1) items += rowAsig('Audio/Video', `${data.audioVideo1} | ${data.audioVideo2||''}`);
-            if(data.plataforma) items += rowAsig('Plataforma', data.plataforma);
-
-            return `
-            <div class="assignments-container">
-                <div class="assignments-title">Asignaciones y Responsabilidades</div>
-                <div class="assignments-grid">
-                    ${items}
-                </div>
-            </div>`;
-        }
-
-        function rowAsig(label, value) {
-            if(!value) return '';
-            return `<div class="assign-row"><span class="assign-label">${label}</span><span class="assign-value">${value}</span></div>`;
-        }
-
-        // === FUNCIONES GENERALES Y GRUPOS ===
+        // === CORRECCIÓN CLAVE: LÓGICA DE GRUPOS HÍBRIDA ===
         function renderGrupos() {
             const container = document.getElementById('grupos-dia-content');
             const dateStr = toISO(selectedDate);
-            const data = db.grupos.find(g => g.fecha === dateStr);
+            
+            // 1. INTENTO "EXCEL FÁCIL" (Múltiples filas con la misma fecha)
+            // Busca todas las filas que coincidan con la fecha seleccionada
+            const flatGroups = db.grupos.filter(g => g.fecha === dateStr || g.Fecha === dateStr); // Soporta mayúscula/minúscula
 
-            if(!data || !data.grupos) {
+            if (flatGroups.length > 0) {
+                // Si encontramos filas individuales, las renderizamos directamente
+                // Verificamos si tienen la columna 'hora' o 'Hora'
+                if (flatGroups[0].hora || flatGroups[0].Hora) {
+                    container.innerHTML = flatGroups.map(g => `
+                        <div class="grupo-hoy-card">
+                            <div class="grupo-row">
+                                <div class="grupo-time">${g.hora || g.Hora}</div>
+                                <div class="grupo-details">
+                                    <div class="grupo-terr">${g.territorio || g.Territorio}</div>
+                                    <div class="grupo-cond">Cond: ${g.conductor || g.Conductor}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                    return;
+                }
+            }
+
+            // 2. INTENTO "FORMATO ANTIGUO/JSON" (Una fila con columna 'grupos')
+            const data = db.grupos.find(g => g.fecha === dateStr);
+            if(!data || (!data.grupos && !data.Grupos)) {
                 container.innerHTML = '<div style="text-align:center; padding:20px; color:#999; font-style:italic;">No hay grupos hoy.</div>';
                 return;
             }
 
-            // Manejo de JSON en grupos (según tu archivo CSV antiguo/nuevo)
             let gruposArr = [];
             try {
-                // Si viene como string JSON parsealo, si ya es objeto úsalo
-                gruposArr = (typeof data.grupos === 'string') ? JSON.parse(data.grupos) : data.grupos;
+                const raw = data.grupos || data.Grupos;
+                gruposArr = (typeof raw === 'string') ? JSON.parse(raw) : raw;
             } catch(e) {
-                console.log("Error parseando grupos, asumiendo estructura plana no soportada aún o error data");
-                container.innerHTML = "Error en formato de grupos"; return;
+                console.log("Error parseando grupos JSON");
+                container.innerHTML = "Error en formato de datos de grupos"; return;
             }
 
             container.innerHTML = gruposArr.map(g => `
@@ -568,74 +91,200 @@
             `).join('');
         }
 
+        function renderReuniones() {
+            const day = selectedDate.getDay();
+            const diff = selectedDate.getDate() - day + (day == 0 ? -6 : 1); 
+            const monday = new Date(selectedDate); monday.setDate(diff);
+            const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+
+            const monStr = toISO(monday);
+            const sunStr = toISO(sunday);
+
+            // Filtro robusto para fechas
+            const vidaData = db.vida.find(r => (r.fecha === monStr) || (r.fecha >= monStr && r.fecha <= sunStr));
+            const findeData = db.finde.find(r => (r.fecha === sunStr) || (r.fecha >= monStr && r.fecha <= sunStr));
+
+            const vContainer = document.getElementById('vida-content');
+            const vFecha = document.getElementById('vida-fecha');
+            const vBasico = document.getElementById('vida-basico');
+            
+            if (vidaData) {
+                vFecha.textContent = formatDate(vidaData.fecha);
+                vBasico.innerHTML = `Presidente: <strong>${vidaData.presidente}</strong> • Oración: ${vidaData.oracionInicial}`;
+                
+                let html = `
+                <div class="section-tesoros">
+                    <h4>Tesoros de la Biblia</h4>
+                    <div class="part-item"><div class="part-title">Canción ${vidaData.tesoros_cancion}</div></div>
+                    <div class="part-item">
+                        <span class="part-title">Introducción</span><span class="part-time">(${vidaData.tesoros_introduccion_tiempo})</span>
+                        <div class="part-assignee">${vidaData.tesoros_introduccion_hermano}</div>
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">${vidaData.tesoros_parte1_titulo}</span><span class="part-time">(${vidaData.tesoros_parte1_tiempo})</span>
+                        <div class="part-assignee">${vidaData.tesoros_parte1_principal}</div>
+                        ${renderSecondRoom(vidaData.tesoros_parte1_segundaSala)}
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">${vidaData.tesoros_parte2_titulo}</span><span class="part-time">(${vidaData.tesoros_parte2_tiempo})</span>
+                        <div class="part-assignee">${vidaData.tesoros_parte2_principal}</div>
+                        ${renderSecondRoom(vidaData.tesoros_parte2_segundaSala)}
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">Lectura: ${vidaData.tesoros_lectura_textos}</span><span class="part-time">(${vidaData.tesoros_lectura_tiempo})</span>
+                        <div class="part-assignee">Estudiante: <strong>${vidaData.tesoros_lectura_estudiante}</strong></div>
+                        ${renderSecondRoom(vidaData.tesoros_lectura_segundaSala)}
+                    </div>
+                </div>
+                
+                <div class="section-maestros"><h4>Seamos Mejores Maestros</h4>`;
+                
+                if(vidaData.maestros_salaAuxiliar) {
+                   html += `<div style="font-size:12px; margin-bottom:10px; color:#666; font-style:italic;">Sala Auxiliar: ${vidaData.maestros_salaAuxiliar}</div>`;
+                }
+
+                for(let i=1; i<=5; i++) {
+                    const titulo = vidaData[`maestros_parte${i}_titulo`];
+                    if(titulo) {
+                        html += `
+                        <div class="part-item">
+                            <span class="part-title">${titulo}</span><span class="part-time">(${vidaData[`maestros_parte${i}_tiempo`]})</span>
+                            <div class="part-assignee">${formatHelper(vidaData[`maestros_parte${i}_principal`], vidaData[`maestros_parte${i}_ayudante`])}</div>
+                            ${renderSecondRoom(vidaData[`maestros_parte${i}_segundaSala_principal`], vidaData[`maestros_parte${i}_segundaSala_ayudante`])}
+                        </div>`;
+                    }
+                }
+                html += `</div>
+                
+                <div class="section-vida">
+                    <h4>Nuestra Vida Cristiana</h4>
+                    <div class="part-item"><div class="part-title">Canción ${vidaData.vida_cancion1}</div></div>
+                    <div class="part-item">
+                        <span class="part-title">${vidaData.vida_parte1_titulo}</span><span class="part-time">(${vidaData.vida_parte1_tiempo})</span>
+                        <div class="part-assignee">${vidaData.vida_parte1_hermano}</div>
+                    </div>
+                    <div class="part-item">
+                        <span class="part-title">Estudio bíblico</span><span class="part-time">(${vidaData.vida_estudioBiblico_tiempo})</span>
+                        <div class="part-assignee">${vidaData.vida_estudioBiblico_conductor} / Lector: ${vidaData.vida_estudioBiblico_lector}</div>
+                    </div>
+                    <div class="part-item">
+                         <span class="part-title">Conclusión</span><span class="part-time">(${vidaData.vida_conclusion_tiempo})</span>
+                         <div class="part-assignee">${vidaData.vida_conclusion_hermano} • Oración: ${vidaData.oracionFinal}</div>
+                    </div>
+                    <div class="part-item"><div class="part-title">Canción ${vidaData.vida_cancion2}</div></div>
+                </div>`;
+
+                html += renderAssignmentsTable(vidaData, 'entreSemana');
+                vContainer.innerHTML = html;
+            } else {
+                vContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No hay programación.</div>';
+                vFecha.textContent = ""; vBasico.innerHTML = "";
+            }
+
+            const fContainer = document.getElementById('finde-content');
+            const fFecha = document.getElementById('finde-fecha');
+            const fBasico = document.getElementById('finde-basico');
+
+            if (findeData) {
+                fFecha.textContent = formatDate(findeData.fecha);
+                fBasico.innerHTML = `Presidente: <strong>${findeData.presidente}</strong>`;
+
+                let html = `
+                <div class="section-tesoros" style="background:white; border:1px solid #eee; margin-bottom:15px;">
+                    <div class="part-item" style="border:none;">
+                        <span class="part-title">Discurso Público</span>
+                        <div style="font-size:16px; font-weight:700; color:#212121; margin-top:4px;">"${findeData.discursoPublico_tema}"</div>
+                        <div class="part-assignee" style="margin-top:4px;">${findeData.discursoPublico_orador} <span style="font-size:12px; color:#666;">(${findeData.discursoPublico_congregacion})</span></div>
+                    </div>
+                </div>
+                <div class="section-tesoros" style="background:white; border:1px solid #eee;">
+                    <div class="part-item" style="border:none;">
+                        <span class="part-title">Estudio de La Atalaya</span>
+                        <div style="font-size:15px; font-weight:600; margin-top:4px;">${findeData.estudioAtalaya_articulo}</div>
+                        <div class="part-assignee" style="margin-top:4px;">
+                            Conductor: ${findeData.estudioAtalaya_conductor}<br>
+                            Lector: ${findeData.estudioAtalaya_lector}
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:15px; font-size:13px; padding-left:4px;">Oración Final: <strong>${findeData.oracionFinal}</strong></div>`;
+                
+                html += renderAssignmentsTable(findeData, 'finSemana');
+                fContainer.innerHTML = html;
+            } else {
+                fContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No hay programación.</div>';
+                fFecha.textContent = ""; fBasico.innerHTML = "";
+            }
+        }
+
+        function renderSecondRoom(principal, ayudante) {
+            if (!principal) return '';
+            let text = principal;
+            if (ayudante) text += ` / ${ayudante} (Ayudante)`;
+            return `<div class="second-room"><span class="second-room-label">Segunda Sala:</span> ${text}</div>`;
+        }
+
+        function formatHelper(principal, ayudante) {
+            if (!ayudante) return principal;
+            return `${principal} / ${ayudante} (Ayudante)`;
+        }
+
+        function renderAssignmentsTable(data, type) {
+            if (!data) return '';
+            let items = '';
+            
+            // Lógica de limpieza y hospitalidad (Solo números de grupos)
+            if (type === 'entreSemana' && data.limpiezaSuperficial) items += rowAsig('Limpieza Superficial', 'Grupo ' + data.limpiezaSuperficial);
+            if (type === 'finSemana' && data.limpiezaAFondo) items += rowAsig('Limpieza a Fondo', 'Grupo ' + data.limpiezaAFondo);
+            if (type === 'finSemana' && data.hospitalidad) items += rowAsig('Hospitalidad', 'Grupo ' + data.hospitalidad);
+            
+            // Asignaciones comunes
+            if(data.acomodadorAuditorio1) items += rowAsig('Acomodadores', `${data.acomodadorAuditorio1} ${data.acomodadorAuditorio2 ? '| '+data.acomodadorAuditorio2 : ''}`);
+            if(data.acomodadorPuerta) items += rowAsig('Puerta', data.acomodadorPuerta);
+            if(data.microfonos1) items += rowAsig('Micrófonos', `${data.microfonos1} ${data.microfonos2 ? '| '+data.microfonos2 : ''}`);
+            if(data.audioVideo1) items += rowAsig('Audio/Video', `${data.audioVideo1} ${data.audioVideo2 ? '| '+data.audioVideo2 : ''}`);
+            if(data.plataforma) items += rowAsig('Plataforma', data.plataforma);
+
+            if(items === '') return '';
+
+            return `
+            <div class="assignments-container">
+                <div class="assignments-title">Asignaciones y Responsabilidades</div>
+                <div class="assignments-grid">
+                    ${items}
+                </div>
+            </div>`;
+        }
+
+        function rowAsig(label, value) {
+            if(!value) return '';
+            return `<div class="assign-row"><span class="assign-label">${label}</span><span class="assign-value">${value}</span></div>`;
+        }
+
         function renderAnuncios() {
             const container = document.getElementById('anuncios-content');
             const now = toISO(new Date());
-            // Filtrar anuncios vigentes
             const validos = db.anuncios.filter(a => a.fechaInicio <= now && a.fechaFin >= now);
-            
-            if(validos.length === 0) {
-                container.innerHTML = '<div style="text-align:center; color:#999;">No hay anuncios.</div>';
-                return;
-            }
-            
-            container.innerHTML = validos.map(a => `
-                <div class="anuncio">
-                    <div class="anuncio-date">Vigente hasta: ${formatDateShort(a.fechaFin)}</div>
-                    <div>${a.texto}</div>
-                </div>
-            `).join('');
+            if(validos.length === 0) { container.innerHTML = '<div style="text-align:center; color:#999;">No hay anuncios.</div>'; return; }
+            container.innerHTML = validos.map(a => `<div class="anuncio"><div class="anuncio-date">Vigente hasta: ${formatDateShort(a.fechaFin)}</div><div>${a.texto}</div></div>`).join('');
         }
 
         function renderCarousel() {
-            const c = document.getElementById('carousel');
-            c.innerHTML = '';
-            
-            // Generar +/- 15 días
+            const c = document.getElementById('carousel'); c.innerHTML = '';
             for(let i=-5; i<=15; i++) {
-                let d = new Date(today);
-                d.setDate(today.getDate() + i);
-                
+                let d = new Date(today); d.setDate(today.getDate() + i);
                 let el = document.createElement('div');
                 el.className = `date-card ${sameDay(d, selectedDate) ? 'selected' : ''} ${sameDay(d, today) ? 'is-today' : ''}`;
-                el.innerHTML = `
-                    <div class="date-card-day">${d.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div>
-                    <div class="date-card-number">${d.getDate()}</div>
-                `;
-                el.onclick = () => {
-                    selectedDate = d;
-                    renderCarousel(); // Re-render para actualizar selección
-                    renderGrupos();
-                    renderReuniones();
-                    document.getElementById('month-indicator').innerText = d.toLocaleDateString('es-ES', {month:'long'});
-                };
+                el.innerHTML = `<div class="date-card-day">${d.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div><div class="date-card-number">${d.getDate()}</div>`;
+                el.onclick = () => { selectedDate = d; renderCarousel(); renderGrupos(); renderReuniones(); document.getElementById('month-indicator').innerText = d.toLocaleDateString('es-ES', {month:'long'}); };
                 c.appendChild(el);
             }
             document.getElementById('month-indicator').innerText = selectedDate.toLocaleDateString('es-ES', {month:'long'});
         }
 
-        function goToToday() {
-            selectedDate = new Date();
-            renderCarousel();
-            renderGrupos();
-            renderReuniones();
-        }
+        function goToToday() { selectedDate = new Date(); renderCarousel(); renderGrupos(); renderReuniones(); }
+        function formatDate(isoStr) { if(!isoStr) return ''; const parts = isoStr.split('-'); const d = new Date(parts[0], parts[1]-1, parts[2]); return d.toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long'}); }
+        function formatDateShort(isoStr) { const parts = isoStr.split('-'); return `${parts[2]}/${parts[1]}`; }
 
-        function formatDate(isoStr) {
-            if(!isoStr) return '';
-            // Ajuste zona horaria simple
-            const parts = isoStr.split('-');
-            const d = new Date(parts[0], parts[1]-1, parts[2]);
-            return d.toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long'});
-        }
-
-        function formatDateShort(isoStr) {
-            const parts = isoStr.split('-');
-            return `${parts[2]}/${parts[1]}`;
-        }
-
-        // ARRANCAR
         init();
     </script>
-</body>
-</html>
