@@ -149,9 +149,32 @@
         .week-nav-arrow { width: 36px; height: 36px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #16a34a; }
         .week-nav-arrow svg { stroke: #16a34a; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
-        .reunion-card { border-radius: 16px; padding: 20px; border: 1px solid #f3f4f6; cursor: pointer; margin-bottom: 20px; background: #fdfdfd; transition: all 0.2s; }
-        .reunion-card.active-card { border-color: #16a34a; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        .reunion-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        
+        /* CARD REUNIONES (Modificado para contener el detalle) */
+        .reunion-card { 
+            border-radius: 16px; 
+            padding: 0; 
+            border: 1px solid #f3f4f6; 
+            cursor: pointer; 
+            margin: 0 4px 20px 4px; 
+            background: #fdfdfd; 
+            transition: all 0.3s; 
+        }
+        
+        /* CAMBIO: Borde Tenue + Sombra + Espaciado */
+        .reunion-card.active-card { 
+            border: 1px solid #e5e7eb; /* Borde gris tenue */
+            background: #ffffff; 
+            /* Sombra suave para efecto "glow" o transparencia sutil */
+            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08); 
+            margin-bottom: 40px; /* Separación extra al desplegar */
+        }
+        
+        .reunion-header-click {
+            padding: 20px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+
         .reunion-info h3 { font-weight: 800; color: #6b7280; margin-bottom: 6px; font-size: 16px; font-family: 'Inter', sans-serif; }
         .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
         .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
@@ -166,7 +189,7 @@
         .wol-style {
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
             color: #212121;
-            padding: 0 10px 20px 0 !important; 
+            padding: 10px 4px 20px 4px !important; /* Padding top aumentado para separar */
         }
 
         /* Títulos de Sección */
@@ -276,22 +299,26 @@
             width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.7; flex-shrink: 0;
         }
 
-        /* Segunda Sala: RECUADRO GRIS PLANO */
+        /* Segunda Sala: RECUADRO CON ETIQUETA FLOTANTE */
         .sr-box {
-            margin-top: 8px;
-            background: #f9fafb; /* Gris plano */
-            padding: 8px 12px;
+            position: relative; /* Para posicionar etiqueta */
+            margin-top: 20px; /* Espacio para la etiqueta flotante */
+            background: #f9fafb; 
+            padding: 12px;
             border-radius: 8px;
-            border: 2px solid #d1d5db; /* Borde más visible */
+            border: 2px solid #d1d5db; 
         }
-        /* CAMBIO: Etiqueta Gris Más Claro */
+        /* ETIQUETA FLOTANTE GRIS CLARO */
         .sr-badge {
-            display: inline-block;
-            background-color: #9ca3af !important; /* Gris más claro */
-            color: #ffffff; /* Texto blanco */
+            position: absolute;
+            top: -10px; /* Sube la mitad */
+            left: 10px;
+            background-color: #9ca3af !important; /* Gris solicitado */
+            color: #ffffff; 
             font-size: 10px; font-weight: 700; 
-            margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase;
-            padding: 2px 6px; border-radius: 4px;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 2px 8px; border-radius: 4px;
+            z-index: 5;
         }
         .sr-content { font-size: 15px; color: #4b5563; }
 
@@ -336,18 +363,15 @@
             border: 1px solid #e5e7eb;
             border-radius: 10px;
             margin-bottom: 16px;
-            padding: 8px 12px;
+            padding: 12px;
+            display: flex; justify-content: center; /* Centrado horizontal */
         }
-        
-        /* Layout Horizontal: Label izquierda, Valor derecha */
-        .hw-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 4px 0;
-        }
-        
-        /* Línea horizontal divisoria */
-        .hw-divider {
-            height: 1px; background-color: #e5e7eb; width: 100%; margin: 4px 0;
+        /* Contenedor invisible para alineación */
+        .hw-inner-align {
+            display: grid; 
+            grid-template-columns: auto auto; /* Dos columnas ajustadas al contenido */
+            gap: 12px; /* Espacio horizontal */
+            align-items: center;
         }
         
         .highlight-label { color: #374151; font-size: 16px; font-weight: 700; text-transform: capitalize; text-align: left; }
@@ -441,37 +465,38 @@
         </div>
 
         <h2 class="section-title-main" id="reuniones-section">Programa de Reuniones</h2>
-        <div class="card" id="card-programa-reuniones" style="padding: 20px;">
+        
+        <div class="reunion-card" id="card-reunion-semana">
             <div class="reunion-week-nav">
-                <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
-                <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
-                <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
+                <div class="week-nav-arrow" onclick="cambiarSemana(-1); event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
+                <div class="week-nav-text" onclick="resetearSemana(); event.stopPropagation();">Esta Semana</div>
+                <div class="week-nav-arrow" onclick="cambiarSemana(1); event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
             </div>
             
-            <div class="reunion-card" id="card-reunion-semana" onclick="toggleSection('reunion-semana')">
-                <div class="reunion-header">
-                    <div class="reunion-info">
-                        <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
-                        <p class="reunion-date" id="fecha-semana"></p>
-                        <p class="reunion-time">Jueves 6:30 PM</p>
-                    </div>
-                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            <div class="reunion-header-click" onclick="toggleSection('reunion-semana')">
+                <div class="reunion-info">
+                    <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
+                    <p class="reunion-date" id="fecha-semana"></p>
+                    <p class="reunion-time">Jueves 6:30 PM</p>
                 </div>
+                <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </div>
+            
             <div class="section-content" id="reunion-semana-content"><div class="section-inner wol-style" id="reunion-semana-detalle"></div></div>
-            
-            <div class="meeting-spacer"></div>
+        </div>
+        
+        <div class="meeting-spacer"></div>
 
-            <div class="reunion-card" id="card-reunion-finde" onclick="toggleSection('reunion-finde')">
-                <div class="reunion-header">
-                    <div class="reunion-info">
-                        <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
-                        <p class="reunion-date" id="fecha-finde"></p>
-                        <p class="reunion-time">Domingo 10:00 AM</p>
-                    </div>
-                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        <div class="reunion-card" id="card-reunion-finde">
+            <div class="reunion-header-click" onclick="toggleSection('reunion-finde')">
+                <div class="reunion-info">
+                    <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
+                    <p class="reunion-date" id="fecha-finde"></p>
+                    <p class="reunion-time">Domingo 10:00 AM</p>
                 </div>
+                <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </div>
+            
             <div class="section-content" id="reunion-finde-content"><div class="section-inner wol-style" id="reunion-finde-detalle"></div></div>
         </div>
 
@@ -852,25 +877,21 @@
             
             if (type === 'finSemana') {
                 if(data.limpiezaAFondo || data.hospitalidad) {
-                    highlights += `<div class="highlight-weekend-box">`;
+                    highlights += `<div class="highlight-weekend-box">
+                        <div class="hw-inner-align">`; // Inner grid for alignment
                     if(data.limpiezaAFondo) {
                          highlights += `
-                        <div class="hw-row">
                             <span class="highlight-label">Limpieza Profunda</span>
                             <span class="highlight-val">Grupo ${data.limpiezaAFondo}</span>
-                        </div>`;
-                    }
-                    if(data.limpiezaAFondo && data.hospitalidad) {
-                        highlights += `<div class="hw-divider"></div>`;
+                        `;
                     }
                     if(data.hospitalidad) {
                          highlights += `
-                        <div class="hw-row">
                             <span class="highlight-label">Hospitalidad</span>
                             <span class="highlight-val">Grupo ${data.hospitalidad}</span>
-                        </div>`;
+                        `;
                     }
-                    highlights += `</div>`;
+                    highlights += `</div></div>`;
                 }
 
                 // Grid 2 columnas
