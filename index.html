@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cartelera Digital - La Cumaca</title>
     <style>
-        /* --- ESTILOS BASE (NO TOCAR) --- */
+        /* --- ESTILOS BASE --- */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { font-family: 'Inter', sans-serif; background: #ffffff; min-height: 100vh; padding: 16px; color: #4b5563; }
-        .container { max-width: 480px; margin: 0 auto; padding-bottom: 60px; }
+        
+        .container { max-width: 480px; margin: 0 auto; padding-bottom: 100px; padding-top: 20px; }
         
         /* TARJETAS */
         .card { 
@@ -22,28 +23,49 @@
             overflow: hidden; 
             position: relative; 
         }
-        
-        /* HEADER PRINCIPAL */
-        .header { text-align: center; padding: 24px 16px 20px; }
-        .header h1 { 
-            font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 700; color: #9ca3af; 
-            text-transform: capitalize; letter-spacing: -0.5px;
-        }
-        
-        /* NAV MENU */
-        .nav-segment-container { display: flex; justify-content: center; align-items: center; margin-bottom: 32px; }
-        .nav-segment { display: inline-flex; align-items: center; background: #f3f4f6; border-radius: 12px; padding: 4px; }
-        .nav-btn { 
-            text-decoration: none; display: flex; align-items: center; gap: 6px;
-            padding: 8px 16px; color: #6b7280; font-size: 13px; font-weight: 600; 
-            transition: all 0.2s; border-radius: 8px;
-        }
-        .nav-btn:hover { color: #1f2937; background: rgba(255,255,255,0.5); }
-        .nav-btn svg { width: 16px; height: 16px; stroke-width: 2; }
-        .nav-divider { width: 1px; height: 14px; background: #d1d5db; margin: 0 2px; }
 
+        /* --- NAVEGACIÓN --- */
+        .nav-segment-container { 
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: #ffffff; border-top: 1px solid #e5e7eb;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom);
+            display: flex; justify-content: space-around; padding: 10px 0;
+        }
+        .nav-segment { display: contents; }
+        .nav-btn { 
+            text-decoration: none; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; gap: 4px; flex: 1;
+            color: #9ca3af; font-size: 11px; font-weight: 600; padding: 4px;
+            border-radius: 8px; transition: all 0.2s;
+        }
+        .nav-btn:hover { color: #1f2937; background: #f9fafb; }
+        .nav-btn svg { width: 22px; height: 22px; stroke-width: 2; margin-bottom: 2px; }
+        .nav-divider { display: none; }
+
+        @media (min-width: 768px) {
+            .nav-segment-container { 
+                position: static; border: none; box-shadow: none; 
+                margin-bottom: 32px; padding: 0; background: transparent;
+                justify-content: center;
+            }
+            .nav-segment { 
+                display: inline-flex; align-items: center; 
+                background: #f3f4f6; border-radius: 12px; padding: 4px; 
+            }
+            .nav-btn { 
+                flex-direction: row; flex: initial; gap: 6px;
+                padding: 8px 16px; font-size: 13px; color: #6b7280;
+            }
+            .nav-btn svg { width: 16px; height: 16px; margin: 0; }
+            .nav-btn:hover { background: rgba(255,255,255,0.5); }
+            .nav-divider { display: block; width: 1px; height: 14px; background: #d1d5db; margin: 0 2px; }
+            .container { padding-bottom: 60px; }
+        }
+
+        /* TÍTULOS */
         .section-title-main { 
-            font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #374151; 
+            font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #4B5563; 
             margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
         }
         .month-indicator { margin-left: 20px; margin-bottom: 24px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
@@ -138,47 +160,41 @@
         .reunion-card.active-card .section-arrow { transform: rotate(180deg); stroke: #16a34a; }
 
         /* -----------------------------------------------------------
-           ESTILOS REUNIONES CORREGIDOS
+           ESTILOS REUNIONES (DEFINITIVOS)
            ----------------------------------------------------------- */
         
         .wol-style {
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
             color: #212121;
-            padding: 0 10px 20px 10px !important;
+            padding: 0 10px 20px 0 !important; 
         }
 
         /* Títulos de Sección */
         .sect-header { 
-            font-size: 17px; 
-            font-weight: 900; 
-            margin: 28px 0 16px 0; 
-            letter-spacing: 0.5px; 
-            text-transform: uppercase; 
+            font-size: 17px; font-weight: 900; margin: 28px 0 16px 0; 
+            letter-spacing: 0.5px; text-transform: uppercase; 
+            padding-left: 10px;
         }
         
-        /* Definición de colores */
         .c-tesoros { color: #2A6B77; }
         .c-maestros { color: #D38E22; }
         .c-vida { color: #9E1F1F; }
         .c-publico { color: #3B5E8F; }
 
-        /* Cabecera Presidente/Oración */
+        /* Cabecera Presidente/Oración (Compacta) */
         .header-roles {
-            margin-bottom: 24px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #f3f4f6;
+            margin-bottom: 8px;
+            padding-bottom: 0;
+            padding-left: 10px;
         }
         .header-role-row {
-            margin-bottom: 6px;
+            margin-bottom: 2px;
             font-size: 15px;
-            color: #4b5563; /* Gris oscuro para nombres */
-            line-height: 1.5;
+            color: #4b5563; 
+            line-height: 1.3;
         }
         .hr-label {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            color: #6b7280;
-            margin-right: 6px;
+            font-family: 'Inter', sans-serif; font-weight: 800; color: #6b7280; margin-right: 6px;
         }
 
         /* Estructura Flexbox Fila de Reunión */
@@ -189,41 +205,48 @@
             min-height: 40px;
         }
 
-        /* 1. Columna Izquierda (Vacía) */
-        .rt-time-col { width: 12px; flex-shrink: 0; }
+        /* 1. Columna Izquierda (Margen mínimo 10px) */
+        .rt-time-col { width: 10px; flex-shrink: 0; }
 
         /* 2. Columna Central (Línea y Punto) */
         .rt-line-col {
-            width: 24px;
+            width: 20px;
             position: relative;
             flex-shrink: 0;
             display: flex;
             justify-content: center;
         }
-        /* Línea continua CONECTANDO PUNTOS (Centro a Centro) */
+        
+        /* TIMELINE GROUP: Contenedor para controlar first/last child */
+        .timeline-group {
+            position: relative;
+        }
+
+        /* Línea continua CONECTANDO PUNTOS (Superposición) */
         .rt-line {
             position: absolute;
-            top: 0; bottom: 0;
             width: 2px;
             background: #e5e7eb;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1; /* Detrás del punto */
+            z-index: 0; 
+            top: -10px; bottom: -10px; 
         }
-        /* Ajuste primera fila: Línea empieza en el centro del punto (aprox 13px) */
-        .rt-row:first-child .rt-line { top: 13px; } 
-        /* Ajuste última fila: Línea termina en el centro del punto */
-        .rt-row:last-child .rt-line { bottom: auto; height: 13px; } 
         
+        /* Usamos el timeline-group para aislar los items de cada sección */
+        .timeline-group .rt-row:first-child .rt-line { top: 12px; } 
+        .timeline-group .rt-row:last-child .rt-line { bottom: auto; height: 12px; top: -10px; } 
+        /* Caso especial: 1 solo item */
+        .timeline-group .rt-row:first-child:last-child .rt-line { display: none; }
+
         /* Punto Estilizado: SÓLIDO */
         .rt-dot {
             position: relative;
-            z-index: 2; /* Encima de la línea */
+            z-index: 2;
             width: 10px; height: 10px;
             border-radius: 50%;
-            margin-top: 8px;
-            background: currentColor; /* Color sólido completo */
-            /* Halo transparente */
+            margin-top: 7px; /* Centrado visual */
+            background: currentColor; 
             box-shadow: 0 0 0 3px white, 0 0 0 5px currentColor; 
         }
         .rt-dot::after {
@@ -237,86 +260,106 @@
         .rt-content-col { flex-grow: 1; padding-left: 12px; padding-top: 0; min-width: 0; }
         
         .rt-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: inherit; 
-            line-height: 1.35;
-            margin-bottom: 4px;
+            font-size: 16px; font-weight: 700; color: inherit; 
+            line-height: 1.35; margin-bottom: 4px;
         }
         
         .rt-time-tag { display: inline-block; color: #6b7280; font-weight: 500; margin-right: 6px; font-size: 15px; }
         .rt-who { font-size: 15px; color: #4b5563; line-height: 1.4; }
         
-        /* Segunda Sala */
-        .sr-block { margin-top: 8px; padding-left: 14px; border-left: 3px solid #f3f4f6; }
-        .sr-badge { display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-bottom: 2px; letter-spacing: 0.5px; }
+        /* Bullets para nombres dobles */
+        .name-bullet-list { margin-top: 2px; }
+        .name-bullet-item { 
+            display: flex; align-items: center; gap: 6px; margin-bottom: 2px; 
+        }
+        .name-bullet-dot { 
+            width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.7; flex-shrink: 0;
+        }
+
+        /* Segunda Sala: RECUADRO GRIS PLANO */
+        .sr-box {
+            margin-top: 8px;
+            background: #f9fafb; /* Gris plano */
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid #d1d5db; /* Borde más visible */
+        }
+        /* CAMBIO: Etiqueta Gris Más Claro */
+        .sr-badge {
+            display: inline-block;
+            background-color: #9ca3af !important; /* Gris más claro */
+            color: #ffffff; /* Texto blanco */
+            font-size: 10px; font-weight: 700; 
+            margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 2px 6px; border-radius: 4px;
+        }
         .sr-content { font-size: 15px; color: #4b5563; }
 
         /* SECCIÓN ASIGNACIONES */
         .svc-container { margin-top: 32px; background: #fdfdfd; border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; }
         
+        /* CAMBIO: Título #6B7280 */
         .svc-title-main { 
             font-size: 17px; font-weight: 900; margin-bottom: 16px; letter-spacing: 0.5px; 
-            text-transform: uppercase; color: #374151; 
-            margin-left: 0; padding-left: 0;
+            text-transform: uppercase; color: #6B7280; /* Gris medio */
+            padding-left: 10px; 
         }
 
-        /* Fila Normal compacta */
-        .svc-row {
-            display: flex; align-items: baseline; gap: 6px;
-            margin-bottom: 6px; /* Interlineado reducido */
-            font-size: 16px; line-height: 1.3; flex-wrap: wrap;
+        /* Grid para Asignaciones (2 Columnas) */
+        .svc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
-        
-        /* Highlight Combined (Limpieza/Hospitalidad/Midweek) */
-        .highlight-combined {
-            background-color: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            display: flex;
-            margin-bottom: 12px;
-            overflow: hidden;
-        }
-        .hc-col {
-            flex: 1;
-            padding: 10px 12px;
-            display: flex;
-            flex-direction: column;
-        }
-        .hc-divider {
-            width: 1px;
-            background: #d1d5db;
-            margin: 6px 0; /* Margen vertical para que no toque bordes */
-        }
-        .hc-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            font-weight: 800;
-            color: #6b7280;
-            margin-bottom: 4px;
-        }
-        .hc-val {
-            font-size: 15px;
-            font-weight: 700;
-            color: #374151;
-        }
-        
-        /* Estilo para limpieza Midweek (Horizontal) */
-        .highlight-card {
-            background-color: #ffffff;
-            border: 1px solid #d1d5db;
-            padding: 10px 12px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .highlight-card .svc-label { color: #374151; font-size: 16px; font-weight: 700; text-transform: capitalize; }
-        .highlight-card .svc-names { font-size: 16px; font-weight: 700; color: #111827; }
 
-        .svc-label { font-weight: 700; color: #374151; white-space: nowrap; }
-        .svc-names { color: #4b5563; }
+        /* Bloque Asignación Vertical */
+        .svc-block { margin-bottom: 4px; }
+        
+        /* CAMBIO: Subtítulos #4B5563 */
+        .svc-block-title {
+            font-size: 15px; font-weight: 700; color: #4B5563; margin-bottom: 4px; 
+        }
+        /* ESTILO MINUTOS PARA NOMBRES (UNO POR LINEA) */
+        .svc-bullet-item {
+            display: flex; align-items: center; gap: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px; font-weight: 400; color: #6b7280; 
+            margin-bottom: 2px;
+        }
+        .svc-bullet-dot {
+            width: 5px; height: 5px; border-radius: 50%; background: #9ca3af; flex-shrink: 0;
+        }
+        
+        /* Recuadro Gris CLARO para Limpieza/Hospitalidad */
+        .highlight-weekend-box {
+            background-color: #f9fafb; /* Gris muy claro */
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            padding: 8px 12px;
+        }
+        
+        /* Layout Horizontal: Label izquierda, Valor derecha */
+        .hw-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 4px 0;
+        }
+        
+        /* Línea horizontal divisoria */
+        .hw-divider {
+            height: 1px; background-color: #e5e7eb; width: 100%; margin: 4px 0;
+        }
+        
+        .highlight-label { color: #374151; font-size: 16px; font-weight: 700; text-transform: capitalize; text-align: left; }
+        .highlight-val { font-size: 16px; font-weight: 500; color: #374151; text-align: right; } 
+
+        /* Entre Semana (Centrado con gap) */
+        .highlight-midweek {
+            background-color: #f9fafb; /* Gris muy claro */
+            border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            margin-bottom: 16px;
+        }
 
         /* ANUNCIOS */
         .anuncio { background: #fffbeb; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start; }
@@ -338,30 +381,25 @@
         <div id="error-details" class="hidden"></div>
     </div>
 
-    <div class="container">
-        <div class="header">
-            <h1>Cartelera Cong. La Cumaca</h1>
+    <div class="nav-segment-container">
+        <div class="nav-segment">
+            <a href="#grupos-section" class="nav-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                Grupos
+            </a>
+            <a href="#reuniones-section" class="nav-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                Reuniones
+            </a>
+            <a href="#anuncios-section" class="nav-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+                Anuncios
+            </a>
         </div>
-        
-        <div class="nav-segment-container">
-            <div class="nav-segment">
-                <a href="#grupos-section" class="nav-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                    Grupos
-                </a>
-                <div class="nav-divider"></div>
-                <a href="#reuniones-section" class="nav-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                    Reuniones
-                </a>
-                <div class="nav-divider"></div>
-                <a href="#anuncios-section" class="nav-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
-                    Anuncios
-                </a>
-            </div>
-        </div>
+    </div>
 
+    <div class="container">
+        
         <div class="card" id="grupos-section">
             <h2 class="section-title-main">Grupos de Predicación</h2>
             <div id="month-indicator" class="month-indicator"></div>
@@ -576,7 +614,6 @@
                 fechaSemanaEl.textContent = rangoTexto;
                 esMismoDia(dataSemana.fecha, fechaHoy) ? badgeSemana.classList.remove('hidden') : badgeSemana.classList.add('hidden');
                 
-                // PRESIDENTE Y ORACION (Texto a la derecha, en negrita)
                 let html = `
                 <div class="header-roles">
                     <div class="header-role-row">
@@ -589,25 +626,26 @@
                 
                 <div class="c-tesoros">
                     <div class="sect-header">TESOROS DE LA BIBLIA</div>
-                    ${renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros')}
-                    
-                    ${renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros')}
-                    ${renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros')}
-                    
-                    ${renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), 
-                                    dataSemana.tesoros_lectura_tiempo, 
-                                    formatBold(dataSemana.tesoros_lectura_estudiante), 
-                                    'c-tesoros', 
-                                    formatSecondRoom(dataSemana.tesoros_lectura_segundaSala, '', false))}
+                    <div class="timeline-group">
+                        ${renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros')}
+                        ${renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros')}
+                        ${renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros')}
+                        ${renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), 
+                                        dataSemana.tesoros_lectura_tiempo, 
+                                        formatBold(dataSemana.tesoros_lectura_estudiante), 
+                                        'c-tesoros', 
+                                        formatSecondRoom(dataSemana.tesoros_lectura_segundaSala, '', 'tesoros'))}
+                    </div>
                 </div>
 
                 <div class="c-maestros">
                     <div class="sect-header">SEAMOS MEJORES MAESTROS</div>
                     ${dataSemana.maestros_salaAuxiliar ? `
-                        <div style="margin-bottom:12px; font-size:15px; color:#4b5563;">
+                        <div style="margin-bottom:12px; font-size:15px; color:#4b5563; padding-left:10px;">
                             <span style="font-weight:400; color:#6b7280;">Conductor Segunda Sala:</span> <strong>${dataSemana.maestros_salaAuxiliar}</strong>
                         </div>
                     ` : ''}
+                    <div class="timeline-group">
                     `;
 
                     for(let i=1; i<=5; i++) {
@@ -618,21 +656,22 @@
                                 dataSemana[`maestros_parte${i}_tiempo`], 
                                 formatHelper(dataSemana[`maestros_parte${i}_principal`], dataSemana[`maestros_parte${i}_ayudante`]), 
                                 'c-maestros', 
-                                formatSecondRoom(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`], true)
+                                formatSecondRoom(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`], 'maestros')
                             );
                         }
                     }
-                html += `</div>
+                html += `</div></div>
 
                 <div class="c-vida">
                     <div class="sect-header">NUESTRA VIDA CRISTIANA</div>
-                    ${renderFlexItem(dataSemana.vida_parte1_titulo, dataSemana.vida_parte1_tiempo, formatBold(dataSemana.vida_parte1_hermano), 'c-vida')}
-                    
-                    ${renderFlexItem('Estudio bíblico', dataSemana.vida_estudioBiblico_tiempo, `Conductor: <strong>${dataSemana.vida_estudioBiblico_conductor}</strong><br>Lector: <strong>${dataSemana.vida_estudioBiblico_lector}</strong>`, 'c-vida')}
-                    ${renderFlexItem('Palabras de conclusión', dataSemana.vida_conclusion_tiempo, formatBold(dataSemana.vida_conclusion_hermano), 'c-vida')}
+                    <div class="timeline-group">
+                        ${renderFlexItem(dataSemana.vida_parte1_titulo, dataSemana.vida_parte1_tiempo, formatBold(dataSemana.vida_parte1_hermano), 'c-vida')}
+                        ${renderFlexItem('Estudio bíblico', dataSemana.vida_estudioBiblico_tiempo, `Conductor: <strong>${dataSemana.vida_estudioBiblico_conductor}</strong><br>Lector: <strong>${dataSemana.vida_estudioBiblico_lector}</strong>`, 'c-vida')}
+                        ${renderFlexItem('Palabras de conclusión', dataSemana.vida_conclusion_tiempo, formatBold(dataSemana.vida_conclusion_hermano), 'c-vida')}
+                    </div>
                 </div>
                 
-                <div style="margin-top: 16px; padding-top:12px; border-top:1px solid #f3f4f6;">
+                <div style="margin-top: 4px; padding-top:4px; border-top:1px solid #f3f4f6; padding-left:10px;">
                     <div class="header-role-row">
                         <span class="hr-label">Oración final:</span> <strong>${dataSemana.oracionFinal || "-"}</strong>
                     </div>
@@ -657,7 +696,6 @@
                 fechaFindeEl.textContent = fDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
                 esMismoDia(dataFinde.fecha, fechaHoy) ? badgeFinde.classList.remove('hidden') : badgeFinde.classList.add('hidden');
                 
-                // HEADER
                 let html = `
                 <div class="header-roles">
                     <div class="header-role-row">
@@ -670,15 +708,19 @@
                 
                 <div class="c-publico">
                     <div class="sect-header">DISCURSO PÚBLICO</div>
-                    ${renderFlexItem(`"${dataFinde.discursoPublico_tema}"`, '', `<strong>${dataFinde.discursoPublico_orador}</strong><br><span style="font-size:14px; color:#6b7280;">${dataFinde.discursoPublico_congregacion}</span>`, 'c-publico')}
+                    <div class="timeline-group">
+                        ${renderFlexItem(`"${dataFinde.discursoPublico_tema}"`, '', `<strong>${dataFinde.discursoPublico_orador}</strong><br><span style="font-size:14px; color:#6b7280;">${dataFinde.discursoPublico_congregacion}</span>`, 'c-publico')}
+                    </div>
                 </div>
                 
                 <div class="c-publico">
                     <div class="sect-header">ESTUDIO DE LA ATALAYA</div>
-                    ${renderFlexItem(dataFinde.estudioAtalaya_articulo, '', `Conductor: <strong>${dataFinde.estudioAtalaya_conductor}</strong><br>Lector: <strong>${dataFinde.estudioAtalaya_lector}</strong>`, 'c-publico')}
+                    <div class="timeline-group">
+                        ${renderFlexItem(dataFinde.estudioAtalaya_articulo, '', `Conductor: <strong>${dataFinde.estudioAtalaya_conductor}</strong><br>Lector: <strong>${dataFinde.estudioAtalaya_lector}</strong>`, 'c-publico')}
+                    </div>
                 </div>
                 
-                <div style="margin-top: 16px; padding-top:12px; border-top:1px solid #f3f4f6;">
+                <div style="margin-top: 4px; padding-top:4px; border-top:1px solid #f3f4f6; padding-left:10px;">
                     <div class="header-role-row">
                         <span class="hr-label">Oración final:</span> <strong>${dataFinde.oracionFinal || "-"}</strong>
                     </div>
@@ -699,7 +741,15 @@
             
             let timeSpan = time ? `<span class="rt-time-tag">${time}</span>` : '';
             let contentHTML = `<div class="rt-title">${timeSpan}${title}</div>`;
-            if (who) contentHTML += `<div class="rt-who">${who}</div>`;
+            
+            if (who) {
+                if (who.includes('<br>') || who.includes(' / ')) {
+                    contentHTML += `<div class="rt-who">${who}</div>`;
+                } else {
+                    contentHTML += `<div class="rt-who">${who}</div>`;
+                }
+            }
+            
             if (secondRoomHTML) contentHTML += secondRoomHTML; 
 
             return `
@@ -717,10 +767,14 @@
 
         function formatHelper(principal, ayudante) {
             if (!principal) return '';
-            let p = `<strong>${principal}</strong>`;
-            // Ayudante en gris suave (#6b7280)
-            if (ayudante) p += ` | <span style="color:#6b7280; font-weight:700;">${ayudante}</span> (Ayudante)`;
-            return p;
+            if (ayudante) {
+                return `
+                <div class="name-bullet-list">
+                    <div class="name-bullet-item"><div class="name-bullet-dot"></div><strong>${principal}</strong></div>
+                    <div class="name-bullet-item"><div class="name-bullet-dot"></div><span style="color:#6b7280; font-weight:700;">${ayudante}</span> (Ayudante)</div>
+                </div>`;
+            }
+            return `<strong>${principal}</strong>`;
         }
 
         function formatBold(text) {
@@ -728,16 +782,22 @@
         }
 
         // Lógica Segunda Sala
-        function formatSecondRoom(principal, ayudante, isMaestros) {
+        function formatSecondRoom(principal, ayudante, section) {
             if (!principal) return '';
-            let text = `<strong>${principal}</strong>`; 
-            // Ayudante en gris suave
-            if (ayudante) text += ` | <span style="color:#6b7280; font-weight:700;">${ayudante}</span> (Ayudante)`; 
             
+            let content = '';
+            if (ayudante) {
+                content = `
+                <div class="name-bullet-item"><div class="name-bullet-dot"></div><strong>${principal}</strong></div>
+                <div class="name-bullet-item"><div class="name-bullet-dot"></div><span style="color:#6b7280; font-weight:700;">${ayudante}</span> (Ayudante)</div>
+                `;
+            } else {
+                content = `<strong>${principal}</strong>`;
+            }
             return `
-            <div class="sr-block">
+            <div class="sr-box">
                 <span class="sr-badge">SEGUNDA SALA</span>
-                <div class="sr-content">${text}</div>
+                <div class="sr-content name-bullet-list" style="margin-top:0;">${content}</div>
             </div>`;
         }
 
@@ -748,55 +808,90 @@
 
             const addRow = (label, value) => {
                 if(!value) return;
-                // SIN NEGRITAS EN ASIGNACIONES
-                list += `<div class="svc-row"><span class="svc-label">${label}:</span> <span class="svc-names">${value.replace(/,/g, ' | ')}</span></div>`;
+                let names = value.split(/,| y | Y /).map(n => n.trim()).filter(n => n);
+                let namesHtml = '';
+                names.forEach(n => {
+                    namesHtml += `<div class="svc-bullet-item"><div class="svc-bullet-dot"></div>${n}</div>`;
+                });
+                list += `
+                <div class="svc-block">
+                    <div class="svc-block-title">${label}</div>
+                    ${namesHtml}
+                </div>`;
             }
 
             if (type === 'entreSemana') {
                 if(data.limpiezaSuperficial) {
-                     // Solo Limpieza, horizontal con justify-between
                      highlights += `
-                    <div class="highlight-card">
-                        <span class="svc-label">Limpieza Superficial</span>
-                        <span class="svc-names">Grupo ${data.limpiezaSuperficial}</span>
+                    <div class="highlight-midweek">
+                        <span class="highlight-label">Limpieza Superficial</span>
+                        <span class="highlight-val">Grupo ${data.limpiezaSuperficial}</span>
                     </div>`;
                 }
-                if(data.acomodadorAuditorio1) addRow('Auditorio', `${data.acomodadorAuditorio1} | ${data.acomodadorAuditorio2}`);
-                if(data.acomodadorPuerta) addRow('Puerta', data.acomodadorPuerta);
-                if(data.microfonos1) addRow('Micrófonos', `${data.microfonos1} | ${data.microfonos2}`);
-                if(data.audioVideo1) addRow('Audio/Video', `${data.audioVideo1} | ${data.audioVideo2}`);
-                if(data.plataforma) addRow('Plataforma', data.plataforma);
+                
+                let gridItems = '';
+                const addGridItem = (label, value) => {
+                    if(!value) return '';
+                    let names = value.split(/,| y | Y /).map(n => n.trim()).filter(n => n);
+                    let namesHtml = '';
+                    names.forEach(n => {
+                        namesHtml += `<div class="svc-bullet-item"><div class="svc-bullet-dot"></div>${n}</div>`;
+                    });
+                    return `<div class="svc-block"><div class="svc-block-title">${label}</div>${namesHtml}</div>`;
+                };
+
+                // Grid 2 columnas
+                gridItems += addGridItem('Auditorio', `${data.acomodadorAuditorio1}, ${data.acomodadorAuditorio2}`);
+                gridItems += addGridItem('Puerta', data.acomodadorPuerta);
+                gridItems += addGridItem('Micrófonos', `${data.microfonos1}, ${data.microfonos2}`);
+                gridItems += addGridItem('Audio/Video', `${data.audioVideo1}, ${data.audioVideo2}`);
+                gridItems += addGridItem('Plataforma', data.plataforma);
+                
+                list = `<div class="svc-grid" style="margin-top:16px;">${gridItems}</div>`;
             }
             
             if (type === 'finSemana') {
-                // Combined Box Logic
                 if(data.limpiezaAFondo || data.hospitalidad) {
-                    highlights += `<div class="highlight-combined">`;
+                    highlights += `<div class="highlight-weekend-box">`;
                     if(data.limpiezaAFondo) {
                          highlights += `
-                        <div class="hc-col">
-                            <span class="hc-label">Limpieza Profunda</span>
-                            <span class="hc-val">Grupo ${data.limpiezaAFondo}</span>
+                        <div class="hw-row">
+                            <span class="highlight-label">Limpieza Profunda</span>
+                            <span class="highlight-val">Grupo ${data.limpiezaAFondo}</span>
                         </div>`;
                     }
                     if(data.limpiezaAFondo && data.hospitalidad) {
-                        highlights += `<div class="hc-divider"></div>`;
+                        highlights += `<div class="hw-divider"></div>`;
                     }
                     if(data.hospitalidad) {
                          highlights += `
-                        <div class="hc-col">
-                            <span class="hc-label">Hospitalidad</span>
-                            <span class="hc-val">Grupo ${data.hospitalidad}</span>
+                        <div class="hw-row">
+                            <span class="highlight-label">Hospitalidad</span>
+                            <span class="highlight-val">Grupo ${data.hospitalidad}</span>
                         </div>`;
                     }
                     highlights += `</div>`;
                 }
 
-                if(data.acomodadorAuditorio1) addRow('Auditorio', `${data.acomodadorAuditorio1} | ${data.acomodadorAuditorio2}`);
-                if(data.acomodadorPuerta) addRow('Puerta', data.acomodadorPuerta);
-                if(data.microfonos1) addRow('Micrófonos', `${data.microfonos1} | ${data.microfonos2}`);
-                if(data.audioVideo1) addRow('Audio/Video', `${data.audioVideo1} | ${data.audioVideo2}`);
-                if(data.plataforma) addRow('Plataforma', data.plataforma);
+                // Grid 2 columnas
+                let gridItems = '';
+                const addGridItem = (label, value) => {
+                    if(!value) return '';
+                    let names = value.split(/,| y | Y /).map(n => n.trim()).filter(n => n);
+                    let namesHtml = '';
+                    names.forEach(n => {
+                        namesHtml += `<div class="svc-bullet-item"><div class="svc-bullet-dot"></div>${n}</div>`;
+                    });
+                    return `<div class="svc-block"><div class="svc-block-title">${label}</div>${namesHtml}</div>`;
+                };
+                
+                gridItems += addGridItem('Auditorio', `${data.acomodadorAuditorio1}, ${data.acomodadorAuditorio2}`);
+                gridItems += addGridItem('Puerta', data.acomodadorPuerta);
+                gridItems += addGridItem('Micrófonos', `${data.microfonos1}, ${data.microfonos2}`);
+                gridItems += addGridItem('Audio/Video', `${data.audioVideo1}, ${data.audioVideo2}`);
+                gridItems += addGridItem('Plataforma', data.plataforma);
+                
+                list = `<div class="svc-grid">${gridItems}</div>`;
             }
 
             if(!list && !highlights) return '';
