@@ -15,7 +15,6 @@
         .container { max-width: 480px; margin: 0 auto; padding-bottom: 100px; padding-top: 20px; }
         
         /* TARJETAS GENERALES */
-        /* CAMBIO: Aumento de separación entre secciones principales (80px) */
         .card { 
             background: #ffffff; 
             border: none; 
@@ -58,33 +57,30 @@
             .container { padding-bottom: 60px; }
         }
 
-        /* TÍTULOS (MODIFICADO: Color #6B7280) */
+        /* TÍTULOS */
         .section-title-main { 
             font-family: 'Roboto', sans-serif; 
             font-size: 17px; 
             font-weight: 900; 
-            color: #6B7280; /* CAMBIO COLOR */
+            color: #6B7280; 
             margin: 24px 20px 16px 20px; 
             text-align: left; 
             text-transform: uppercase; 
             letter-spacing: 0.5px;
         }
-        
-        /* Ajuste para separar más los bloques si no están en tarjetas */
         h2.section-title-main { margin-top: 40px; }
-        .card h2.section-title-main { margin-top: 24px; } /* Reset dentro de tarjeta */
+        .card h2.section-title-main { margin-top: 24px; }
 
         .month-indicator { margin-left: 20px; margin-bottom: 24px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* CARRUSEL (MODIFICADO: Desvanecimiento 120px fuerte) */
+        /* CARRUSEL (MODIFICADO: 90px) */
         .carousel-wrapper { position: relative; padding: 0 10px 20px 10px; }
         
         .carousel-wrapper::before, .carousel-wrapper::after {
-            content: ''; position: absolute; top: 0; bottom: 20px; width: 120px; z-index: 5; pointer-events: none;
+            content: ''; position: absolute; top: 0; bottom: 20px; width: 90px; z-index: 5; pointer-events: none;
         }
-        /* El 30% sólido asegura que debajo del botón sea totalmente blanco */
-        .carousel-wrapper::before { left: 0; background: linear-gradient(to right, #ffffff 30%, rgba(255,255,255,0) 100%); }
-        .carousel-wrapper::after { right: 0; background: linear-gradient(to left, #ffffff 30%, rgba(255,255,255,0) 100%); }
+        .carousel-wrapper::before { left: 0; background: linear-gradient(to right, #ffffff 20%, rgba(255,255,255,0) 100%); }
+        .carousel-wrapper::after { right: 0; background: linear-gradient(to left, #ffffff 20%, rgba(255,255,255,0) 100%); }
 
         .carousel-arrow { 
             position: absolute; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; 
@@ -157,11 +153,25 @@
         .page-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
 
         /* REUNIONES NAV (FUERA DE LA TARJETA) */
-        .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; padding: 12px; }
+        .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 4px; padding: 12px; }
         .week-nav-arrow { width: 36px; height: 36px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #16a34a; }
         .week-nav-arrow svg { stroke: #16a34a; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
         
+        /* SWIPE HINT ANIMATION */
+        .swipe-hint-container {
+            display: flex; justify-content: center; align-items: center; margin-bottom: 24px;
+        }
+        .swipe-hint-icon {
+            width: 24px; height: 24px; color: #9ca3af; opacity: 0.6;
+            animation: swipeAnim 2s ease-in-out infinite;
+        }
+        @keyframes swipeAnim {
+            0% { transform: translateX(0); opacity: 0.4; }
+            50% { transform: translateX(6px); opacity: 0.8; }
+            100% { transform: translateX(0); opacity: 0.4; }
+        }
+
         /* CARD REUNIONES */
         .reunion-card { 
             border-radius: 16px; 
@@ -227,9 +237,14 @@
         .sect-subtitle {
             font-size: 13px; font-weight: 800; color: #9ca3af; 
             text-transform: uppercase; letter-spacing: 1px;
-            margin-bottom: 12px; padding-left: 10px;
+            margin-bottom: 6px; padding-left: 10px;
         }
         
+        /* Estilo para el conductor de segunda sala */
+        .sr-conductor {
+            font-size: 13px; color: #4b5563; padding-left: 10px; margin-bottom: 12px;
+        }
+
         .c-tesoros { color: #2A6B77; }
         .c-maestros { color: #D38E22; }
         .c-vida { color: #9E1F1F; }
@@ -290,7 +305,14 @@
         
         /* Usamos el timeline-group para aislar los items de cada sección */
         .timeline-group .rt-row:first-child .rt-line { top: 12px; } 
-        .timeline-group .rt-row:last-child .rt-line { bottom: auto; height: 12px; top: -10px; } 
+        
+        /* CAMBIO: La línea muere EXACTAMENTE en el centro del punto del último elemento */
+        .timeline-group .rt-row:last-child .rt-line { 
+            bottom: auto; 
+            height: 22px; /* 10px padding negativo + 12px hasta el centro del punto */ 
+            top: -10px; 
+        } 
+        
         /* Caso especial: 1 solo item */
         .timeline-group .rt-row:first-child:last-child .rt-line { display: none; }
 
@@ -331,15 +353,13 @@
             width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.7; flex-shrink: 0;
         }
 
-        /* --- NUEVO: ESTILO PARA SECCIÓN COMPLETA DE SEGUNDA SALA --- */
+        /* --- NUEVO: ESTILO PARA SECCIÓN COMPLETA DE SEGUNDA SALA (BURBUJA) --- */
         .sr-full-section {
             background-color: #f9fafb; /* Gris suave */
-            margin-left: -20px; /* Desborde negativo para tocar bordes */
-            margin-right: -20px;
-            padding: 20px; /* Padding interno */
+            padding: 16px 12px; /* Padding interno */
             margin-top: 10px;
-            border-top: 1px solid #e5e7eb;
-            border-bottom: 1px solid #e5e7eb;
+            border-radius: 12px; /* Borde redondeado */
+            border: 1px solid #e5e7eb; /* Borde sutil */
         }
         .sr-full-section .rt-line-col {
             margin-left: 4px; 
@@ -496,6 +516,10 @@
             <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
             <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
             <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
+        </div>
+
+        <div class="swipe-hint-container">
+            <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 10l4 4l-4 4"/><path d="M3 14l4 -4l-4 -4"/><path d="M7 14h10"/><path d="M7 10h10"/></svg>
         </div>
 
         <div class="reunion-card" id="card-reunion-semana">
@@ -690,6 +714,7 @@
                         ${dataSemana.tesoros_lectura_segundaSala ? `
                             <div class="sr-full-section">
                                 <div class="sect-subtitle">SEGUNDA SALA</div>
+                                <div class="sr-conductor">Conductor: <strong>${dataSemana.consejero_segundaSala || '-'}</strong></div>
                                 <div class="timeline-group">
                                     ${renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros')}
                                 </div>
@@ -735,11 +760,12 @@
                     html += mainParts.join('');
                     html += `</div>`; // Cierra timeline-group principal
 
-                    // Render Second Parts (Full Width Section)
+                    // Render Second Parts (Bubble Style)
                     if(secondParts.length > 0) {
                         html += `
                         <div class="sr-full-section">
                             <div class="sect-subtitle">SEGUNDA SALA</div>
+                            <div class="sr-conductor">Conductor: <strong>${dataSemana.consejero_segundaSala || '-'}</strong></div>
                             <div class="timeline-group">
                                 ${secondParts.join('')}
                             </div>
