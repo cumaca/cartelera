@@ -6,10 +6,13 @@
     <title>Cartelera Digital - La Cumaca</title>
     <style>
         /* --- ESTILOS BASE --- */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        /* CAMBIO: Fuente Roboto */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+        
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body { font-family: 'Inter', sans-serif; background: #ffffff; min-height: 100vh; padding: 16px; color: #4b5563; overflow-x: hidden; }
+        /* CAMBIO: Aplicar Roboto globalmente */
+        body { font-family: 'Roboto', sans-serif; background: #ffffff; min-height: 100vh; padding: 16px; color: #4b5563; overflow-x: hidden; }
         
         .container { max-width: 480px; margin: 0 auto; padding-bottom: 100px; padding-top: 20px; }
         
@@ -58,7 +61,7 @@
 
         /* TÍTULOS */
         .section-title-main { 
-            font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #4B5563; 
+            font-family: 'Roboto', sans-serif; font-size: 22px; font-weight: 800; color: #4B5563; 
             margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
         }
         .month-indicator { margin-left: 20px; margin-bottom: 24px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
@@ -153,21 +156,16 @@
         
         /* ESTILO "APP FULL WIDTH" AL DESPLEGAR */
         .reunion-card.active-card { 
-            /* Borde tenue solo arriba y abajo */
-            border: 1px solid #e5e7eb;
+            border: 1px solid #e5e7eb; 
             border-left: none; 
             border-right: none;
-            border-radius: 0; /* Sin esquinas redondeadas */
-            
+            border-radius: 0; 
             background: #ffffff; 
-            box-shadow: none; /* Sin sombra */
-            
-            /* Márgenes negativos para tocar los bordes de la pantalla (asumiendo body padding 16px) */
+            box-shadow: none; 
             margin-left: -16px;
             margin-right: -16px;
-            width: calc(100% + 32px); /* Compensar el ancho */
-            
-            margin-bottom: 40px; /* Separación extra abajo */
+            width: calc(100% + 32px); 
+            margin-bottom: 40px; 
         }
         
         .reunion-header-click {
@@ -175,7 +173,7 @@
             display: flex; justify-content: space-between; align-items: flex-start;
         }
 
-        .reunion-info h3 { font-weight: 800; color: #6b7280; margin-bottom: 6px; font-size: 16px; font-family: 'Inter', sans-serif; }
+        .reunion-info h3 { font-weight: 800; color: #6b7280; margin-bottom: 6px; font-size: 16px; font-family: 'Roboto', sans-serif; }
         .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
         .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
         .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; }
@@ -189,8 +187,7 @@
         .wol-style {
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
             color: #212121;
-            /* Padding aumentado para separar contenido del borde de pantalla */
-            padding: 20px 20px 30px 20px !important; 
+            padding: 10px 4px 20px 4px !important; 
         }
 
         /* Títulos de Sección */
@@ -200,12 +197,19 @@
             padding-left: 10px;
         }
         
+        /* Subtítulos para Sala Principal / Segunda Sala */
+        .sect-subtitle {
+            font-size: 13px; font-weight: 800; color: #9ca3af; 
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-bottom: 12px; padding-left: 10px;
+        }
+        
         .c-tesoros { color: #2A6B77; }
         .c-maestros { color: #D38E22; }
         .c-vida { color: #9E1F1F; }
         .c-publico { color: #3B5E8F; }
 
-        /* Cabecera Presidente/Oración (Compacta) */
+        /* Cabecera Presidente/Oración */
         .header-roles {
             margin-bottom: 8px;
             padding-bottom: 0;
@@ -218,7 +222,7 @@
             line-height: 1.3;
         }
         .hr-label {
-            font-family: 'Inter', sans-serif; font-weight: 800; color: #6b7280; margin-right: 6px;
+            font-family: 'Roboto', sans-serif; font-weight: 800; color: #6b7280; margin-right: 6px;
         }
 
         /* Estructura Flexbox Fila de Reunión */
@@ -239,7 +243,7 @@
             flex-shrink: 0;
             display: flex;
             justify-content: center;
-            margin-left: 4px; /* Separación minima del borde */
+            margin-left: 4px; 
         }
         
         /* TIMELINE GROUP: Contenedor para controlar first/last child */
@@ -301,36 +305,27 @@
             width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.7; flex-shrink: 0;
         }
 
-        /* Segunda Sala: RECUADRO CON ETIQUETA FLOTANTE */
-        .sr-box {
-            position: relative; /* Para posicionar etiqueta */
-            margin-top: 20px; /* Espacio para la etiqueta flotante */
-            background: #f9fafb; 
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #d1d5db; /* Borde FINO (1px) */
+        /* --- NUEVO: ESTILO PARA SECCIÓN COMPLETA DE SEGUNDA SALA --- */
+        .sr-full-section {
+            background-color: #f9fafb; /* Gris suave */
+            margin-left: -20px; /* Desborde negativo para tocar bordes */
+            margin-right: -20px;
+            padding: 20px; /* Padding interno para que el contenido no toque los bordes */
+            margin-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
         }
-        /* ETIQUETA FLOTANTE GRIS CLARO */
-        .sr-badge {
-            position: absolute;
-            top: -10px; /* Sube la mitad */
-            left: 10px;
-            background-color: #9ca3af !important; /* Gris solicitado */
-            color: #ffffff; 
-            font-size: 10px; font-weight: 700; 
-            letter-spacing: 0.5px; text-transform: uppercase;
-            padding: 2px 8px; border-radius: 4px;
-            z-index: 5;
+        /* Ajuste de línea temporal dentro de sección gris para alinear con la principal */
+        .sr-full-section .rt-line-col {
+            margin-left: 4px; /* Misma alineación que arriba */
         }
-        .sr-content { font-size: 15px; color: #4b5563; }
 
         /* SECCIÓN ASIGNACIONES */
         .svc-container { margin-top: 32px; background: #fdfdfd; border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; }
         
-        /* CAMBIO: Título #6B7280 */
         .svc-title-main { 
             font-size: 17px; font-weight: 900; margin-bottom: 16px; letter-spacing: 0.5px; 
-            text-transform: uppercase; color: #6B7280; /* Gris medio */
+            text-transform: uppercase; color: #6B7280; 
             padding-left: 10px; 
         }
 
@@ -344,14 +339,12 @@
         /* Bloque Asignación Vertical */
         .svc-block { margin-bottom: 4px; }
         
-        /* CAMBIO: Subtítulos #4B5563 */
         .svc-block-title {
             font-size: 15px; font-weight: 700; color: #4B5563; margin-bottom: 4px; 
         }
-        /* ESTILO MINUTOS PARA NOMBRES (UNO POR LINEA) */
         .svc-bullet-item {
             display: flex; align-items: center; gap: 6px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Roboto', sans-serif;
             font-size: 15px; font-weight: 400; color: #6b7280; 
             margin-bottom: 2px;
         }
@@ -365,15 +358,15 @@
             border: 1px solid #e5e7eb;
             border-radius: 10px;
             margin-bottom: 16px;
-            padding: 12px;
-            display: flex; justify-content: center; /* Centrado horizontal */
+            padding: 8px 12px;
         }
-        /* Contenedor invisible para alineación */
-        .hw-inner-align {
-            display: grid; 
-            grid-template-columns: auto auto; /* Dos columnas ajustadas al contenido */
-            gap: 12px; /* Espacio horizontal */
-            align-items: center;
+        
+        .hw-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 4px 0;
+        }
+        .hw-divider {
+            height: 1px; background-color: #e5e7eb; width: 100%; margin: 4px 0;
         }
         
         .highlight-label { color: #374151; font-size: 16px; font-weight: 700; text-transform: capitalize; text-align: left; }
@@ -657,37 +650,72 @@
                         ${renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros')}
                         ${renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros')}
                         ${renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros')}
+                        
                         ${renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), 
                                         dataSemana.tesoros_lectura_tiempo, 
                                         formatBold(dataSemana.tesoros_lectura_estudiante), 
-                                        'c-tesoros', 
-                                        formatSecondRoom(dataSemana.tesoros_lectura_segundaSala, '', 'tesoros'))}
+                                        'c-tesoros')}
+                        
+                        ${dataSemana.tesoros_lectura_segundaSala ? `
+                            <div class="sr-full-section">
+                                <div class="sect-subtitle">SEGUNDA SALA</div>
+                                <div class="timeline-group">
+                                    ${renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros')}
+                                </div>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
 
                 <div class="c-maestros">
                     <div class="sect-header">SEAMOS MEJORES MAESTROS</div>
-                    ${dataSemana.maestros_salaAuxiliar ? `
-                        <div style="margin-bottom:12px; font-size:15px; color:#4b5563; padding-left:10px;">
-                            <span style="font-weight:400; color:#6b7280;">Conductor Segunda Sala:</span> <strong>${dataSemana.maestros_salaAuxiliar}</strong>
-                        </div>
-                    ` : ''}
+                    <div class="sect-subtitle">SALA PRINCIPAL</div>
                     <div class="timeline-group">
                     `;
+                    
+                    // Arrays para separar las salas
+                    let mainParts = [];
+                    let secondParts = [];
 
                     for(let i=1; i<=5; i++) {
                         const titulo = dataSemana[`maestros_parte${i}_titulo`];
                         if(titulo) {
-                            html += renderFlexItem(
+                            // Sala Principal
+                            mainParts.push(renderFlexItem(
                                 titulo, 
                                 dataSemana[`maestros_parte${i}_tiempo`], 
                                 formatHelper(dataSemana[`maestros_parte${i}_principal`], dataSemana[`maestros_parte${i}_ayudante`]), 
-                                'c-maestros', 
-                                formatSecondRoom(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`], 'maestros')
-                            );
+                                'c-maestros'
+                            ));
+                            
+                            // Segunda Sala (si existe)
+                            if(dataSemana[`maestros_parte${i}_segundaSala_principal`]) {
+                                secondParts.push(renderFlexItem(
+                                    titulo, 
+                                    dataSemana[`maestros_parte${i}_tiempo`], 
+                                    formatHelper(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`]), 
+                                    'c-maestros'
+                                ));
+                            }
                         }
                     }
-                html += `</div></div>
+                    
+                    // Render Main Parts
+                    html += mainParts.join('');
+                    html += `</div>`; // Cierra timeline-group principal
+
+                    // Render Second Parts (Full Width Section)
+                    if(secondParts.length > 0) {
+                        html += `
+                        <div class="sr-full-section">
+                            <div class="sect-subtitle">SEGUNDA SALA</div>
+                            <div class="timeline-group">
+                                ${secondParts.join('')}
+                            </div>
+                        </div>`;
+                    }
+
+                html += `</div>
 
                 <div class="c-vida">
                     <div class="sect-header">NUESTRA VIDA CRISTIANA</div>
@@ -763,7 +791,7 @@
         }
 
         // --- RENDER FLEX ITEM ---
-        function renderFlexItem(title, time, who, parentClass, secondRoomHTML = '') {
+        function renderFlexItem(title, time, who, parentClass) {
             if(!title) return '';
             
             let timeSpan = time ? `<span class="rt-time-tag">${time}</span>` : '';
@@ -776,8 +804,6 @@
                     contentHTML += `<div class="rt-who">${who}</div>`;
                 }
             }
-            
-            if (secondRoomHTML) contentHTML += secondRoomHTML; 
 
             return `
             <div class="rt-row ${parentClass}">
@@ -806,26 +832,6 @@
 
         function formatBold(text) {
             return text ? `<strong>${text}</strong>` : '';
-        }
-
-        // Lógica Segunda Sala
-        function formatSecondRoom(principal, ayudante, section) {
-            if (!principal) return '';
-            
-            let content = '';
-            if (ayudante) {
-                content = `
-                <div class="name-bullet-item"><div class="name-bullet-dot"></div><strong>${principal}</strong></div>
-                <div class="name-bullet-item"><div class="name-bullet-dot"></div><span style="color:#6b7280; font-weight:700;">${ayudante}</span> (Ayudante)</div>
-                `;
-            } else {
-                content = `<strong>${principal}</strong>`;
-            }
-            return `
-            <div class="sr-box">
-                <span class="sr-badge">SEGUNDA SALA</span>
-                <div class="sr-content name-bullet-list" style="margin-top:0;">${content}</div>
-            </div>`;
         }
 
         // --- ASIGNACIONES / SERVICIOS ---
@@ -880,7 +886,7 @@
             if (type === 'finSemana') {
                 if(data.limpiezaAFondo || data.hospitalidad) {
                     highlights += `<div class="highlight-weekend-box">
-                        <div class="hw-inner-align">`; // Inner grid for alignment
+                        <div class="hw-inner-align">`; 
                     if(data.limpiezaAFondo) {
                          highlights += `
                             <span class="highlight-label">Limpieza Profunda</span>
