@@ -73,7 +73,7 @@
 
         .month-indicator { margin-left: 20px; margin-bottom: 24px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* CARRUSEL (MODIFICADO: 90px) */
+        /* CARRUSEL */
         .carousel-wrapper { position: relative; padding: 0 10px 20px 10px; }
         
         .carousel-wrapper::before, .carousel-wrapper::after {
@@ -152,24 +152,29 @@
         .page-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: white; color: #6b7280; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .page-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
 
-        /* REUNIONES NAV (FUERA DE LA TARJETA) */
+        /* REUNIONES NAV */
         .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 4px; padding: 12px; }
         .week-nav-arrow { width: 36px; height: 36px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #16a34a; }
         .week-nav-arrow svg { stroke: #16a34a; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
         
-        /* SWIPE HINT ANIMATION */
+        /* SWIPE HINT ANIMATION (MANO) */
         .swipe-hint-container {
             display: flex; justify-content: center; align-items: center; margin-bottom: 24px;
         }
         .swipe-hint-icon {
-            width: 24px; height: 24px; color: #9ca3af; opacity: 0.6;
-            animation: swipeAnim 2s ease-in-out infinite;
+            width: 28px; height: 28px; color: #9ca3af;
+            animation: handSwipe 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
-        @keyframes swipeAnim {
-            0% { transform: translateX(0); opacity: 0.4; }
-            50% { transform: translateX(6px); opacity: 0.8; }
-            100% { transform: translateX(0); opacity: 0.4; }
+        /* Icono SVG de mano */
+        .hand-svg { fill: #9ca3af; }
+        
+        @keyframes handSwipe {
+            0% { transform: translateX(-10px) rotate(-10deg); opacity: 0; }
+            20% { opacity: 1; }
+            50% { transform: translateX(10px) rotate(0deg); opacity: 1; }
+            80% { opacity: 0; }
+            100% { transform: translateX(10px) rotate(0deg); opacity: 0; }
         }
 
         /* CARD REUNIONES */
@@ -203,7 +208,6 @@
             transition: background-color 0.3s ease;
         }
 
-        /* CAMBIO: Fondo gris claro (#f3f4f6) cuando está activo */
         .reunion-card.active-card .reunion-header-click {
             background-color: #f3f4f6; 
         }
@@ -223,24 +227,22 @@
         .wol-style {
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
             color: #212121;
-            padding: 10px 4px 20px 20px !important; 
+            /* CAMBIO: Padding derecho igualado al izquierdo (20px) */
+            padding: 10px 20px 20px 20px !important; 
         }
 
-        /* Títulos de Sección */
         .sect-header { 
             font-size: 17px; font-weight: 900; margin: 28px 0 16px 0; 
             letter-spacing: 0.5px; text-transform: uppercase; 
             padding-left: 10px;
         }
         
-        /* Subtítulos para Sala Principal / Segunda Sala */
         .sect-subtitle {
             font-size: 13px; font-weight: 800; color: #9ca3af; 
             text-transform: uppercase; letter-spacing: 1px;
             margin-bottom: 6px; padding-left: 10px;
         }
         
-        /* Estilo para el conductor de segunda sala */
         .sr-conductor {
             font-size: 13px; color: #4b5563; padding-left: 10px; margin-bottom: 12px;
         }
@@ -250,7 +252,6 @@
         .c-vida { color: #9E1F1F; }
         .c-publico { color: #3B5E8F; }
 
-        /* Cabecera Presidente/Oración */
         .header-roles {
             margin-bottom: 8px;
             padding-bottom: 0;
@@ -274,10 +275,8 @@
             min-height: 40px;
         }
 
-        /* 1. Columna Izquierda ELIMINADA */
         .rt-time-col { display: none; }
 
-        /* 2. Columna Central (Línea y Punto) */
         .rt-line-col {
             width: 20px;
             position: relative;
@@ -287,12 +286,10 @@
             margin-left: 4px; 
         }
         
-        /* TIMELINE GROUP: Contenedor para controlar first/last child */
         .timeline-group {
             position: relative;
         }
 
-        /* Línea continua CONECTANDO PUNTOS (Superposición) */
         .rt-line {
             position: absolute;
             width: 2px;
@@ -303,20 +300,17 @@
             top: -10px; bottom: -10px; 
         }
         
-        /* Usamos el timeline-group para aislar los items de cada sección */
         .timeline-group .rt-row:first-child .rt-line { top: 12px; } 
         
-        /* CAMBIO: La línea muere EXACTAMENTE en el centro del punto del último elemento */
+        /* FIX LINEA TEMPORAL: Muere en el centro del punto del último elemento */
         .timeline-group .rt-row:last-child .rt-line { 
             bottom: auto; 
-            height: 22px; /* 10px padding negativo + 12px hasta el centro del punto */ 
+            height: 22px; 
             top: -10px; 
         } 
         
-        /* Caso especial: 1 solo item */
         .timeline-group .rt-row:first-child:last-child .rt-line { display: none; }
 
-        /* Punto Estilizado: SÓLIDO */
         .rt-dot {
             position: relative;
             z-index: 2;
@@ -333,7 +327,6 @@
         }
         .rt-dot { border: 2px solid white; box-shadow: none; } 
 
-        /* 3. Columna Derecha */
         .rt-content-col { flex-grow: 1; padding-left: 12px; padding-top: 0; min-width: 0; }
         
         .rt-title {
@@ -344,7 +337,6 @@
         .rt-time-tag { display: inline-block; color: #6b7280; font-weight: 500; margin-right: 6px; font-size: 15px; }
         .rt-who { font-size: 15px; color: #4b5563; line-height: 1.4; }
         
-        /* Bullets para nombres dobles */
         .name-bullet-list { margin-top: 2px; }
         .name-bullet-item { 
             display: flex; align-items: center; gap: 6px; margin-bottom: 2px; 
@@ -353,13 +345,12 @@
             width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.7; flex-shrink: 0;
         }
 
-        /* --- NUEVO: ESTILO PARA SECCIÓN COMPLETA DE SEGUNDA SALA (BURBUJA) --- */
         .sr-full-section {
-            background-color: #f9fafb; /* Gris suave */
-            padding: 16px 12px; /* Padding interno */
+            background-color: #f9fafb; 
+            padding: 16px 12px; 
             margin-top: 10px;
-            border-radius: 12px; /* Borde redondeado */
-            border: 1px solid #e5e7eb; /* Borde sutil */
+            border-radius: 12px; 
+            border: 1px solid #e5e7eb; 
         }
         .sr-full-section .rt-line-col {
             margin-left: 4px; 
@@ -374,14 +365,12 @@
             padding-left: 10px; 
         }
 
-        /* Grid para Asignaciones (2 Columnas) */
         .svc-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
-        /* Bloque Asignación Vertical */
         .svc-block { margin-bottom: 4px; }
         
         .svc-block-title {
@@ -397,16 +386,14 @@
             width: 5px; height: 5px; border-radius: 50%; background: #9ca3af; flex-shrink: 0;
         }
         
-        /* Recuadro Gris CLARO para Limpieza/Hospitalidad */
         .highlight-weekend-box {
-            background-color: #f9fafb; /* Gris muy claro */
+            background-color: #f9fafb; 
             border: 1px solid #e5e7eb;
             border-radius: 10px;
             margin-bottom: 16px;
             padding: 12px;
         }
         
-        /* CAMBIO: Estilo fila horizontal (Space Between) */
         .hw-item {
             display: flex; flex-direction: row; 
             justify-content: space-between; 
@@ -422,9 +409,8 @@
         .highlight-label { color: #374151; font-size: 14px; font-weight: 700; text-transform: uppercase; color: #6b7280; }
         .highlight-val { font-size: 16px; font-weight: 800; color: #374151; text-align: right; } 
 
-        /* Entre Semana (Centrado con gap) */
         .highlight-midweek {
-            background-color: #f9fafb; /* Gris muy claro */
+            background-color: #f9fafb; 
             border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px;
             display: flex; justify-content: center; align-items: center; gap: 8px;
             margin-bottom: 16px;
@@ -440,7 +426,6 @@
         .spinner { width: 30px; height: 30px; border: 3px solid #f3f4f6; border-top: 3px solid #1f2937; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         #error-details { margin-top: 20px; color: #ef4444; font-size: 12px; background: #fef2f2; padding: 10px; border-radius: 8px; max-width: 90%; }
-        /* CAMBIO: Separación reducida entre reuniones (16px) */
         .meeting-spacer { height: 16px; }
     </style>
 </head>
@@ -519,35 +504,39 @@
         </div>
 
         <div class="swipe-hint-container">
-            <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 10l4 4l-4 4"/><path d="M3 14l4 -4l-4 -4"/><path d="M7 14h10"/><path d="M7 10h10"/></svg>
+            <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.062 14.542a1.765 1.765 0 0 0-1.708 1.158 1.765 1.765 0 0 0-3.238.258 1.765 1.765 0 0 0-3.236.258A1.763 1.763 0 0 0 7 16.03V6.265a2.035 2.035 0 1 1 4.07 0v5.523a.588.588 0 1 0 1.176 0V6.265a3.212 3.212 0 1 0-6.424 0V17.5a3.21 3.21 0 0 0 1.343 2.613l2.848 2.06a5.535 5.535 0 0 0 3.243 1.062c3.08 0 5.588-2.508 5.588-5.588v-1.343a1.765 1.765 0 0 0-1.782-1.762Z"/>
+            </svg>
         </div>
 
-        <div class="reunion-card" id="card-reunion-semana">
-            <div class="reunion-header-click" onclick="toggleSection('reunion-semana')">
-                <div class="reunion-info">
-                    <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
-                    <p class="reunion-date" id="fecha-semana"></p>
-                    <p class="reunion-time">Jueves 6:30 PM</p>
+        <div id="reuniones-swipe-wrapper">
+            <div class="reunion-card" id="card-reunion-semana">
+                <div class="reunion-header-click" onclick="toggleSection('reunion-semana')">
+                    <div class="reunion-info">
+                        <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
+                        <p class="reunion-date" id="fecha-semana"></p>
+                        <p class="reunion-time">Jueves 6:30 PM</p>
+                    </div>
+                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
-                <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                
+                <div class="section-content" id="reunion-semana-content"><div class="section-inner wol-style" id="reunion-semana-detalle"></div></div>
             </div>
             
-            <div class="section-content" id="reunion-semana-content"><div class="section-inner wol-style" id="reunion-semana-detalle"></div></div>
-        </div>
-        
-        <div class="meeting-spacer"></div>
+            <div class="meeting-spacer"></div>
 
-        <div class="reunion-card" id="card-reunion-finde">
-            <div class="reunion-header-click" onclick="toggleSection('reunion-finde')">
-                <div class="reunion-info">
-                    <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
-                    <p class="reunion-date" id="fecha-finde"></p>
-                    <p class="reunion-time">Domingo 10:00 AM</p>
+            <div class="reunion-card" id="card-reunion-finde">
+                <div class="reunion-header-click" onclick="toggleSection('reunion-finde')">
+                    <div class="reunion-info">
+                        <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
+                        <p class="reunion-date" id="fecha-finde"></p>
+                        <p class="reunion-time">Domingo 10:00 AM</p>
+                    </div>
+                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
-                <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                
+                <div class="section-content" id="reunion-finde-content"><div class="section-inner wol-style" id="reunion-finde-detalle"></div></div>
             </div>
-            
-            <div class="section-content" id="reunion-finde-content"><div class="section-inner wol-style" id="reunion-finde-detalle"></div></div>
         </div>
 
         <h2 class="section-title-main" id="anuncios-section">Anuncios</h2>
@@ -612,9 +601,15 @@
         function setupMonthScrollListener() {
             const carousel = document.getElementById('carousel');
             const indicator = document.getElementById('month-indicator');
+            const btnToday = document.getElementById('btn-today');
+            
             carousel.addEventListener('scroll', () => {
                 const cards = document.querySelectorAll('.date-card');
                 const carouselRect = carousel.getBoundingClientRect();
+                
+                // Mostrar botón al scrollear si nos alejamos de hoy
+                // (Comportamiento visual simple, la logica principal está en renderAll)
+                
                 for (let card of cards) {
                     const cardRect = card.getBoundingClientRect();
                     if (cardRect.left >= carouselRect.left - 20 && cardRect.right <= carouselRect.right + 100) {
@@ -628,7 +623,8 @@
         }
         function setupSwipeGestures() {
             setupSwipe('swipe-grupos-hoy', () => cambiarDiaSeleccionado(1), () => cambiarDiaSeleccionado(-1));
-            setupSwipe('card-programa-reuniones', () => cambiarSemana(1), () => cambiarSemana(-1));
+            // CAMBIO: Ahora apunta al wrapper general de reuniones
+            setupSwipe('reuniones-swipe-wrapper', () => cambiarSemana(1), () => cambiarSemana(-1));
             setupSwipe('swipe-timeline', () => {
                 const hoyStr = toISODate(fechaHoy);
                 let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr);
@@ -710,17 +706,17 @@
                                         dataSemana.tesoros_lectura_tiempo, 
                                         formatBold(dataSemana.tesoros_lectura_estudiante), 
                                         'c-tesoros')}
+                    </div>
                         
                         ${dataSemana.tesoros_lectura_segundaSala ? `
                             <div class="sr-full-section">
                                 <div class="sect-subtitle">SEGUNDA SALA</div>
-                                <div class="sr-conductor">Conductor: <strong>${dataSemana.consejero_segundaSala || '-'}</strong></div>
                                 <div class="timeline-group">
                                     ${renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros')}
                                 </div>
                             </div>
                         ` : ''}
-                    </div>
+                    
                 </div>
 
                 <div class="c-maestros">
@@ -1019,8 +1015,15 @@
             document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
             const day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
             const mon = new Date(d.setDate(diff)); const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+            
+            // LOGICA BOTÓN IR A HOY
             const btnToday = document.getElementById('btn-today');
-            if (!esMismoDia(fechaSeleccionada, fechaHoy)) btnToday.style.display = 'flex'; else btnToday.style.display = 'none';
+            if (!esMismoDia(fechaSeleccionada, fechaHoy)) {
+                btnToday.style.display = 'flex'; 
+            } else {
+                btnToday.style.display = 'none';
+            }
+            
             renderCalendarGrid(); renderCarousel(); renderGruposDia(); renderReuniones(); renderTodosGruposPaginados(); renderAnuncios();
         }
 
