@@ -6,12 +6,10 @@
     <title>Cartelera Digital - La Cumaca</title>
     <style>
         /* --- ESTILOS BASE --- */
-        /* CAMBIO: Fuente Roboto */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        /* CAMBIO: Aplicar Roboto globalmente */
         body { font-family: 'Roboto', sans-serif; background: #ffffff; min-height: 100vh; padding: 16px; color: #4b5563; overflow-x: hidden; }
         
         .container { max-width: 480px; margin: 0 auto; padding-bottom: 100px; padding-top: 20px; }
@@ -59,22 +57,37 @@
             .container { padding-bottom: 60px; }
         }
 
-        /* TÍTULOS */
+        /* TÍTULOS (MODIFICADO: Estilo tipo "Tesoros") */
         .section-title-main { 
-            font-family: 'Roboto', sans-serif; font-size: 22px; font-weight: 800; color: #4B5563; 
-            margin: 24px 20px 8px 20px; text-align: left; letter-spacing: -0.5px;
+            font-family: 'Roboto', sans-serif; 
+            font-size: 17px; /* Igual que .sect-header */
+            font-weight: 900; 
+            color: #9ca3af; /* Gris más claro */
+            margin: 24px 20px 8px 20px; 
+            text-align: left; 
+            text-transform: uppercase; /* Mayúsculas */
+            letter-spacing: 0.5px;
         }
         .month-indicator { margin-left: 20px; margin-bottom: 24px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* CARRUSEL */
+        /* CARRUSEL (MODIFICADO: Desvanecimiento) */
         .carousel-wrapper { position: relative; padding: 0 10px 20px 10px; }
+        
+        /* Pseudo-elementos para el desvanecimiento */
+        .carousel-wrapper::before, .carousel-wrapper::after {
+            content: ''; position: absolute; top: 0; bottom: 20px; width: 40px; z-index: 5; pointer-events: none;
+        }
+        .carousel-wrapper::before { left: 0; background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0)); }
+        .carousel-wrapper::after { right: 0; background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0)); }
+
         .carousel-arrow { 
             position: absolute; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; 
             background: white; border-radius: 50%; border: 1px solid #e5e7eb; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; z-index: 10; 
+            display: flex; align-items: center; justify-content: center; z-index: 10; /* Encima del fade */
             box-shadow: 0 2px 6px rgba(0,0,0,0.05); color: #6b7280;
         }
         .carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
+        
         .btn-today-floating {
             position: absolute; top: -12px; right: 20px; background: white; border: 1px solid #16a34a; color: #16a34a;
             font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; cursor: pointer; display: none; 
@@ -171,13 +184,21 @@
         .reunion-header-click {
             padding: 20px;
             display: flex; justify-content: space-between; align-items: flex-start;
+            transition: background-color 0.3s ease;
+        }
+
+        /* CAMBIO: Fondo verde pálido cuando está activo */
+        .reunion-card.active-card .reunion-header-click {
+            background-color: #f0fdf4; /* Verde muy claro, casi blanco */
         }
 
         .reunion-info h3 { font-weight: 800; color: #6b7280; margin-bottom: 6px; font-size: 16px; font-family: 'Roboto', sans-serif; }
         .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
         .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
         .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; }
-        .section-arrow { width: 20px; height: 20px; transition: transform 0.3s; fill: none; stroke: #9ca3af; stroke-width: 2; margin-top: 2px; }
+        
+        /* CAMBIO: Flecha verde */
+        .section-arrow { width: 20px; height: 20px; transition: transform 0.3s; fill: none; stroke: #16a34a; stroke-width: 2; margin-top: 2px; }
         .reunion-card.active-card .section-arrow { transform: rotate(180deg); stroke: #16a34a; }
 
         /* -----------------------------------------------------------
@@ -187,7 +208,8 @@
         .wol-style {
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
             color: #212121;
-            padding: 10px 4px 20px 4px !important; 
+            /* CAMBIO: Aumento de padding izquierdo para "aire" */
+            padding: 10px 4px 20px 20px !important; 
         }
 
         /* Títulos de Sección */
@@ -310,8 +332,9 @@
             background-color: #f9fafb; /* Gris suave */
             margin-left: -20px; /* Desborde negativo para tocar bordes */
             margin-right: -20px;
-            padding: 20px; /* Padding interno para que el contenido no toque los bordes */
-            margin-top: 24px;
+            padding: 20px; /* Padding interno */
+            /* CAMBIO: Margen superior reducido para subirla más */
+            margin-top: 10px;
             border-top: 1px solid #e5e7eb;
             border-bottom: 1px solid #e5e7eb;
         }
@@ -358,19 +381,21 @@
             border: 1px solid #e5e7eb;
             border-radius: 10px;
             margin-bottom: 16px;
-            padding: 8px 12px;
+            padding: 12px; /* Padding ajustado */
         }
         
-        .hw-row {
-            display: flex; justify-content: space-between; align-items: center;
+        /* CAMBIO: Estilos verticales para Limpieza/Hospitalidad */
+        .hw-item {
+            display: flex; flex-direction: column; align-items: flex-start;
             padding: 4px 0;
         }
+        
         .hw-divider {
-            height: 1px; background-color: #e5e7eb; width: 100%; margin: 4px 0;
+            height: 1px; background-color: #e5e7eb; width: 100%; margin: 8px 0;
         }
         
-        .highlight-label { color: #374151; font-size: 16px; font-weight: 700; text-transform: capitalize; text-align: left; }
-        .highlight-val { font-size: 16px; font-weight: 500; color: #374151; text-align: right; } 
+        .highlight-label { color: #374151; font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; color: #6b7280; }
+        .highlight-val { font-size: 16px; font-weight: 800; color: #374151; } 
 
         /* Entre Semana (Centrado con gap) */
         .highlight-midweek {
@@ -884,22 +909,32 @@
             }
             
             if (type === 'finSemana') {
+                // CAMBIO: Estructura vertical para Limpieza/Hospitalidad
                 if(data.limpiezaAFondo || data.hospitalidad) {
-                    highlights += `<div class="highlight-weekend-box">
-                        <div class="hw-inner-align">`; 
+                    highlights += `<div class="highlight-weekend-box">`;
+                    
                     if(data.limpiezaAFondo) {
                          highlights += `
-                            <span class="highlight-label">Limpieza Profunda</span>
-                            <span class="highlight-val">Grupo ${data.limpiezaAFondo}</span>
+                            <div class="hw-item">
+                                <span class="highlight-label">Limpieza Profunda</span>
+                                <span class="highlight-val">Grupo ${data.limpiezaAFondo}</span>
+                            </div>
                         `;
                     }
+                    
+                    if(data.limpiezaAFondo && data.hospitalidad) {
+                        highlights += `<div class="hw-divider"></div>`;
+                    }
+                    
                     if(data.hospitalidad) {
                          highlights += `
-                            <span class="highlight-label">Hospitalidad</span>
-                            <span class="highlight-val">Grupo ${data.hospitalidad}</span>
+                            <div class="hw-item">
+                                <span class="highlight-label">Hospitalidad</span>
+                                <span class="highlight-val">Grupo ${data.hospitalidad}</span>
+                            </div>
                         `;
                     }
-                    highlights += `</div></div>`;
+                    highlights += `</div>`;
                 }
 
                 // Grid 2 columnas
