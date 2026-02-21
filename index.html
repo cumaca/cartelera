@@ -10,14 +10,13 @@
         
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        /* CAMBIO: Aplicar Roboto globalmente y forzar elementos de formulario */
         body, button, input, select, textarea { 
             font-family: 'Roboto', sans-serif; 
         }
         
-        body { background: #ffffff; min-height: 100vh; padding: 16px; color: #4b5563; overflow-x: hidden; }
+        body { background: #f3f4f6; min-height: 100vh; padding: 16px; color: #4b5563; overflow-x: hidden; }
         
-        .container { max-width: 480px; margin: 0 auto; padding-bottom: 100px; padding-top: 20px; }
+        .container { max-width: 480px; margin: 0 auto; padding-bottom: 100px; padding-top: 10px; }
         
         /* TARJETAS GENERALES */
         .card { 
@@ -25,7 +24,7 @@
             border: none; 
             border-radius: 20px; 
             box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
-            margin-bottom: 80px; 
+            margin-bottom: 50px; 
             overflow: hidden; 
             position: relative; 
         }
@@ -55,33 +54,32 @@
                 margin-bottom: 32px; padding: 0; background: transparent;
                 justify-content: center;
             }
-            .nav-segment { display: inline-flex; background: #f3f4f6; border-radius: 12px; padding: 4px; }
+            .nav-segment { display: inline-flex; background: #e5e7eb; border-radius: 12px; padding: 4px; }
             .nav-btn { flex-direction: row; flex: initial; gap: 6px; padding: 8px 16px; font-size: 13px; color: #6b7280; }
             .nav-btn svg { width: 16px; height: 16px; margin: 0; }
             .nav-divider { display: block; width: 1px; height: 14px; background: #d1d5db; margin: 0 2px; }
             .container { padding-bottom: 60px; }
         }
 
-        /* TÍTULOS */
+        /* TÍTULOS EXTERNOS - MÁS OSCUROS Y NO EN MAYÚSCULAS */
         .section-title-main { 
-            font-size: 17px; 
+            font-size: 18px; 
             font-weight: 900; 
-            color: #6B7280; 
-            margin: 24px 20px 16px 20px; 
+            color: #1f2937; /* Gris mucho más oscuro */
+            margin: 40px 0 20px 8px; 
             text-align: left; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
+            letter-spacing: 0.2px;
         }
-        h2.section-title-main { margin-top: 40px; }
-        .card h2.section-title-main { margin-top: 24px; }
+        
+        h2.section-title-main:first-of-type { margin-top: 10px; }
 
-        .month-indicator { margin-left: 20px; margin-bottom: 24px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
+        .month-indicator { margin: 20px 0 16px 20px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; display: inline-block; }
 
         /* CARRUSEL */
-        .carousel-wrapper { position: relative; padding: 0 10px 20px 10px; }
+        .carousel-wrapper { position: relative; padding: 0 10px 20px 10px; margin-top: 10px;}
         
         .carousel-wrapper::before, .carousel-wrapper::after {
-            content: ''; position: absolute; top: 0; bottom: 20px; width: 90px; z-index: 5; pointer-events: none;
+            content: ''; position: absolute; top: 0; bottom: 20px; width: 60px; z-index: 5; pointer-events: none;
         }
         .carousel-wrapper::before { left: 0; background: linear-gradient(to right, #ffffff 20%, rgba(255,255,255,0) 100%); }
         .carousel-wrapper::after { right: 0; background: linear-gradient(to left, #ffffff 20%, rgba(255,255,255,0) 100%); }
@@ -95,12 +93,12 @@
         .carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
         
         .btn-today-floating {
-            position: absolute; top: -12px; right: 20px; background: white; border: 1px solid #16a34a; color: #16a34a;
+            position: absolute; top: -35px; right: 20px; background: white; border: 1px solid #16a34a; color: #16a34a;
             font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; cursor: pointer; display: none; 
             align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15); animation: fadeIn 0.3s ease; z-index: 20;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .carousel { padding: 20px 24px 4px 24px; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .carousel { padding: 10px 24px 4px 24px; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .carousel::-webkit-scrollbar { display: none; }
         .date-card { scroll-snap-align: center; min-width: 60px; padding: 10px 6px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; background: #f9fafb; border: 1px solid transparent; }
         .date-card.is-today { border: 2px solid #16a34a; background: #ffffff; }
@@ -110,7 +108,8 @@
 
         /* CALENDARIO */
         .calendar-toggle-wrapper { display: flex; justify-content: flex-end; padding-right: 20px; margin-top: -10px; margin-bottom: 10px; }
-        .calendar-toggle { display: flex; align-items: center; gap: 4px; color: #16a34a; font-size: 12px; font-weight: 700; cursor: pointer; border: none; background: none; padding: 6px 10px; border-radius: 8px; }
+        .calendar-toggle { display: flex; align-items: center; gap: 6px; color: #16a34a; font-size: 12px; font-weight: 700; cursor: pointer; border: none; background: none; padding: 6px 10px; border-radius: 8px; }
+        .calendar-toggle svg { width: 16px; height: 16px; }
         .section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .section-content.expanded { max-height: 5000px; }
         .section-inner { padding: 0 20px 20px; }
@@ -125,7 +124,7 @@
 
         /* GRUPOS */
         .grupos-dia-container { padding: 0 20px 20px; }
-        .grupo-consolidado-card { background: #f9fafb; border-radius: 16px; padding: 16px; border: 1px solid #f3f4f6; }
+        .grupo-consolidado-card { background: #f9fafb; border-radius: 16px; padding: 16px; border: 1px solid #e5e7eb; }
         .grupo-consolidado-header { font-size: 13px; font-weight: 800; color: #374151; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .grupo-item-hoy { padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; }
         .grupo-item-hoy:last-child { padding-bottom: 0; border-bottom: none; margin-bottom: 0; }
@@ -135,7 +134,7 @@
         .gh-top-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
         .gh-territorio { font-size: 15px; font-weight: 700; color: #374151; line-height: 1.2; margin-top: 3px; }
         .gh-conductor { font-size: 13px; color: #6b7280; font-weight: 500; }
-        .gh-asignados { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 4px; }
+        .gh-asignados { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 4px; display: flex; align-items: center; flex-wrap: wrap; }
         .no-grupos { text-align: center; padding: 20px; color: #9ca3af; font-style: italic; font-size: 13px; }
         .ver-todos-wrapper { display: flex; justify-content: center; padding: 0 20px 20px; }
         .ver-todos-btn { width: 100%; padding: 12px 24px; background: transparent; color: #16a34a; border: 1px solid #16a34a; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
@@ -151,6 +150,11 @@
         .timeline-day-block.active-day .timeline-date-header { color: #16a34a; }
         .timeline-day-block.active-day .timeline-date-header::before { background: #16a34a; box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2); }
         .timeline-day-block.active-day .gh-hora-timeline { color: #16a34a; border-color: #16a34a; background: #f0fdf4; }
+        
+        /* MAYOR SEPARACIÓN ENTRE GRUPOS DEL HISTORIAL */
+        .timeline-row { margin-bottom: 24px; }
+        .timeline-row:last-child { margin-bottom: 0; }
+        
         .gh-hora-timeline { font-size: 13px; font-weight: 700; color: #9ca3af; background: #f9fafb; border: 1px solid #e5e7eb; padding: 6px 0; border-radius: 8px; white-space: nowrap; flex-shrink: 0; width: 70px; text-align: center; }
         .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f3f4f6; }
         .page-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: white; color: #6b7280; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
@@ -162,24 +166,54 @@
         .week-nav-arrow svg { stroke: #16a34a; }
         .week-nav-text { font-size: 15px; font-weight: 800; color: #16a34a; text-transform: capitalize; cursor: pointer; white-space: nowrap; }
         
-        /* SWIPE HINT ANIMATION (MANO) */
-        .swipe-hint-container {
-            display: flex; justify-content: center; align-items: center; margin-bottom: 24px;
+        /* CAJAS DE AVISO (SWIPE HINTS) MINIMALISTAS Y FINAS */
+        .swipe-hint-box {
+            background-color: #f3f4f6; /* Fondo gris claro */
+            border: none; /* Sin borde oscuro */
+            border-radius: 12px; /* Mismo redondeo que 'Ver todos' */
+            padding: 4px 12px; /* MUCHO MENOS alto verticalmente */
+            display: flex;
+            width: fit-content; /* Solo el espacio necesario horizontalmente */
+            margin: 0 auto 20px auto; 
+            align-items: center;
+            gap: 8px;
+            box-shadow: none; /* Sin sombras */
+            transition: opacity 0.3s ease;
+        }
+        .swipe-hint-content {
+            display: flex; align-items: center; gap: 8px;
         }
         .swipe-hint-icon {
-            width: 28px; height: 28px; color: #9ca3af;
-            animation: handSwipe 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            width: 24px; height: 24px; 
+            color: #6b7280; /* Gris */
+            animation: fingerSwipeLeft 2.5s infinite ease-in-out;
         }
-        /* Icono SVG de mano */
-        .hand-svg { fill: #9ca3af; }
+        .swipe-hint-text {
+            font-size: 12px; color: #6b7280; font-weight: 600; /* Gris */
+        }
+        .swipe-hint-close {
+            background: none; border: none; cursor: pointer;
+            color: #9ca3af; width: 22px; height: 22px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; transition: all 0.2s; margin-left: 4px;
+        }
+        .swipe-hint-close:hover { background: #e5e7eb; color: #4b5563; }
         
-        @keyframes handSwipe {
-            0% { transform: translateX(-10px) rotate(-10deg); opacity: 0; }
-            20% { opacity: 1; }
-            50% { transform: translateX(10px) rotate(0deg); opacity: 1; }
-            80% { opacity: 0; }
-            100% { transform: translateX(10px) rotate(0deg); opacity: 0; }
+        /* Animación deslizando de derecha a izquierda */
+        @keyframes fingerSwipeLeft {
+            0% { transform: translateX(10px); opacity: 0; }
+            20% { transform: translateX(10px); opacity: 1; }
+            60% { transform: translateX(-15px); opacity: 1; }
+            80% { transform: translateX(-15px); opacity: 0; }
+            100% { transform: translateX(10px); opacity: 0; }
         }
+
+        @keyframes animFadeUp {
+            0% { transform: translateY(5px); opacity: 0.2; }
+            50% { transform: translateY(-2px); opacity: 1; }
+            100% { transform: translateY(5px); opacity: 0.2; }
+        }
+        .fade-up-anim { animation: animFadeUp 1.5s infinite ease-in-out; }
 
         /* CARD REUNIONES */
         .reunion-card { 
@@ -187,49 +221,43 @@
             padding: 0; 
             border: 1px solid #f3f4f6; 
             cursor: pointer; 
-            margin: 0 4px 20px 4px; /* Default margin */
+            margin: 0 4px 20px 4px; 
             background: #fdfdfd; 
             transition: all 0.3s; 
         }
         
-        /* ESTILO "APP FULL WIDTH" AL DESPLEGAR */
         .reunion-card.active-card { 
             border: 1px solid #e5e7eb; 
-            border-left: none; 
-            border-right: none;
-            border-radius: 0; 
+            border-radius: 12px; 
             background: #ffffff; 
-            box-shadow: none; 
-            margin-left: -16px;
-            margin-right: -16px;
-            width: calc(100% + 32px); 
-            margin-bottom: 40px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); 
+            margin-bottom: 30px; 
         }
         
         .reunion-header-click {
             padding: 20px;
             display: flex; justify-content: space-between; align-items: flex-start;
             transition: background-color 0.3s ease;
+            border-radius: 12px;
         }
 
         .reunion-card.active-card .reunion-header-click {
-            background-color: #f3f4f6; 
+            background-color: #f9fafb; 
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: 1px solid #f3f4f6;
         }
 
         .reunion-info h3 { font-weight: 800; color: #6b7280; margin-bottom: 6px; font-size: 16px; }
         .reunion-badge { display: inline-block; background: #16a34a; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
         .reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
-        .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; }
+        .reunion-time { font-size: 13px; font-weight: 700; color: #16a34a; text-transform: capitalize;}
         
         .section-arrow { width: 20px; height: 20px; transition: transform 0.3s; fill: none; stroke: #16a34a; stroke-width: 2; margin-top: 2px; }
         .reunion-card.active-card .section-arrow { transform: rotate(180deg); stroke: #16a34a; }
 
-        /* -----------------------------------------------------------
-           ESTILOS REUNIONES (DEFINITIVOS)
-           ----------------------------------------------------------- */
-        
+        /* ESTILOS REUNIONES INTERNOS */
         .wol-style {
-            /* CAMBIO: TIPOGRAFÍA UNIFICADA */
             font-family: 'Roboto', sans-serif;
             color: #212121;
             padding: 10px 20px 20px 20px !important; 
@@ -241,8 +269,9 @@
             padding-left: 10px;
         }
         
+        /* Gris oscuro para "SALA PRINCIPAL" y "SEGUNDA SALA" */
         .sect-subtitle {
-            font-size: 13px; font-weight: 800; color: #9ca3af; 
+            font-size: 13px; font-weight: 800; color: #374151; 
             text-transform: uppercase; letter-spacing: 1px;
             margin-bottom: 6px; padding-left: 10px;
         }
@@ -256,188 +285,91 @@
         .c-vida { color: #9E1F1F; }
         .c-publico { color: #3B5E8F; }
 
-        .header-roles {
-            margin-bottom: 8px;
-            padding-bottom: 0;
-            padding-left: 10px;
-        }
-        .header-role-row {
-            margin-bottom: 2px;
-            font-size: 15px;
-            color: #4b5563; 
-            line-height: 1.3;
-        }
-        .hr-label {
-            font-weight: 800; color: #6b7280; margin-right: 6px;
-        }
+        .header-roles { margin-bottom: 8px; padding-bottom: 0; padding-left: 10px; }
+        .header-role-row { margin-bottom: 2px; font-size: 15px; color: #4b5563; line-height: 1.3; }
+        .hr-label { font-weight: 800; color: #6b7280; margin-right: 6px; }
 
         /* Estructura Flexbox Fila de Reunión */
-        .rt-row {
-            display: flex;
-            position: relative;
-            padding-bottom: 18px;
-            min-height: 40px;
-        }
-
+        .rt-row { display: flex; position: relative; padding-bottom: 18px; min-height: 40px; }
         .rt-time-col { display: none; }
-
-        .rt-line-col {
-            width: 20px;
-            position: relative;
-            flex-shrink: 0;
-            display: flex;
-            justify-content: center;
-            margin-left: 4px; 
-        }
+        .rt-line-col { width: 20px; position: relative; flex-shrink: 0; display: flex; justify-content: center; margin-left: 4px;  }
         
-        .timeline-group {
-            position: relative;
-        }
-
-        .rt-line {
-            position: absolute;
-            width: 2px;
-            background: #e5e7eb;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 0; 
-            top: -10px; bottom: -10px; 
-        }
+        .timeline-group { position: relative; }
+        .rt-line { position: absolute; width: 2px; background: #e5e7eb; left: 50%; transform: translateX(-50%); z-index: 0;  top: -10px; bottom: -10px;  }
         
         .timeline-group .rt-row:first-child .rt-line { top: 12px; } 
-        
-        /* FIX LINEA TEMPORAL: Muere en el centro del punto del último elemento */
-        .timeline-group .rt-row:last-child .rt-line { 
-            bottom: auto; 
-            height: 22px; 
-            top: -10px; 
-        } 
-        
+        .timeline-group .rt-row:last-child .rt-line { bottom: auto; height: 22px; top: -10px; } 
         .timeline-group .rt-row:first-child:last-child .rt-line { display: none; }
 
-        .rt-dot {
-            position: relative;
-            z-index: 2;
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            margin-top: 7px; /* Centrado visual */
-            background: currentColor; 
-            box-shadow: 0 0 0 3px white, 0 0 0 5px currentColor; 
-        }
-        .rt-dot::after {
-            content: ''; position: absolute;
-            top: -6px; left: -6px; right: -6px; bottom: -6px;
-            border-radius: 50%; background: currentColor; opacity: 0.2; z-index: -1;
-        }
+        .rt-dot { position: relative; z-index: 2; width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; background: currentColor; box-shadow: 0 0 0 3px white, 0 0 0 5px currentColor; }
+        .rt-dot::after { content: ''; position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; border-radius: 50%; background: currentColor; opacity: 0.2; z-index: -1; }
         .rt-dot { border: 2px solid white; box-shadow: none; } 
 
         .rt-content-col { flex-grow: 1; padding-left: 12px; padding-top: 0; min-width: 0; }
         
-        .rt-title {
-            font-size: 16px; font-weight: 700; color: inherit; 
-            line-height: 1.35; margin-bottom: 4px;
-        }
-        
+        .rt-title { font-size: 16px; font-weight: 700; color: inherit; line-height: 1.35; margin-bottom: 4px; }
         .rt-time-tag { display: inline-block; color: #6b7280; font-weight: 500; margin-right: 6px; font-size: 15px; }
         .rt-who { font-size: 15px; color: #4b5563; line-height: 1.4; }
         
         .name-bullet-list { margin-top: 2px; }
-        .name-bullet-item { 
-            display: flex; align-items: center; gap: 6px; margin-bottom: 2px; 
-        }
-        .name-bullet-dot { 
-            width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.7; flex-shrink: 0;
-        }
+        .name-bullet-item { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+        .name-bullet-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.7; flex-shrink: 0; }
 
-        .sr-full-section {
-            background-color: #f9fafb; 
-            padding: 16px 12px; 
-            margin-top: 10px;
-            border-radius: 12px; 
-            border: 1px solid #e5e7eb; 
-        }
-        .sr-full-section .rt-line-col {
-            margin-left: 4px; 
-        }
+        .sr-full-section { background-color: #f9fafb; padding: 16px 12px; margin-top: 10px; border-radius: 12px; border: 1px solid #e5e7eb; }
+        .sr-full-section .rt-line-col { margin-left: 4px; }
 
-        /* SECCIÓN ASIGNACIONES */
-        .svc-container { margin-top: 32px; background: #fdfdfd; border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; }
+        /* SECCIÓN ASIGNACIONES Y RESPONSABILIDADES GLOBALES */
+        .svc-container { margin-top: 16px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
         
         .svc-title-main { 
-            font-size: 17px; font-weight: 900; margin-bottom: 16px; letter-spacing: 0.5px; 
-            text-transform: uppercase; color: #6B7280; 
-            padding-left: 10px; 
+            font-size: 15px; font-weight: 900; margin-bottom: 16px; letter-spacing: 0.5px; 
+            text-transform: uppercase; color: #6B7280; padding-left: 4px; 
         }
 
-        .svc-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
+        .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .svc-block { margin-bottom: 4px; }
         
-        .svc-block-title {
-            font-size: 15px; font-weight: 700; color: #4B5563; margin-bottom: 4px; 
-        }
-        .svc-bullet-item {
-            display: flex; align-items: center; gap: 6px;
-            font-size: 15px; font-weight: 400; color: #6b7280; 
-            margin-bottom: 2px;
-        }
-        .svc-bullet-dot {
-            width: 5px; height: 5px; border-radius: 50%; background: #9ca3af; flex-shrink: 0;
-        }
+        .svc-block-title { font-size: 15px; font-weight: 700; color: #4B5563; margin-bottom: 4px; }
+        .svc-bullet-item { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 400; color: #6b7280; margin-bottom: 2px; }
+        .svc-bullet-dot { width: 5px; height: 5px; border-radius: 50%; background: #9ca3af; flex-shrink: 0; }
         
         .highlight-weekend-box {
-            background-color: #f9fafb; 
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            margin-bottom: 16px;
-            padding: 12px;
+            background-color: #ffffff; 
+            border: 1px solid #e5e7eb; border-radius: 12px; margin-top: 32px; padding: 16px;
         }
         
-        .hw-item {
-            display: flex; flex-direction: row; 
-            justify-content: space-between; 
-            align-items: center;
-            padding: 4px 0;
-            width: 100%;
-        }
+        .hw-item { display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 4px 0; width: 100%; }
+        .hw-divider { height: 1px; background-color: #e5e7eb; width: 100%; margin: 8px 0; }
         
-        .hw-divider {
-            height: 1px; background-color: #e5e7eb; width: 100%; margin: 8px 0;
-        }
-        
-        .highlight-label { color: #374151; font-size: 14px; font-weight: 700; text-transform: uppercase; color: #6b7280; }
-        .highlight-val { font-size: 16px; font-weight: 800; color: #374151; text-align: right; } 
+        .highlight-label { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #6b7280; }
+        .highlight-val { font-size: 15px; font-weight: 800; color: #16a34a; text-align: right; } 
 
         .highlight-midweek {
-            background-color: #f9fafb; 
-            border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px;
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-            margin-bottom: 16px;
+            background-color: #ffffff; 
+            border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px;
+            display: flex; justify-content: space-between; align-items: center; gap: 8px;
+            margin-top: 32px; margin-bottom: 16px;
         }
+
+        /* DIVISOR DE REUNIONES */
+        .meeting-spacer { border-top: 2px solid #d1d5db; margin: 32px 16px; border-radius: 2px; }
 
         /* ANUNCIOS */
         .anuncio { background: #fffbeb; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start; }
         .anuncio-date { background: #d97706; color: white; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px; white-space: nowrap; margin-top: 2px; }
         .anuncio-text { font-size: 14px; color: #4b5563; flex: 1; line-height: 1.5; }
-        .footer { text-align: center; color: #d1d5db; font-size: 11px; margin-top: 40px; }
+        .footer { text-align: center; color: #9ca3af; font-size: 11px; margin-top: 40px; }
         .hidden { display: none !important; }
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { width: 30px; height: 30px; border: 3px solid #f3f4f6; border-top: 3px solid #1f2937; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+        
+        /* CARGA INTEGRADA (INLINE SPINNER) */
+        .inline-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; color: #9ca3af; font-size: 13px; font-weight: 600; }
+        .inline-loader .spinner { width: 26px; height: 26px; border: 3px solid #f3f4f6; border-top: 3px solid #6b7280; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #error-details { margin-top: 20px; color: #ef4444; font-size: 12px; background: #fef2f2; padding: 10px; border-radius: 8px; max-width: 90%; }
-        .meeting-spacer { height: 16px; }
+        
+        #global-error { margin: 10px 20px 20px 20px; color: #ef4444; font-size: 13px; font-weight: 600; background: #fef2f2; padding: 12px; border-radius: 12px; text-align: center; }
     </style>
 </head>
 <body>
-    <div id="loading-overlay">
-        <div class="spinner" id="spinner"></div>
-        <p id="loading-text" style="color:#9ca3af; font-weight: 600; font-size: 13px;">Cargando...</p>
-        <div id="error-details" class="hidden"></div>
-    </div>
 
     <div class="nav-segment-container">
         <div class="nav-segment">
@@ -458,19 +390,29 @@
 
     <div class="container">
         
-        <div class="card" id="grupos-section">
-            <h2 class="section-title-main">Grupos de Predicación</h2>
-            <div id="month-indicator" class="month-indicator"></div>
+        <div id="global-error" class="hidden"></div>
+        
+        <h2 class="section-title-main" id="grupos-section">Grupos de Predicación</h2>
+        <div class="card">
+            
+            <div id="month-indicator" class="month-indicator">...</div>
             
             <div class="carousel-wrapper">
                 <button id="btn-today" class="btn-today-floating" onclick="goToToday()">Ir a Hoy</button>
-                <div class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
-                <div class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
+                <div class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                </div>
+                <div class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </div>
                 <div class="carousel" id="carousel"></div>
             </div>
 
             <div class="calendar-toggle-wrapper">
                 <button class="calendar-toggle" onclick="toggleSection('calendario')">
+                    <svg id="cal-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
                     <span id="calendar-toggle-text">Mostrar calendario</span>
                 </button>
             </div>
@@ -479,10 +421,24 @@
                 <div class="section-inner"><div class="calendar-header"><div class="calendar-nav-btn" onclick="navMes(-1)">❮</div><div class="calendar-month" id="calendar-month"></div><div class="calendar-nav-btn" onclick="navMes(1)">❯</div></div><div class="calendar-grid" id="calendario-grid"></div></div>
             </div>
             
-            <div id="swipe-grupos-hoy" class="grupos-dia-container">
-                <div id="grupos-dia-content"></div>
+            <div class="swipe-hint-box" id="aviso-grupos">
+                <div class="swipe-hint-content">
+                    <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10.5 1.5C9.67 1.5 9 2.17 9 3v8.5l-1.63-1.63c-.4-.4-1.05-.4-1.42 0l-1.4 1.4c-.4.4-.4 1.05 0 1.42l5.65 5.65c.78.78 1.84 1.22 2.95 1.22h4.35c2.48 0 4.5-2.02 4.5-4.5V11.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v2h-1v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1v-4.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1V3c0-.83-.67-1.5-1.5-1.5z"/>
+                    </svg>
+                    <span class="swipe-hint-text">Desliza para cambiar de día</span>
+                </div>
+                <button class="swipe-hint-close" onclick="document.getElementById('aviso-grupos').style.display='none'">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
             </div>
-            
+
+            <div id="swipe-grupos-hoy" class="grupos-dia-container">
+                <div id="grupos-dia-content">
+                    <div class="inline-loader"><div class="spinner"></div><p>Cargando grupos...</p></div>
+                </div>
+            </div>
+
             <div class="ver-todos-wrapper">
                 <button class="ver-todos-btn" id="ver-todos-btn" onclick="toggleSection('todos-grupos')">
                     <span id="ver-todos-text">Ver todos los grupos</span>
@@ -499,31 +455,41 @@
         </div>
 
         <h2 class="section-title-main" id="reuniones-section">Programa de Reuniones</h2>
-        
-        <div class="reunion-week-nav">
-            <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
-            <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
-            <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
-        </div>
+        <div class="card" id="reuniones-swipe-wrapper">
+            
+            <div class="reunion-week-nav">
+                <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></div>
+                <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
+                <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></div>
+            </div>
 
-        <div class="swipe-hint-container">
-            <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.062 14.542a1.765 1.765 0 0 0-1.708 1.158 1.765 1.765 0 0 0-3.238.258 1.765 1.765 0 0 0-3.236.258A1.763 1.763 0 0 0 7 16.03V6.265a2.035 2.035 0 1 1 4.07 0v5.523a.588.588 0 1 0 1.176 0V6.265a3.212 3.212 0 1 0-6.424 0V17.5a3.21 3.21 0 0 0 1.343 2.613l2.848 2.06a5.535 5.535 0 0 0 3.243 1.062c3.08 0 5.588-2.508 5.588-5.588v-1.343a1.765 1.765 0 0 0-1.782-1.762Z"/>
-            </svg>
-        </div>
+            <div class="swipe-hint-box" id="aviso-reuniones">
+                <div class="swipe-hint-content">
+                    <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10.5 1.5C9.67 1.5 9 2.17 9 3v8.5l-1.63-1.63c-.4-.4-1.05-.4-1.42 0l-1.4 1.4c-.4.4-.4 1.05 0 1.42l5.65 5.65c.78.78 1.84 1.22 2.95 1.22h4.35c2.48 0 4.5-2.02 4.5-4.5V11.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v2h-1v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1v-4.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1V3c0-.83-.67-1.5-1.5-1.5z"/>
+                    </svg>
+                    <span class="swipe-hint-text">Desliza para cambiar de semana</span>
+                </div>
+                <button class="swipe-hint-close" onclick="document.getElementById('aviso-reuniones').style.display='none'">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
 
-        <div id="reuniones-swipe-wrapper">
             <div class="reunion-card" id="card-reunion-semana">
                 <div class="reunion-header-click" onclick="toggleSection('reunion-semana')">
                     <div class="reunion-info">
                         <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
                         <p class="reunion-date" id="fecha-semana"></p>
-                        <p class="reunion-time">Jueves 6:30 PM</p>
+                        <p class="reunion-time" id="reunion-semana-time">Jueves 6:30 PM</p>
                     </div>
                     <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 
-                <div class="section-content" id="reunion-semana-content"><div class="section-inner wol-style" id="reunion-semana-detalle"></div></div>
+                <div class="section-content" id="reunion-semana-content">
+                    <div class="section-inner wol-style" id="reunion-semana-detalle">
+                        <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
+                    </div>
+                </div>
             </div>
             
             <div class="meeting-spacer"></div>
@@ -533,18 +499,24 @@
                     <div class="reunion-info">
                         <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
                         <p class="reunion-date" id="fecha-finde"></p>
-                        <p class="reunion-time">Domingo 10:00 AM</p>
+                        <p class="reunion-time" id="reunion-finde-time">Domingo 10:00 AM</p>
                     </div>
                     <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 
-                <div class="section-content" id="reunion-finde-content"><div class="section-inner wol-style" id="reunion-finde-detalle"></div></div>
+                <div class="section-content" id="reunion-finde-content">
+                    <div class="section-inner wol-style" id="reunion-finde-detalle">
+                        <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <h2 class="section-title-main" id="anuncios-section">Anuncios</h2>
         <div class="card" style="padding: 20px;">
-            <div id="anuncios-lista"></div>
+            <div id="anuncios-lista">
+                <div class="inline-loader"><div class="spinner"></div><p>Cargando anuncios...</p></div>
+            </div>
         </div>
         
         <div class="footer"><p>Actualización automática • Conectado</p><p id="data-stats"></p></div>
@@ -573,13 +545,34 @@
                 if (!response.ok) throw new Error("Error HTTP: " + response.status);
                 const dataRaw = await response.json();
                 
-                dbGrupos = dataRaw.grupos || [];
+                // --- TRADUCTOR DE GRUPOS PLANOS A AGRUPADOS POR FECHA ---
+                const rawGrupos = dataRaw.grupos || [];
+                let gruposAgrupados = {};
+                
+                rawGrupos.forEach(item => {
+                    let f = item.Fecha || item.fecha || "";
+                    f = f.substring(0, 10); 
+                    if (!f) return;
+                    
+                    if (!gruposAgrupados[f]) {
+                        gruposAgrupados[f] = { fecha: f, grupos: [] };
+                    }
+                    
+                    gruposAgrupados[f].grupos.push({
+                        hora: item.Hora || item.hora || "",
+                        territorio: item.Territorio || item.territorio || "",
+                        conductor: item.Conductor || item.conductor || "",
+                        lugar: item.Lugar_Grupos || item.lugar_grupos || item.gruposassigned || "",
+                        mapa: item.Mapa || item.mapa || ""
+                    });
+                });
+                
+                dbGrupos = Object.values(gruposAgrupados);
+                dbGrupos.sort((a, b) => a.fecha.localeCompare(b.fecha));
+                
                 dbVidaMinisterio = dataRaw.vidaMinisterio || [];
                 dbFinSemana = dataRaw.finSemana || [];
                 dbAnuncios = dataRaw.anuncios || [];
-
-                document.getElementById('loading-overlay').style.opacity = '0';
-                setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 500);
 
                 const total = dbGrupos.length + dbVidaMinisterio.length + dbFinSemana.length;
                 document.getElementById('data-stats').textContent = `Registros: ${total}`;
@@ -588,23 +581,20 @@
                 setupSwipeGestures();
                 setupMonthScrollListener();
                 
-                setTimeout(() => goToToday(), 500);
+                setTimeout(() => goToToday(), 100);
 
             } catch (error) {
                 console.error(error);
-                document.getElementById('spinner').style.display = 'none';
-                document.getElementById('loading-text').textContent = "Error de conexión";
-                const err = document.getElementById('error-details');
-                err.classList.remove('hidden');
-                err.textContent = error.message;
+                const errDiv = document.getElementById('global-error');
+                errDiv.textContent = "Problema de conexión: " + error.message;
+                errDiv.classList.remove('hidden');
+                document.querySelectorAll('.inline-loader').forEach(el => el.innerHTML = '<p>Error al cargar la información.</p>');
             }
         }
 
-        // ... Funciones UI intactas ...
         function setupMonthScrollListener() {
             const carousel = document.getElementById('carousel');
             const indicator = document.getElementById('month-indicator');
-            const btnToday = document.getElementById('btn-today');
             
             carousel.addEventListener('scroll', () => {
                 const cards = document.querySelectorAll('.date-card');
@@ -614,7 +604,7 @@
                     const cardRect = card.getBoundingClientRect();
                     if (cardRect.left >= carouselRect.left - 20 && cardRect.right <= carouselRect.right + 100) {
                         if(card.dataset.date) {
-                            const d = new Date(card.dataset.date);
+                            const d = new Date(card.dataset.date + "T00:00:00");
                             indicator.textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
                         } break;
                     }
@@ -623,13 +613,12 @@
         }
         function setupSwipeGestures() {
             setupSwipe('swipe-grupos-hoy', () => cambiarDiaSeleccionado(1), () => cambiarDiaSeleccionado(-1));
-            // CAMBIO: Ahora apunta al wrapper general de reuniones
             setupSwipe('reuniones-swipe-wrapper', () => cambiarSemana(1), () => cambiarSemana(-1));
             setupSwipe('swipe-timeline', () => {
                 const hoyStr = toISODate(fechaHoy);
                 let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr);
-                if(paginaGruposActual < Math.ceil(listaFechas.length/diasPorPagina)) paginaGruposActual++; renderTodosGruposPaginados();
-            }, () => { if(paginaGruposActual > 1) paginaGruposActual--; renderTodosGruposPaginados(); });
+                if(paginaGruposActual < Math.ceil(listaFechas.length/diasPorPagina)) { paginaGruposActual++; renderTodosGruposPaginados(); }
+            }, () => { if(paginaGruposActual > 1) { paginaGruposActual--; renderTodosGruposPaginados(); } });
         }
         function setupSwipe(elementId, onSwipeLeft, onSwipeRight) {
             const element = document.getElementById(elementId);
@@ -642,7 +631,18 @@
                 if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) { if (diffX > 0) onSwipeLeft(); else onSwipeRight(); }
             }, {passive: true});
         }
-        function cambiarDiaSeleccionado(d) { fechaSeleccionada.setDate(fechaSeleccionada.getDate() + d); renderAll(); const c = document.getElementById('carousel'); const s = c.querySelector('.selected'); if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }
+        function cambiarDiaSeleccionado(d) { 
+            fechaSeleccionada.setDate(fechaSeleccionada.getDate() + d); 
+            const fSel = toISODate(fechaSeleccionada);
+            const fHoy = toISODate(fechaHoy);
+            if (fSel < fHoy && !sectionsExpanded['calendario']) {
+                toggleSection('calendario');
+            }
+            renderAll(); 
+            const c = document.getElementById('carousel'); 
+            const s = c.querySelector('.selected'); 
+            if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); 
+        }
         function goToToday() { fechaSeleccionada = new Date(fechaHoy); semanaOffset = 0; renderAll(); const c = document.getElementById('carousel'); setTimeout(() => { const s = c.querySelector('.is-today'); if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }, 100); }
         function esMismoDia(f1, f2) { const str1 = f1 instanceof Date ? toISODate(f1) : f1; const str2 = f2 instanceof Date ? toISODate(f2) : f2; return str1 === str2; }
 
@@ -652,8 +652,23 @@
             const data = dbGrupos.find(g => g.fecha === fechaStr);
             if (!data || !data.grupos || data.grupos.length === 0) { container.innerHTML = `<div class="no-grupos">No hay grupos programados para este día.</div>`; return; }
             let htmlInner = '';
+            
             data.grupos.forEach(g => {
-                htmlInner += `<div class="grupo-item-hoy"><div class="grupo-row-flex"><div class="gh-hora-hoy">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.gruposassigned ? `<div class="gh-asignados">${g.gruposassigned}</div>` : ''}</div></div></div>`;
+                const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#16a34a; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : '';
+                
+                htmlInner += `
+                <div class="grupo-item-hoy">
+                    <div class="grupo-row-flex">
+                        <div class="gh-hora-hoy">${g.hora}</div>
+                        <div class="grupo-content-col">
+                            <div class="gh-top-row">
+                                <div class="gh-territorio">${g.territorio}</div>
+                                <div class="gh-conductor">${g.conductor}</div>
+                            </div>
+                            ${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}
+                        </div>
+                    </div>
+                </div>`;
             });
             const diaSemana = fechaSeleccionada.toLocaleDateString('es-ES', { weekday: 'long' });
             container.innerHTML = `<div class="grupo-consolidado-card"><div class="grupo-consolidado-header"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Grupos del ${diaSemana}</div>${htmlInner}</div>`;
@@ -679,10 +694,17 @@
             const containerSemana = document.getElementById('reunion-semana-detalle');
             const fechaSemanaEl = document.getElementById('fecha-semana');
             const badgeSemana = document.getElementById('badge-semana');
+            const timeSemanaEl = document.getElementById('reunion-semana-time');
 
             // --- REUNIÓN VIDA Y MINISTERIO ---
             if (dataSemana) {
                 fechaSemanaEl.textContent = rangoTexto;
+                
+                const fPartsMid = dataSemana.fecha.split('-');
+                const dMid = new Date(fPartsMid[0], fPartsMid[1]-1, fPartsMid[2]);
+                const strMid = dMid.toLocaleDateString('es-ES', { weekday: 'long' });
+                timeSemanaEl.textContent = `${strMid} 6:30 PM`;
+
                 esMismoDia(dataSemana.fecha, fechaHoy) ? badgeSemana.classList.remove('hidden') : badgeSemana.classList.add('hidden');
                 
                 let html = `
@@ -711,6 +733,7 @@
                         ${dataSemana.tesoros_lectura_segundaSala ? `
                             <div class="sr-full-section">
                                 <div class="sect-subtitle">SEGUNDA SALA</div>
+                                <div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div>
                                 <div class="timeline-group">
                                     ${renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros')}
                                 </div>
@@ -725,14 +748,12 @@
                     <div class="timeline-group">
                     `;
                     
-                    // Arrays para separar las salas
                     let mainParts = [];
                     let secondParts = [];
 
                     for(let i=1; i<=5; i++) {
                         const titulo = dataSemana[`maestros_parte${i}_titulo`];
                         if(titulo) {
-                            // Sala Principal
                             mainParts.push(renderFlexItem(
                                 titulo, 
                                 dataSemana[`maestros_parte${i}_tiempo`], 
@@ -740,7 +761,6 @@
                                 'c-maestros'
                             ));
                             
-                            // Segunda Sala (si existe)
                             if(dataSemana[`maestros_parte${i}_segundaSala_principal`]) {
                                 secondParts.push(renderFlexItem(
                                     titulo, 
@@ -752,16 +772,14 @@
                         }
                     }
                     
-                    // Render Main Parts
                     html += mainParts.join('');
-                    html += `</div>`; // Cierra timeline-group principal
+                    html += `</div>`; 
 
-                    // Render Second Parts (Bubble Style)
                     if(secondParts.length > 0) {
                         html += `
                         <div class="sr-full-section">
                             <div class="sect-subtitle">SEGUNDA SALA</div>
-                            <div class="sr-conductor">Conductor: <strong>${dataSemana.consejero_segundaSala || '-'}</strong></div>
+                            <div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div>
                             <div class="timeline-group">
                                 ${secondParts.join('')}
                             </div>
@@ -790,18 +808,23 @@
             } else {
                 fechaSemanaEl.textContent = rangoTexto + " (Sin datos)";
                 badgeSemana.classList.add('hidden');
-                containerSemana.innerHTML = `<div class="no-grupos">Sin programación cargada.</div>`;
+                containerSemana.innerHTML = `<div class="no-grupos">Sin programación cargada para esta semana.</div>`;
             }
 
             const containerFinde = document.getElementById('reunion-finde-detalle');
             const fechaFindeEl = document.getElementById('fecha-finde');
             const badgeFinde = document.getElementById('badge-finde');
+            const timeFindeEl = document.getElementById('reunion-finde-time');
 
             // --- REUNIÓN FIN DE SEMANA ---
             if (dataFinde) {
                 const fParts = dataFinde.fecha.split('-');
                 const fDate = new Date(fParts[0], fParts[1]-1, fParts[2]);
                 fechaFindeEl.textContent = fDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+                
+                const strWk = fDate.toLocaleDateString('es-ES', { weekday: 'long' });
+                timeFindeEl.textContent = `${strWk} 10:00 AM`;
+
                 esMismoDia(dataFinde.fecha, fechaHoy) ? badgeFinde.classList.remove('hidden') : badgeFinde.classList.add('hidden');
                 
                 let html = `
@@ -839,7 +862,7 @@
             } else {
                 fechaFindeEl.textContent = "Sin datos";
                 badgeFinde.classList.add('hidden');
-                containerFinde.innerHTML = `<div class="no-grupos">Sin programación.</div>`;
+                containerFinde.innerHTML = `<div class="no-grupos">Sin programación para este fin de semana.</div>`;
             }
         }
 
@@ -851,11 +874,7 @@
             let contentHTML = `<div class="rt-title">${timeSpan}${title}</div>`;
             
             if (who) {
-                if (who.includes('<br>') || who.includes(' / ')) {
-                    contentHTML += `<div class="rt-who">${who}</div>`;
-                } else {
-                    contentHTML += `<div class="rt-who">${who}</div>`;
-                }
+                contentHTML += `<div class="rt-who">${who}</div>`;
             }
 
             return `
@@ -892,20 +911,6 @@
             let list = '';
             let highlights = '';
 
-            const addRow = (label, value) => {
-                if(!value) return;
-                let names = value.split(/,| y | Y /).map(n => n.trim()).filter(n => n);
-                let namesHtml = '';
-                names.forEach(n => {
-                    namesHtml += `<div class="svc-bullet-item"><div class="svc-bullet-dot"></div>${n}</div>`;
-                });
-                list += `
-                <div class="svc-block">
-                    <div class="svc-block-title">${label}</div>
-                    ${namesHtml}
-                </div>`;
-            }
-
             if (type === 'entreSemana') {
                 if(data.limpiezaSuperficial) {
                      highlights += `
@@ -926,7 +931,7 @@
                     return `<div class="svc-block"><div class="svc-block-title">${label}</div>${namesHtml}</div>`;
                 };
 
-                // Grid 2 columnas
+                gridItems += addGridItem('Encargado', data.encargado);
                 gridItems += addGridItem('Auditorio', `${data.acomodadorAuditorio1}, ${data.acomodadorAuditorio2}`);
                 gridItems += addGridItem('Puerta', data.acomodadorPuerta);
                 gridItems += addGridItem('Micrófonos', `${data.microfonos1}, ${data.microfonos2}`);
@@ -937,7 +942,6 @@
             }
             
             if (type === 'finSemana') {
-                // CAMBIO: Estructura HORIZONTAL (Row con Space-Between)
                 if(data.limpiezaAFondo || data.hospitalidad) {
                     highlights += `<div class="highlight-weekend-box">`;
                     
@@ -965,7 +969,6 @@
                     highlights += `</div>`;
                 }
 
-                // Grid 2 columnas
                 let gridItems = '';
                 const addGridItem = (label, value) => {
                     if(!value) return '';
@@ -977,6 +980,7 @@
                     return `<div class="svc-block"><div class="svc-block-title">${label}</div>${namesHtml}</div>`;
                 };
                 
+                gridItems += addGridItem('Encargado', data.encargado);
                 gridItems += addGridItem('Auditorio', `${data.acomodadorAuditorio1}, ${data.acomodadorAuditorio2}`);
                 gridItems += addGridItem('Puerta', data.acomodadorPuerta);
                 gridItems += addGridItem('Micrófonos', `${data.microfonos1}, ${data.microfonos2}`);
@@ -989,9 +993,9 @@
             if(!list && !highlights) return '';
 
             return `
+            ${highlights}
             <div class="svc-container">
                 <div class="svc-title-main">ASIGNACIONES</div>
-                ${highlights}
                 ${list}
             </div>`;
         }
@@ -1011,12 +1015,11 @@
         }
 
         function renderAll() {
-            const d = new Date(fechaSeleccionada);
+            const d = new Date(fechaSeleccionada.getTime());
             document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
             const day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
             const mon = new Date(d.setDate(diff)); const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
             
-            // LOGICA BOTÓN IR A HOY
             const btnToday = document.getElementById('btn-today');
             if (!esMismoDia(fechaSeleccionada, fechaHoy)) {
                 btnToday.style.display = 'flex'; 
@@ -1028,10 +1031,78 @@
         }
 
         function formatearFecha(fInput) { if(!fInput) return ""; const parts = fInput.split('-'); const d = new Date(parts[0], parts[1]-1, parts[2]); return d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
-        function renderCalendarGrid() { document.getElementById('calendar-month').textContent = fechaVisualizadaCalendario.toLocaleDateString('es-ES', {month:'long', year:'numeric'}); const grid = document.getElementById('calendario-grid'); grid.innerHTML=''; ['D','L','M','M','J','V','S'].forEach(d=>grid.innerHTML+=`<div class="calendar-day-header">${d}</div>`); const first = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), 1); const days = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth()+1, 0).getDate(); for(let i=0; i<first.getDay(); i++) grid.innerHTML+=`<div></div>`; for(let i=1; i<=days; i++) { let d = document.createElement('div'); d.className='calendar-day'; d.textContent=i; const fStr = `${fechaVisualizadaCalendario.getFullYear()}-${String(fechaVisualizadaCalendario.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`; if(fStr === toISODate(fechaSeleccionada)) d.classList.add('selected'); if(fStr === toISODate(fechaHoy)) d.classList.add('today'); d.onclick=()=>{ fechaVisualizadaCalendario.setMonth(fechaVisualizadaCalendario.getMonth()); fechaSeleccionada = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), i); renderAll(); }; grid.appendChild(d); } }
+        
+        function renderCalendarGrid() { 
+            document.getElementById('calendar-month').textContent = fechaVisualizadaCalendario.toLocaleDateString('es-ES', {month:'long', year:'numeric'}); 
+            const grid = document.getElementById('calendario-grid'); 
+            grid.innerHTML=''; 
+            ['D','L','M','M','J','V','S'].forEach(d=>grid.innerHTML+=`<div class="calendar-day-header">${d}</div>`); 
+            const first = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), 1); 
+            const days = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth()+1, 0).getDate(); 
+            for(let i=0; i<first.getDay(); i++) grid.innerHTML+=`<div></div>`; 
+            for(let i=1; i<=days; i++) { 
+                let d = document.createElement('div'); 
+                d.className='calendar-day'; 
+                d.textContent=i; 
+                const fStr = `${fechaVisualizadaCalendario.getFullYear()}-${String(fechaVisualizadaCalendario.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`; 
+                if(fStr === toISODate(fechaSeleccionada)) d.classList.add('selected'); 
+                if(fStr === toISODate(fechaHoy)) d.classList.add('today'); 
+                d.onclick=()=>{ 
+                    fechaVisualizadaCalendario.setMonth(fechaVisualizadaCalendario.getMonth()); 
+                    fechaSeleccionada = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), i); 
+                    if (sectionsExpanded['calendario']) { toggleSection('calendario'); }
+                    renderAll(); 
+                }; 
+                grid.appendChild(d); 
+            } 
+        }
+
         function renderCarousel() { const c = document.getElementById('carousel'); c.innerHTML = ''; const b = new Date(fechaHoy); let startBase = b; if (fechaSeleccionada > new Date(b.getTime() + (60*86400000)) || fechaSeleccionada < new Date(b.getTime() - (10*86400000))) { startBase = new Date(fechaSeleccionada); } for(let i=-2; i<=60; i++) { const f = new Date(startBase); f.setDate(startBase.getDate() + i); const card = document.createElement('div'); card.dataset.date = toISODate(f); card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`; card.innerHTML = `<div class="date-card-day">${f.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div><div class="date-card-number">${f.getDate()}</div>`; card.onclick = () => { fechaSeleccionada = f; renderAll(); }; c.appendChild(card); } }
-        function renderTodosGruposPaginados() { const tl = document.getElementById('swipe-timeline'); const pagContainer = document.getElementById('paginacion-container'); tl.innerHTML = ''; pagContainer.innerHTML = ''; const hoyStr = toISODate(fechaHoy); let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr); listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha)); if (listaFechas.length === 0) { tl.innerHTML = '<div class="no-grupos">No hay grupos futuros programados.</div>'; pagContainer.classList.add('hidden'); return; } const totalPaginas = Math.ceil(listaFechas.length / diasPorPagina); if (paginaGruposActual > totalPaginas) paginaGruposActual = 1; const inicio = (paginaGruposActual - 1) * diasPorPagina; const fechasPagina = listaFechas.slice(inicio, inicio + diasPorPagina); fechasPagina.forEach(diaData => { const fechaNice = formatearFecha(diaData.fecha); const dayBlock = document.createElement('div'); dayBlock.className = 'timeline-day-block'; if (esMismoDia(diaData.fecha, fechaSeleccionada)) dayBlock.classList.add('active-day'); const header = document.createElement('div'); header.className = 'timeline-date-header'; header.textContent = fechaNice; dayBlock.appendChild(header); diaData.grupos.forEach(g => { const row = document.createElement('div'); row.className = 'timeline-row'; row.innerHTML = `<div class="grupo-row-flex"><div class="gh-hora-timeline">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.gruposassigned ? `<div class="gh-asignados">${g.gruposassigned}</div>` : ''}</div></div>`; dayBlock.appendChild(row); }); tl.appendChild(dayBlock); }); if (totalPaginas > 1) { pagContainer.classList.remove('hidden'); const btnPrev = document.createElement('button'); btnPrev.className = 'page-btn'; btnPrev.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>'; btnPrev.disabled = paginaGruposActual === 1; btnPrev.onclick = () => { paginaGruposActual--; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnPrev); for (let i = 1; i <= totalPaginas; i++) { const btn = document.createElement('button'); btn.className = `page-btn ${i === paginaGruposActual ? 'active' : ''}`; btn.textContent = i; btn.onclick = () => { paginaGruposActual = i; renderTodosGruposPaginados(); }; pagContainer.appendChild(btn); } const btnNext = document.createElement('button'); btnNext.className = 'page-btn'; btnNext.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>'; btnNext.disabled = paginaGruposActual === totalPaginas; btnNext.onclick = () => { paginaGruposActual++; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnNext); } else { pagContainer.classList.add('hidden'); } }
-        function toggleSection(id) { const c = document.getElementById(id + '-content'); const card = document.getElementById('card-' + id); sectionsExpanded[id] = !sectionsExpanded[id]; c.classList.toggle('expanded'); if (card) card.classList.toggle('active-card'); if(id === 'todos-grupos') { const btnText = document.getElementById('ver-todos-text'); const btn = document.getElementById('ver-todos-btn'); if (sectionsExpanded[id]) { btnText.textContent = "Ocultar grupos"; btn.classList.add('expanded'); paginaGruposActual = 1; renderTodosGruposPaginados(); } else { btnText.textContent = "Ver todos los grupos"; btn.classList.remove('expanded'); } } if(id === 'calendario') { const calText = document.getElementById('calendar-toggle-text'); if (sectionsExpanded[id]) { calText.textContent = "Ocultar calendario"; } else { calText.textContent = "Mostrar calendario"; } } }
+        
+        function renderTodosGruposPaginados() { const tl = document.getElementById('swipe-timeline'); const pagContainer = document.getElementById('paginacion-container'); tl.innerHTML = ''; pagContainer.innerHTML = ''; const hoyStr = toISODate(fechaHoy); let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr); listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha)); if (listaFechas.length === 0) { tl.innerHTML = '<div class="no-grupos">No hay grupos futuros programados.</div>'; pagContainer.classList.add('hidden'); return; } const totalPaginas = Math.ceil(listaFechas.length / diasPorPagina); if (paginaGruposActual > totalPaginas) paginaGruposActual = 1; const inicio = (paginaGruposActual - 1) * diasPorPagina; const fechasPagina = listaFechas.slice(inicio, inicio + diasPorPagina); fechasPagina.forEach(diaData => { const fechaNice = formatearFecha(diaData.fecha); const dayBlock = document.createElement('div'); dayBlock.className = 'timeline-day-block'; if (esMismoDia(diaData.fecha, fechaSeleccionada)) dayBlock.classList.add('active-day'); const header = document.createElement('div'); header.className = 'timeline-date-header'; header.textContent = fechaNice; dayBlock.appendChild(header); diaData.grupos.forEach(g => { 
+            
+            const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#16a34a; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : '';
+            
+            const row = document.createElement('div'); row.className = 'timeline-row'; row.innerHTML = `<div class="grupo-row-flex"><div class="gh-hora-timeline">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}</div></div>`; dayBlock.appendChild(row); }); tl.appendChild(dayBlock); }); if (totalPaginas > 1) { pagContainer.classList.remove('hidden'); const btnPrev = document.createElement('button'); btnPrev.className = 'page-btn'; btnPrev.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>'; btnPrev.disabled = paginaGruposActual === 1; btnPrev.onclick = () => { paginaGruposActual--; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnPrev); for (let i = 1; i <= totalPaginas; i++) { const btn = document.createElement('button'); btn.className = `page-btn ${i === paginaGruposActual ? 'active' : ''}`; btn.textContent = i; btn.onclick = () => { paginaGruposActual = i; renderTodosGruposPaginados(); }; pagContainer.appendChild(btn); } const btnNext = document.createElement('button'); btnNext.className = 'page-btn'; btnNext.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>'; btnNext.disabled = paginaGruposActual === totalPaginas; btnNext.onclick = () => { paginaGruposActual++; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnNext); } else { pagContainer.classList.add('hidden'); } }
+        
+        function toggleSection(id) { 
+            const c = document.getElementById(id + '-content'); 
+            const card = document.getElementById('card-' + id); 
+            sectionsExpanded[id] = !sectionsExpanded[id]; 
+            c.classList.toggle('expanded'); 
+            if (card) card.classList.toggle('active-card'); 
+            
+            if(id === 'todos-grupos') { 
+                const btnText = document.getElementById('ver-todos-text'); 
+                const btn = document.getElementById('ver-todos-btn'); 
+                if (sectionsExpanded[id]) { 
+                    btnText.textContent = "Ocultar grupos"; 
+                    btn.classList.add('expanded'); 
+                    paginaGruposActual = 1; 
+                    renderTodosGruposPaginados(); 
+                } else { 
+                    btnText.textContent = "Ver todos los grupos"; 
+                    btn.classList.remove('expanded'); 
+                } 
+            } 
+            
+            if(id === 'calendario') { 
+                const calText = document.getElementById('calendar-toggle-text'); 
+                const calIcon = document.getElementById('cal-toggle-icon');
+                if (sectionsExpanded[id]) { 
+                    calText.textContent = "Ocultar calendario"; 
+                    // Flecha arriba desvaneciéndose
+                    calIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" stroke-width="2"/>`;
+                    calIcon.classList.add('fade-up-anim');
+                } else { 
+                    calText.textContent = "Mostrar calendario"; 
+                    // Icono de calendario normal
+                    calIcon.innerHTML = `<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>`;
+                    calIcon.classList.remove('fade-up-anim');
+                } 
+            } 
+        }
+        
         function scrollCarousel(d) { document.getElementById('carousel').scrollBy({ left: d * 120, behavior: 'smooth' }); }
         function cambiarSemana(d) { semanaOffset += d; renderReuniones(); }
         function resetearSemana() { semanaOffset = 0; renderReuniones(); }
