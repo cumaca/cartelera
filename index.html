@@ -538,11 +538,15 @@
             if(!(d instanceof Date)) return "";
             return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
         }
-
-        async function iniciarApp() {
+        
+async function iniciarApp() {
             try {
-                const response = await fetch(API_URL);
-                if (!response.ok) throw new Error("Error HTTP: " + response.status);
+                // TRUCO ANTI-CACHÉ: Le agregamos la hora actual al enlace para obligar 
+                // al navegador a descargar siempre la versión más nueva del archivo.
+                const timestamp = new Date().getTime();
+                const response = await fetch('./data/cartelera_datos.json?t=' + timestamp);
+                
+                if (!response.ok) throw new Error("Error HTTP: " + response.status + ". El archivo json aún no existe o la ruta está mal.");
                 const dataRaw = await response.json();
                 
                 // --- TRADUCTOR DE GRUPOS PLANOS A AGRUPADOS POR FECHA ---
@@ -586,11 +590,29 @@
             } catch (error) {
                 console.error(error);
                 const errDiv = document.getElementById('global-error');
-                errDiv.textContent = "Problema de conexión: " + error.message;
+                errDiv.textContent = "Problema al cargar la base de datos: " + error.message;
                 errDiv.classList.remove('hidden');
                 document.querySelectorAll('.inline-loader').forEach(el => el.innerHTML = '<p>Error al cargar la información.</p>');
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         function setupMonthScrollListener() {
             const carousel = document.getElementById('carousel');
@@ -1112,4 +1134,3 @@
     </script>
 </body>
 </html>
-
