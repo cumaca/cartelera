@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Anuncios - La Cumaca</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="header-principal">
+        <div class="header-contenedor">
+            <a href="index.html" class="btn-back">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <h1>Anuncios Locales</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="global-error" class="hidden"></div>
+        <div class="card" style="padding: 20px; margin-top: 20px;">
+            <div id="anuncios-lista">
+                <div class="inline-loader"><div class="spinner"></div><p>Cargando anuncios...</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-segment-container">
+        <div class="nav-segment">
+            <a href="predicacion.html" class="nav-btn">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                Grupos
+            </a>
+            <a href="reuniones.html" class="nav-btn">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                Reuniones
+            </a>
+            <a href="anuncios.html" class="nav-btn activo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                Anuncios
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let dbAnuncios = [];
+
+        async function iniciarApp() {
+            try {
+                const timestamp = new Date().getTime();
+                const response = await fetch('./data/cartelera_datos.json?t=' + timestamp);
+                if (!response.ok) throw new Error("Error HTTP: " + response.status);
+                const dataRaw = await response.json();
+                
+                dbAnuncios = dataRaw.anuncios || [];
+                renderAnuncios();
+
+            } catch (error) {
+                document.getElementById('global-error').textContent = "Problema al cargar datos: " + error.message;
+                document.getElementById('global-error').classList.remove('hidden');
+                document.getElementById('anuncios-lista').innerHTML = '<p style="text-align:center;">Error al cargar.</p>';
+            }
+        }
+
+        function renderAnuncios() {
+            const limpiar = (f) => {
+                if(!f) return "";
+                if(f.includes('-')) {
+                    const parts = f.split('-');
+                    const d = new Date(parts[0], parts[1]-1, parts[2]);
+                    const mes = d.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase().replace('.', '');
+                    return `${d.getDate()} ${mes}`;
+                } return f;
+            };
+            const html = dbAnuncios.map(a => `<div class="anuncio"><div class="anuncio-date">${limpiar(a.fechaInicio)} ${a.fechaFin ? '- ' + limpiar(a.fechaFin) : ''}</div><div class="anuncio-text">${a.texto}</div></div>`).join('');
+            document.getElementById('anuncios-lista').innerHTML = html || '<div class="no-grupos">No hay anuncios recientes.</div>';
+        }
+
+        iniciarApp();
+    </script>
+</body>
+</html>
