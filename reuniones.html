@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Reuniones - La Cumaca</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2.0">
 </head>
 <body>
 
@@ -23,46 +23,35 @@
     <div class="container">
         <div id="global-error" class="hidden"></div>
 
-        <div class="card" id="reuniones-swipe-wrapper" style="margin-top: 20px;">
-            <div class="reunion-week-nav">
-                <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></div>
-                <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
-                <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
-            </div>
+        <div class="reunion-week-nav" style="margin-top: 10px;">
+            <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></div>
+            <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
+            <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
+        </div>
 
-            <div class="reunion-card" id="card-reunion-semana">
-                <div class="reunion-header-click" onclick="toggleSection('reunion-semana')">
-                    <div class="reunion-info">
-                        <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
-                        <p class="reunion-date" id="fecha-semana"></p>
-                        <p class="reunion-time" id="reunion-semana-time">Jueves 6:30 PM</p>
-                    </div>
-                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </div>
-                <div class="section-content" id="reunion-semana-content">
-                    <div class="section-inner wol-style" id="reunion-semana-detalle">
-                        <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
-                    </div>
+        <div class="segmented-control" id="tab-nav-main" style="margin: 0 0 16px 0;">
+            <div class="seg-btn" id="btn-tab-semana" onclick="switchReunionTab('semana')">
+                <span style="font-size: 11px; font-weight: 500;">Reunión</span><br>Entre Semana
+            </div>
+            <div class="seg-btn" id="btn-tab-finde" onclick="switchReunionTab('finde')">
+                <span style="font-size: 11px; font-weight: 500;">Reunión</span><br>Fin de Semana
+            </div>
+        </div>
+
+        <div class="card" id="reuniones-swipe-wrapper" style="margin-top: 0;">
+            
+            <div id="tab-semana" class="tab-content">
+                <div class="section-inner wol-style" id="reunion-semana-detalle" style="padding-top: 20px;">
+                    <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
                 </div>
             </div>
             
-            <div style="border-top: 2px solid #d1d5db; margin: 32px 16px; border-radius: 2px;"></div>
-
-            <div class="reunion-card" id="card-reunion-finde">
-                <div class="reunion-header-click" onclick="toggleSection('reunion-finde')">
-                    <div class="reunion-info">
-                        <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
-                        <p class="reunion-date" id="fecha-finde"></p>
-                        <p class="reunion-time" id="reunion-finde-time">Domingo 10:00 AM</p>
-                    </div>
-                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </div>
-                <div class="section-content" id="reunion-finde-content">
-                    <div class="section-inner wol-style" id="reunion-finde-detalle">
-                        <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
-                    </div>
+            <div id="tab-finde" class="tab-content">
+                <div class="section-inner wol-style" id="reunion-finde-detalle" style="padding-top: 20px;">
+                    <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -91,7 +80,8 @@
         let dbVidaMinisterio = [], dbFinSemana = [];
         let fechaHoy = new Date();
         let semanaOffset = 0;
-        let sectionsExpanded = { 'reunion-semana': false, 'reunion-finde': false };
+        
+        let currentRoomFilter = 'todo'; // 'todo', 'principal', 'segunda'
 
         function toISODate(d) {
             if(!(d instanceof Date)) return "";
@@ -108,13 +98,42 @@
                 dbVidaMinisterio = dataRaw.vidaMinisterio || [];
                 dbFinSemana = dataRaw.finSemana || [];
                 
+                // LÓGICA AUTOMÁTICA DE PESTAÑAS (Si es Sábado o Domingo abre Fin de semana)
+                const todayDay = fechaHoy.getDay();
+                if(todayDay === 0 || todayDay === 6) {
+                    switchReunionTab('finde');
+                } else {
+                    switchReunionTab('semana');
+                }
+
                 renderReuniones();
+                setupSwipe('reuniones-swipe-wrapper', () => cambiarSemana(1), () => cambiarSemana(-1));
 
             } catch (error) {
                 document.getElementById('global-error').textContent = "Problema al cargar datos: " + error.message;
                 document.getElementById('global-error').classList.remove('hidden');
                 document.querySelectorAll('.inline-loader').forEach(el => el.innerHTML = '<p>Error al cargar.</p>');
             }
+        }
+
+        // LÓGICA PARA CAMBIAR LAS PESTAÑAS PRINCIPALES
+        function switchReunionTab(tab) {
+            document.querySelectorAll('#tab-nav-main .seg-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if(tab === 'semana') {
+                document.getElementById('btn-tab-semana').classList.add('active');
+                document.getElementById('tab-semana').classList.add('active');
+            } else {
+                document.getElementById('btn-tab-finde').classList.add('active');
+                document.getElementById('tab-finde').classList.add('active');
+            }
+        }
+
+        // LÓGICA PARA FILTRAR SALAS
+        function setRoomFilter(filter) {
+            currentRoomFilter = filter;
+            renderReuniones(); // Recarga la reunión con el filtro aplicado
         }
 
         function esMismoDia(f1, f2) { const str1 = f1 instanceof Date ? toISODate(f1) : f1; const str2 = f2 instanceof Date ? toISODate(f2) : f2; return str1 === str2; }
@@ -124,50 +143,125 @@
             const diff = d.getDate() - day + (day == 0 ? -6 : 1) + (semanaOffset * 7);
             const lunes = new Date(d.setDate(diff)); const lunesStr = toISODate(lunes);
             const domingo = new Date(lunes); domingo.setDate(lunes.getDate() + 6); const domingoStr = toISODate(domingo);
+            
             const rangoTexto = `${lunes.getDate()} ${lunes.toLocaleDateString('es-ES',{month:'short'})} - ${domingo.getDate()} ${domingo.toLocaleDateString('es-ES',{month:'short'})}`;
 
             const buscar = (lista) => lista.find(r => r.fecha >= lunesStr && r.fecha <= domingoStr);
             const dataSemana = buscar(dbVidaMinisterio); const dataFinde = buscar(dbFinSemana);
 
             const containerSemana = document.getElementById('reunion-semana-detalle');
+            
+            // --- REUNIÓN ENTRE SEMANA (CON FILTRO DE SALAS) ---
             if (dataSemana) {
-                document.getElementById('fecha-semana').textContent = rangoTexto;
-                const dMid = new Date(dataSemana.fecha.split('-')[0], dataSemana.fecha.split('-')[1]-1, dataSemana.fecha.split('-')[2]);
-                document.getElementById('reunion-semana-time').textContent = `${dMid.toLocaleDateString('es-ES', { weekday: 'long' })} 6:30 PM`;
-                esMismoDia(dataSemana.fecha, fechaHoy) ? document.getElementById('badge-semana').classList.remove('hidden') : document.getElementById('badge-semana').classList.add('hidden');
+                const fPartsMid = dataSemana.fecha.split('-');
+                const dMid = new Date(fPartsMid[0], fPartsMid[1]-1, fPartsMid[2]);
+                const fechaElegante = dMid.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
                 
-                let html = `<div class="header-roles"><div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataSemana.presidente || "-"}</strong></div><div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataSemana.oracionInicial || "-"}</strong></div></div>`;
-                html += `<div class="c-tesoros"><div class="sect-header">TESOROS DE LA BIBLIA</div><div class="timeline-group">${renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros')}${renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros')}${renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros')}${renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), dataSemana.tesoros_lectura_tiempo, formatBold(dataSemana.tesoros_lectura_estudiante), 'c-tesoros')}</div>${dataSemana.tesoros_lectura_segundaSala ? `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA Sala</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros')}</div></div>` : ''}</div>`;
+                let html = `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTexto}</div>
+                    <div style="font-size: 18px; font-weight: 800; color: #4A6DA7; text-transform: capitalize; margin-top: 2px;">${fechaElegante} • 6:30 PM</div>
+                </div>
+
+                <div class="header-roles">
+                    <div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataSemana.presidente || "-"}</strong></div>
+                    <div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataSemana.oracionInicial || "-"}</strong></div>
+                </div>
                 
+                <div class="segmented-control filter-control">
+                    <div class="seg-btn ${currentRoomFilter === 'todo' ? 'active' : ''}" onclick="setRoomFilter('todo')">Mostrar Todo</div>
+                    <div class="seg-btn ${currentRoomFilter === 'principal' ? 'active' : ''}" onclick="setRoomFilter('principal')">1ra Sala</div>
+                    <div class="seg-btn ${currentRoomFilter === 'segunda' ? 'active' : ''}" onclick="setRoomFilter('segunda')">2da Sala</div>
+                </div>
+                `;
+
+                // AVISO DINÁMICO
+                if (currentRoomFilter !== 'todo') {
+                    const salaName = currentRoomFilter === 'principal' ? 'Primera Sala' : 'Segunda Sala';
+                    html += `
+                    <div class="filter-alert" onclick="setRoomFilter('todo')">
+                        <strong>👀 Viendo solo: ${salaName}</strong><br>
+                        <span style="text-decoration: underline; font-size:12px;">Toca aquí para Mostrar Todo</span>
+                    </div>`;
+                }
+
+                // TESOROS
+                html += `<div class="c-tesoros"><div class="sect-header">TESOROS DE LA BIBLIA</div><div class="timeline-group">`;
+                html += renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros');
+                html += renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros');
+                html += renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros');
+                
+                if (currentRoomFilter === 'todo' || currentRoomFilter === 'principal') {
+                    html += renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), dataSemana.tesoros_lectura_tiempo, formatBold(dataSemana.tesoros_lectura_estudiante), 'c-tesoros');
+                }
+                html += `</div>`; // fin timeline principal tesoros
+
+                if (dataSemana.tesoros_lectura_segundaSala && (currentRoomFilter === 'todo' || currentRoomFilter === 'segunda')) {
+                    html += `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA ${currentRoomFilter === 'segunda' ? '(Vista filtrada)' : ''}</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">`;
+                    html += renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros');
+                    html += `</div></div>`;
+                }
+                html += `</div>`;
+
+                // MAESTROS
                 let mainParts = [], secondParts = [];
-                for(let i=1; i<=5; i++) { if(dataSemana[`maestros_parte${i}_titulo`]) { mainParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_principal`], dataSemana[`maestros_parte${i}_ayudante`]), 'c-maestros')); if(dataSemana[`maestros_parte${i}_segundaSala_principal`]) { secondParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`]), 'c-maestros')); } } }
-                html += `<div class="c-maestros"><div class="sect-header">SEAMOS MEJORES MAESTROS</div><div class="sect-subtitle">SALA PRINCIPAL</div><div class="timeline-group">${mainParts.join('')}</div>${secondParts.length > 0 ? `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${secondParts.join('')}</div></div>` : ''}</div>`;
+                for(let i=1; i<=5; i++) { 
+                    if(dataSemana[`maestros_parte${i}_titulo`]) { 
+                        mainParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_principal`], dataSemana[`maestros_parte${i}_ayudante`]), 'c-maestros')); 
+                        if(dataSemana[`maestros_parte${i}_segundaSala_principal`]) { 
+                            secondParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`]), 'c-maestros')); 
+                        } 
+                    } 
+                }
+
+                html += `<div class="c-maestros"><div class="sect-header">SEAMOS MEJORES MAESTROS</div>`;
                 
+                if (currentRoomFilter === 'todo' || currentRoomFilter === 'principal') {
+                    html += `<div class="sect-subtitle">SALA PRINCIPAL ${currentRoomFilter === 'principal' ? '(Vista filtrada)' : ''}</div><div class="timeline-group">${mainParts.join('')}</div>`;
+                }
+
+                if (secondParts.length > 0 && (currentRoomFilter === 'todo' || currentRoomFilter === 'segunda')) {
+                    html += `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA ${currentRoomFilter === 'segunda' ? '(Vista filtrada)' : ''}</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${secondParts.join('')}</div></div>`;
+                }
+                html += `</div>`;
+                
+                // VIDA CRISTIANA
                 html += `<div class="c-vida"><div class="sect-header">NUESTRA VIDA CRISTIANA</div><div class="timeline-group">${renderFlexItem(dataSemana.vida_parte1_titulo, dataSemana.vida_parte1_tiempo, formatBold(dataSemana.vida_parte1_hermano), 'c-vida')}${renderFlexItem('Estudio bíblico', dataSemana.vida_estudioBiblico_tiempo, `Conductor: <strong>${dataSemana.vida_estudioBiblico_conductor}</strong><br>Lector: <strong>${dataSemana.vida_estudioBiblico_lector}</strong>`, 'c-vida')}${renderFlexItem('Palabras de conclusión', dataSemana.vida_conclusion_tiempo, formatBold(dataSemana.vida_conclusion_hermano), 'c-vida')}</div></div><div style="margin-top: 4px; padding-top:4px; border-top:1px solid #f3f4f6; padding-left:10px;"><div class="header-role-row"><span class="hr-label">Oración final:</span> <strong>${dataSemana.oracionFinal || "-"}</strong></div></div>`;
+                
                 html += renderAssignmentsGrid(dataSemana, 'entreSemana');
                 containerSemana.innerHTML = html;
+
             } else {
-                document.getElementById('fecha-semana').textContent = rangoTexto + " (Sin datos)";
-                document.getElementById('badge-semana').classList.add('hidden');
-                containerSemana.innerHTML = `<div class="no-grupos">Sin programación cargada para esta semana.</div>`;
+                containerSemana.innerHTML = `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTexto}</div>
+                </div>
+                <div class="no-grupos">Sin programación cargada para esta semana.</div>`;
             }
 
+            // --- REUNIÓN FIN DE SEMANA ---
             const containerFinde = document.getElementById('reunion-finde-detalle');
             if (dataFinde) {
                 const fDate = new Date(dataFinde.fecha.split('-')[0], dataFinde.fecha.split('-')[1]-1, dataFinde.fecha.split('-')[2]);
-                document.getElementById('fecha-finde').textContent = fDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
-                document.getElementById('reunion-finde-time').textContent = `${fDate.toLocaleDateString('es-ES', { weekday: 'long' })} 10:00 AM`;
-                esMismoDia(dataFinde.fecha, fechaHoy) ? document.getElementById('badge-finde').classList.remove('hidden') : document.getElementById('badge-finde').classList.add('hidden');
+                const fechaElegante = fDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
                 
-                let html = `<div class="header-roles"><div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataFinde.presidente || "-"}</strong></div><div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataFinde.oracionInicial || "-"}</strong></div></div>`;
+                let html = `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTexto}</div>
+                    <div style="font-size: 18px; font-weight: 800; color: #4A6DA7; text-transform: capitalize; margin-top: 2px;">${fechaElegante} • 10:00 AM</div>
+                </div>
+
+                <div class="header-roles"><div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataFinde.presidente || "-"}</strong></div><div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataFinde.oracionInicial || "-"}</strong></div></div>`;
                 html += `<div class="c-publico"><div class="sect-header">DISCURSO PÚBLICO</div><div class="timeline-group">${renderFlexItem(`"${dataFinde.discursoPublico_tema}"`, '', `<strong>${dataFinde.discursoPublico_orador}</strong><br><span style="font-size:14px; color:#6b7280;">${dataFinde.discursoPublico_congregacion}</span>`, 'c-publico')}</div></div>`;
                 html += `<div class="c-publico"><div class="sect-header">ESTUDIO DE LA ATALAYA</div><div class="timeline-group">${renderFlexItem(dataFinde.estudioAtalaya_articulo, '', `Conductor: <strong>${dataFinde.estudioAtalaya_conductor}</strong><br>Lector: <strong>${dataFinde.estudioAtalaya_lector}</strong>`, 'c-publico')}</div></div><div style="margin-top: 4px; padding-top:4px; border-top:1px solid #f3f4f6; padding-left:10px;"><div class="header-role-row"><span class="hr-label">Oración final:</span> <strong>${dataFinde.oracionFinal || "-"}</strong></div></div>`;
                 html += renderAssignmentsGrid(dataFinde, 'finSemana');
                 containerFinde.innerHTML = html;
             } else {
-                document.getElementById('fecha-finde').textContent = "Sin datos";
-                document.getElementById('badge-finde').classList.add('hidden');
-                containerFinde.innerHTML = `<div class="no-grupos">Sin programación para este fin de semana.</div>`;
+                containerFinde.innerHTML = `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTexto}</div>
+                </div>
+                <div class="no-grupos">Sin programación para este fin de semana.</div>`;
             }
         }
 
@@ -196,12 +290,19 @@
             return `${highlights}<div class="svc-container"><div class="svc-title-main">ASIGNACIONES</div>${list}</div>`;
         }
 
-        function toggleSection(id) { 
-            const c = document.getElementById(id + '-content'); 
-            const card = document.getElementById('card-' + id);
-            sectionsExpanded[id] = !sectionsExpanded[id]; 
-            c.classList.toggle('expanded'); 
-            if (card) card.classList.toggle('active-card');
+        // LÓGICA DE SWIPE (DESLIZAR)
+        function setupSwipe(elementId, onSwipeLeft, onSwipeRight) { 
+            const element = document.getElementById(elementId); 
+            if (!element) return; 
+            let touchStartX = 0; let touchStartY = 0; 
+            element.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, {passive: true}); 
+            element.addEventListener('touchend', e => { 
+                const diffX = touchStartX - e.changedTouches[0].screenX; 
+                const diffY = touchStartY - e.changedTouches[0].screenY; 
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) { 
+                    if (diffX > 0) onSwipeLeft(); else onSwipeRight(); 
+                } 
+            }, {passive: true}); 
         }
 
         function cambiarSemana(d) { semanaOffset += d; renderReuniones(); }
