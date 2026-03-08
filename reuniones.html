@@ -30,16 +30,6 @@
                 <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
             </div>
 
-            <div class="swipe-hint-box" id="aviso-reuniones">
-                <div class="swipe-hint-content">
-                    <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5 1.5C9.67 1.5 9 2.17 9 3v8.5l-1.63-1.63c-.4-.4-1.05-.4-1.42 0l-1.4 1.4c-.4.4-.4 1.05 0 1.42l5.65 5.65c.78.78 1.84 1.22 2.95 1.22h4.35c2.48 0 4.5-2.02 4.5-4.5V11.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v2h-1v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1v-4.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1V3c0-.83-.67-1.5-1.5-1.5z"/></svg>
-                    <span class="swipe-hint-text">Desliza para cambiar de semana</span>
-                </div>
-                <button class="swipe-hint-close" onclick="document.getElementById('aviso-reuniones').style.display='none'">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </button>
-            </div>
-
             <div class="reunion-card" id="card-reunion-semana">
                 <div class="reunion-header-click" onclick="toggleSection('reunion-semana')">
                     <div class="reunion-info">
@@ -101,8 +91,6 @@
         let dbVidaMinisterio = [], dbFinSemana = [];
         let fechaHoy = new Date();
         let semanaOffset = 0;
-        
-        // ESTO SE AJUSTÓ A FALSE PARA QUE INICIEN CERRADAS EN LA LÓGICA
         let sectionsExpanded = { 'reunion-semana': false, 'reunion-finde': false };
 
         function toISODate(d) {
@@ -121,7 +109,6 @@
                 dbFinSemana = dataRaw.finSemana || [];
                 
                 renderReuniones();
-                setupSwipe('reuniones-swipe-wrapper', () => cambiarSemana(1), () => cambiarSemana(-1));
 
             } catch (error) {
                 document.getElementById('global-error').textContent = "Problema al cargar datos: " + error.message;
@@ -150,7 +137,7 @@
                 esMismoDia(dataSemana.fecha, fechaHoy) ? document.getElementById('badge-semana').classList.remove('hidden') : document.getElementById('badge-semana').classList.add('hidden');
                 
                 let html = `<div class="header-roles"><div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataSemana.presidente || "-"}</strong></div><div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataSemana.oracionInicial || "-"}</strong></div></div>`;
-                html += `<div class="c-tesoros"><div class="sect-header">TESOROS DE LA BIBLIA</div><div class="timeline-group">${renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros')}${renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros')}${renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros')}${renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), dataSemana.tesoros_lectura_tiempo, formatBold(dataSemana.tesoros_lectura_estudiante), 'c-tesoros')}</div>${dataSemana.tesoros_lectura_segundaSala ? `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros')}</div></div>` : ''}</div>`;
+                html += `<div class="c-tesoros"><div class="sect-header">TESOROS DE LA BIBLIA</div><div class="timeline-group">${renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros')}${renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros')}${renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros')}${renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), dataSemana.tesoros_lectura_tiempo, formatBold(dataSemana.tesoros_lectura_estudiante), 'c-tesoros')}</div>${dataSemana.tesoros_lectura_segundaSala ? `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA Sala</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros')}</div></div>` : ''}</div>`;
                 
                 let mainParts = [], secondParts = [];
                 for(let i=1; i<=5; i++) { if(dataSemana[`maestros_parte${i}_titulo`]) { mainParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_principal`], dataSemana[`maestros_parte${i}_ayudante`]), 'c-maestros')); if(dataSemana[`maestros_parte${i}_segundaSala_principal`]) { secondParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`]), 'c-maestros')); } } }
@@ -217,7 +204,6 @@
             if (card) card.classList.toggle('active-card');
         }
 
-        function setupSwipe(elementId, onSwipeLeft, onSwipeRight) { const element = document.getElementById(elementId); if (!element) return; let touchStartX = 0; let touchStartY = 0; element.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, {passive: true}); element.addEventListener('touchend', e => { const diffX = touchStartX - e.changedTouches[0].screenX; const diffY = touchStartY - e.changedTouches[0].screenY; if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) { if (diffX > 0) onSwipeLeft(); else onSwipeRight(); } }, {passive: true}); }
         function cambiarSemana(d) { semanaOffset += d; renderReuniones(); }
         function resetearSemana() { semanaOffset = 0; renderReuniones(); }
 
