@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Anuncios - La Cumaca</title>
+    <title>Reuniones - La Cumaca</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,15 +16,62 @@
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
             </a>
-            <h1>Anuncios Locales</h1>
+            <h1>Programa de Reuniones</h1>
         </div>
     </header>
 
     <div class="container">
         <div id="global-error" class="hidden"></div>
-        <div class="card" style="padding: 20px; margin-top: 20px;">
-            <div id="anuncios-lista">
-                <div class="inline-loader"><div class="spinner"></div><p>Cargando anuncios...</p></div>
+
+        <div class="card" id="reuniones-swipe-wrapper" style="margin-top: 20px;">
+            <div class="reunion-week-nav">
+                <div class="week-nav-arrow" onclick="cambiarSemana(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></div>
+                <div class="week-nav-text" onclick="resetearSemana()">Esta Semana</div>
+                <div class="week-nav-arrow" onclick="cambiarSemana(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
+            </div>
+
+            <div class="swipe-hint-box" id="aviso-reuniones">
+                <div class="swipe-hint-content">
+                    <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5 1.5C9.67 1.5 9 2.17 9 3v8.5l-1.63-1.63c-.4-.4-1.05-.4-1.42 0l-1.4 1.4c-.4.4-.4 1.05 0 1.42l5.65 5.65c.78.78 1.84 1.22 2.95 1.22h4.35c2.48 0 4.5-2.02 4.5-4.5V11.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v2h-1v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1v-4.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1V3c0-.83-.67-1.5-1.5-1.5z"/></svg>
+                    <span class="swipe-hint-text">Desliza para cambiar de semana</span>
+                </div>
+                <button class="swipe-hint-close" onclick="document.getElementById('aviso-reuniones').style.display='none'">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="reunion-card" id="card-reunion-semana">
+                <div class="reunion-header-click" onclick="toggleSection('reunion-semana')">
+                    <div class="reunion-info">
+                        <h3>Reunión Entre Semana <span class="reunion-badge hidden" id="badge-semana">HOY</span></h3>
+                        <p class="reunion-date" id="fecha-semana"></p>
+                        <p class="reunion-time" id="reunion-semana-time">Jueves 6:30 PM</p>
+                    </div>
+                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </div>
+                <div class="section-content" id="reunion-semana-content">
+                    <div class="section-inner wol-style" id="reunion-semana-detalle">
+                        <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="border-top: 2px solid #d1d5db; margin: 32px 16px; border-radius: 2px;"></div>
+
+            <div class="reunion-card" id="card-reunion-finde">
+                <div class="reunion-header-click" onclick="toggleSection('reunion-finde')">
+                    <div class="reunion-info">
+                        <h3>Reunión Fin de Semana <span class="reunion-badge hidden" id="badge-finde">HOY</span></h3>
+                        <p class="reunion-date" id="fecha-finde"></p>
+                        <p class="reunion-time" id="reunion-finde-time">Domingo 10:00 AM</p>
+                    </div>
+                    <svg class="section-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </div>
+                <div class="section-content" id="reunion-finde-content">
+                    <div class="section-inner wol-style" id="reunion-finde-detalle">
+                        <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -32,23 +79,17 @@
     <div class="nav-segment-container">
         <div class="nav-segment">
             <a href="index.html" class="nav-btn">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 Inicio
             </a>
-            
             <a href="predicacion.html" class="nav-btn">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 Grupos
             </a>
-            
-            <a href="reuniones.html" class="nav-btn">
+            <a href="reuniones.html" class="nav-btn activo">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                 Reuniones
             </a>
-            
             <a href="anuncios.html" class="nav-btn">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                 Anuncios
@@ -57,7 +98,17 @@
     </div>
 
     <script>
-        let dbAnuncios = [];
+        let dbVidaMinisterio = [], dbFinSemana = [];
+        let fechaHoy = new Date();
+        let semanaOffset = 0;
+        
+        // ESTO SE AJUSTÓ A FALSE PARA QUE INICIEN CERRADAS EN LA LÓGICA
+        let sectionsExpanded = { 'reunion-semana': false, 'reunion-finde': false };
+
+        function toISODate(d) {
+            if(!(d instanceof Date)) return "";
+            return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+        }
 
         async function iniciarApp() {
             try {
@@ -66,29 +117,109 @@
                 if (!response.ok) throw new Error("Error HTTP: " + response.status);
                 const dataRaw = await response.json();
                 
-                dbAnuncios = dataRaw.anuncios || [];
-                renderAnuncios();
+                dbVidaMinisterio = dataRaw.vidaMinisterio || [];
+                dbFinSemana = dataRaw.finSemana || [];
+                
+                renderReuniones();
+                setupSwipe('reuniones-swipe-wrapper', () => cambiarSemana(1), () => cambiarSemana(-1));
 
             } catch (error) {
                 document.getElementById('global-error').textContent = "Problema al cargar datos: " + error.message;
                 document.getElementById('global-error').classList.remove('hidden');
-                document.getElementById('anuncios-lista').innerHTML = '<p style="text-align:center;">Error al cargar.</p>';
+                document.querySelectorAll('.inline-loader').forEach(el => el.innerHTML = '<p>Error al cargar.</p>');
             }
         }
 
-        function renderAnuncios() {
-            const limpiar = (f) => {
-                if(!f) return "";
-                if(f.includes('-')) {
-                    const parts = f.split('-');
-                    const d = new Date(parts[0], parts[1]-1, parts[2]);
-                    const mes = d.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase().replace('.', '');
-                    return `${d.getDate()} ${mes}`;
-                } return f;
-            };
-            const html = dbAnuncios.map(a => `<div class="anuncio"><div class="anuncio-date">${limpiar(a.fechaInicio)} ${a.fechaFin ? '- ' + limpiar(a.fechaFin) : ''}</div><div class="anuncio-text">${a.texto}</div></div>`).join('');
-            document.getElementById('anuncios-lista').innerHTML = html || '<div class="no-grupos">No hay anuncios recientes.</div>';
+        function esMismoDia(f1, f2) { const str1 = f1 instanceof Date ? toISODate(f1) : f1; const str2 = f2 instanceof Date ? toISODate(f2) : f2; return str1 === str2; }
+
+        function renderReuniones() {
+            const d = new Date(fechaHoy); const day = d.getDay(); 
+            const diff = d.getDate() - day + (day == 0 ? -6 : 1) + (semanaOffset * 7);
+            const lunes = new Date(d.setDate(diff)); const lunesStr = toISODate(lunes);
+            const domingo = new Date(lunes); domingo.setDate(lunes.getDate() + 6); const domingoStr = toISODate(domingo);
+            const rangoTexto = `${lunes.getDate()} ${lunes.toLocaleDateString('es-ES',{month:'short'})} - ${domingo.getDate()} ${domingo.toLocaleDateString('es-ES',{month:'short'})}`;
+
+            const buscar = (lista) => lista.find(r => r.fecha >= lunesStr && r.fecha <= domingoStr);
+            const dataSemana = buscar(dbVidaMinisterio); const dataFinde = buscar(dbFinSemana);
+
+            const containerSemana = document.getElementById('reunion-semana-detalle');
+            if (dataSemana) {
+                document.getElementById('fecha-semana').textContent = rangoTexto;
+                const dMid = new Date(dataSemana.fecha.split('-')[0], dataSemana.fecha.split('-')[1]-1, dataSemana.fecha.split('-')[2]);
+                document.getElementById('reunion-semana-time').textContent = `${dMid.toLocaleDateString('es-ES', { weekday: 'long' })} 6:30 PM`;
+                esMismoDia(dataSemana.fecha, fechaHoy) ? document.getElementById('badge-semana').classList.remove('hidden') : document.getElementById('badge-semana').classList.add('hidden');
+                
+                let html = `<div class="header-roles"><div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataSemana.presidente || "-"}</strong></div><div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataSemana.oracionInicial || "-"}</strong></div></div>`;
+                html += `<div class="c-tesoros"><div class="sect-header">TESOROS DE LA BIBLIA</div><div class="timeline-group">${renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros')}${renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros')}${renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros')}${renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), dataSemana.tesoros_lectura_tiempo, formatBold(dataSemana.tesoros_lectura_estudiante), 'c-tesoros')}</div>${dataSemana.tesoros_lectura_segundaSala ? `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros')}</div></div>` : ''}</div>`;
+                
+                let mainParts = [], secondParts = [];
+                for(let i=1; i<=5; i++) { if(dataSemana[`maestros_parte${i}_titulo`]) { mainParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_principal`], dataSemana[`maestros_parte${i}_ayudante`]), 'c-maestros')); if(dataSemana[`maestros_parte${i}_segundaSala_principal`]) { secondParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`]), 'c-maestros')); } } }
+                html += `<div class="c-maestros"><div class="sect-header">SEAMOS MEJORES MAESTROS</div><div class="sect-subtitle">SALA PRINCIPAL</div><div class="timeline-group">${mainParts.join('')}</div>${secondParts.length > 0 ? `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${secondParts.join('')}</div></div>` : ''}</div>`;
+                
+                html += `<div class="c-vida"><div class="sect-header">NUESTRA VIDA CRISTIANA</div><div class="timeline-group">${renderFlexItem(dataSemana.vida_parte1_titulo, dataSemana.vida_parte1_tiempo, formatBold(dataSemana.vida_parte1_hermano), 'c-vida')}${renderFlexItem('Estudio bíblico', dataSemana.vida_estudioBiblico_tiempo, `Conductor: <strong>${dataSemana.vida_estudioBiblico_conductor}</strong><br>Lector: <strong>${dataSemana.vida_estudioBiblico_lector}</strong>`, 'c-vida')}${renderFlexItem('Palabras de conclusión', dataSemana.vida_conclusion_tiempo, formatBold(dataSemana.vida_conclusion_hermano), 'c-vida')}</div></div><div style="margin-top: 4px; padding-top:4px; border-top:1px solid #f3f4f6; padding-left:10px;"><div class="header-role-row"><span class="hr-label">Oración final:</span> <strong>${dataSemana.oracionFinal || "-"}</strong></div></div>`;
+                html += renderAssignmentsGrid(dataSemana, 'entreSemana');
+                containerSemana.innerHTML = html;
+            } else {
+                document.getElementById('fecha-semana').textContent = rangoTexto + " (Sin datos)";
+                document.getElementById('badge-semana').classList.add('hidden');
+                containerSemana.innerHTML = `<div class="no-grupos">Sin programación cargada para esta semana.</div>`;
+            }
+
+            const containerFinde = document.getElementById('reunion-finde-detalle');
+            if (dataFinde) {
+                const fDate = new Date(dataFinde.fecha.split('-')[0], dataFinde.fecha.split('-')[1]-1, dataFinde.fecha.split('-')[2]);
+                document.getElementById('fecha-finde').textContent = fDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+                document.getElementById('reunion-finde-time').textContent = `${fDate.toLocaleDateString('es-ES', { weekday: 'long' })} 10:00 AM`;
+                esMismoDia(dataFinde.fecha, fechaHoy) ? document.getElementById('badge-finde').classList.remove('hidden') : document.getElementById('badge-finde').classList.add('hidden');
+                
+                let html = `<div class="header-roles"><div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataFinde.presidente || "-"}</strong></div><div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataFinde.oracionInicial || "-"}</strong></div></div>`;
+                html += `<div class="c-publico"><div class="sect-header">DISCURSO PÚBLICO</div><div class="timeline-group">${renderFlexItem(`"${dataFinde.discursoPublico_tema}"`, '', `<strong>${dataFinde.discursoPublico_orador}</strong><br><span style="font-size:14px; color:#6b7280;">${dataFinde.discursoPublico_congregacion}</span>`, 'c-publico')}</div></div>`;
+                html += `<div class="c-publico"><div class="sect-header">ESTUDIO DE LA ATALAYA</div><div class="timeline-group">${renderFlexItem(dataFinde.estudioAtalaya_articulo, '', `Conductor: <strong>${dataFinde.estudioAtalaya_conductor}</strong><br>Lector: <strong>${dataFinde.estudioAtalaya_lector}</strong>`, 'c-publico')}</div></div><div style="margin-top: 4px; padding-top:4px; border-top:1px solid #f3f4f6; padding-left:10px;"><div class="header-role-row"><span class="hr-label">Oración final:</span> <strong>${dataFinde.oracionFinal || "-"}</strong></div></div>`;
+                html += renderAssignmentsGrid(dataFinde, 'finSemana');
+                containerFinde.innerHTML = html;
+            } else {
+                document.getElementById('fecha-finde').textContent = "Sin datos";
+                document.getElementById('badge-finde').classList.add('hidden');
+                containerFinde.innerHTML = `<div class="no-grupos">Sin programación para este fin de semana.</div>`;
+            }
         }
+
+        function renderFlexItem(title, time, who, parentClass) { if(!title) return ''; return `<div class="rt-row ${parentClass}"><div class="rt-time-col"></div><div class="rt-line-col"><div class="rt-line"></div><div class="rt-dot"></div></div><div class="rt-content-col"><div class="rt-title">${time ? `<span class="rt-time-tag">${time}</span>` : ''}${title}</div>${who ? `<div class="rt-who">${who}</div>` : ''}</div></div>`; }
+        function formatHelper(p, a) { return !p ? '' : (a ? `<strong>${p}</strong><div style="color:#6b7280; font-size:14px;">${a} (Ayudante)</div>` : `<strong>${p}</strong>`); }
+        function formatBold(text) { return text ? `<strong>${text}</strong>` : ''; }
+
+        function renderAssignmentsGrid(data, type) {
+            let list = '', highlights = '';
+            const addGridItem = (label, value) => { if(!value) return ''; let nHtml = value.split(/,| y | Y /).map(n => n.trim()).filter(n => n).map(n => `<div class="svc-bullet-item"><div class="svc-bullet-dot"></div>${n}</div>`).join(''); return `<div class="svc-block"><div class="svc-block-title">${label}</div>${nHtml}</div>`; };
+            
+            if (type === 'entreSemana') {
+                if(data.limpiezaSuperficial) highlights += `<div class="highlight-midweek"><span class="highlight-label">Limpieza Superficial</span><span class="highlight-val">Grupo ${data.limpiezaSuperficial}</span></div>`;
+                list = `<div class="svc-grid" style="margin-top:16px;">${addGridItem('Encargado', data.encargado)}${addGridItem('Auditorio', `${data.acomodadorAuditorio1}, ${data.acomodadorAuditorio2}`)}${addGridItem('Puerta', data.acomodadorPuerta)}${addGridItem('Micrófonos', `${data.microfonos1}, ${data.microfonos2}`)}${addGridItem('Audio/Video', `${data.audioVideo1}, ${data.audioVideo2}`)}${addGridItem('Plataforma', data.plataforma)}</div>`;
+            } else if (type === 'finSemana') {
+                if(data.limpiezaAFondo || data.hospitalidad) {
+                    highlights += `<div class="highlight-weekend-box">`;
+                    if(data.limpiezaAFondo) highlights += `<div class="hw-item"><span class="highlight-label">Limpieza Profunda</span><span class="highlight-val">Grupo ${data.limpiezaAFondo}</span></div>`;
+                    if(data.limpiezaAFondo && data.hospitalidad) highlights += `<div class="hw-divider"></div>`;
+                    if(data.hospitalidad) highlights += `<div class="hw-item"><span class="highlight-label">Hospitalidad</span><span class="highlight-val">Grupo ${data.hospitalidad}</span></div>`;
+                    highlights += `</div>`;
+                }
+                list = `<div class="svc-grid">${addGridItem('Encargado', data.encargado)}${addGridItem('Auditorio', `${data.acomodadorAuditorio1}, ${data.acomodadorAuditorio2}`)}${addGridItem('Puerta', data.acomodadorPuerta)}${addGridItem('Micrófonos', `${data.microfonos1}, ${data.microfonos2}`)}${addGridItem('Audio/Video', `${data.audioVideo1}, ${data.audioVideo2}`)}${addGridItem('Plataforma', data.plataforma)}</div>`;
+            }
+            if(!list && !highlights) return '';
+            return `${highlights}<div class="svc-container"><div class="svc-title-main">ASIGNACIONES</div>${list}</div>`;
+        }
+
+        function toggleSection(id) { 
+            const c = document.getElementById(id + '-content'); 
+            const card = document.getElementById('card-' + id);
+            sectionsExpanded[id] = !sectionsExpanded[id]; 
+            c.classList.toggle('expanded'); 
+            if (card) card.classList.toggle('active-card');
+        }
+
+        function setupSwipe(elementId, onSwipeLeft, onSwipeRight) { const element = document.getElementById(elementId); if (!element) return; let touchStartX = 0; let touchStartY = 0; element.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, {passive: true}); element.addEventListener('touchend', e => { const diffX = touchStartX - e.changedTouches[0].screenX; const diffY = touchStartY - e.changedTouches[0].screenY; if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) { if (diffX > 0) onSwipeLeft(); else onSwipeRight(); } }, {passive: true}); }
+        function cambiarSemana(d) { semanaOffset += d; renderReuniones(); }
+        function resetearSemana() { semanaOffset = 0; renderReuniones(); }
 
         iniciarApp();
     </script>
