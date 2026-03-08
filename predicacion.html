@@ -23,60 +23,74 @@
     <div class="container">
         <div id="global-error" class="hidden"></div>
         
-        <div class="card" style="margin-top: 20px;">
-            <div id="month-indicator" class="month-indicator">...</div>
-            
-            <div class="carousel-wrapper">
-                <button id="btn-today" class="btn-today-floating" onclick="goToToday()">Ir a Hoy</button>
-                <div class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                </div>
-                <div class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                </div>
-                <div class="carousel" id="carousel"></div>
-            </div>
+        <div class="segmented-control">
+            <div class="seg-btn active" onclick="switchTab('hoy')">Grupo de hoy</div>
+            <div class="seg-btn" onclick="switchTab('buscar')">Buscar grupos</div>
+        </div>
 
-            <div class="calendar-toggle-wrapper">
-                <button class="calendar-toggle" onclick="toggleSection('calendario')">
-                    <svg id="cal-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    <span id="calendar-toggle-text">Mostrar calendario</span>
-                </button>
+        <div id="tab-hoy" class="tab-content active">
+            <div id="grupo-hoy-unico-content">
+                <div class="inline-loader"><div class="spinner"></div><p>Buscando grupo de hoy...</p></div>
             </div>
-            
-            <div class="section-content" id="calendario-content">
-                <div class="section-inner">
-                    <div class="calendar-header">
-                        <div class="calendar-nav-btn" onclick="navMes(-1)">❮</div>
-                        <div class="calendar-month" id="calendar-month"></div>
-                        <div class="calendar-nav-btn" onclick="navMes(1)">❯</div>
+        </div>
+
+        <div id="tab-buscar" class="tab-content">
+            <div class="card" style="margin-bottom: 10px;">
+                <div id="month-indicator" class="month-indicator">...</div>
+                
+                <div class="carousel-wrapper">
+                    <button id="btn-today" class="btn-today-floating" onclick="goToToday()">Ir a Hoy</button>
+                    <div class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                     </div>
-                    <div class="calendar-grid" id="calendario-grid"></div>
+                    <div class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </div>
+                    <div class="carousel" id="carousel"></div>
                 </div>
-            </div>
-            
-            <div id="swipe-grupos-hoy" class="grupos-dia-container">
-                <div id="grupos-dia-content">
-                    <div class="inline-loader"><div class="spinner"></div><p>Cargando grupos...</p></div>
-                </div>
-            </div>
 
-            <div class="ver-todos-wrapper">
-                <button class="ver-todos-btn" id="ver-todos-btn" onclick="toggleSection('todos-grupos')">
-                    <span id="ver-todos-text">Ver todos los grupos</span>
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-            </div>
-            
-            <div class="section-content" id="todos-grupos-content">
-                <div class="section-inner">
-                    <div id="swipe-timeline" class="timeline-wrapper"></div>
-                    <div id="paginacion-container" class="pagination-container hidden"></div>
+                <div class="calendar-toggle-wrapper">
+                    <button class="calendar-toggle" onclick="toggleSection('calendario')">
+                        <svg id="cal-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span id="calendar-toggle-text">Mostrar calendario</span>
+                    </button>
+                </div>
+                
+                <div class="section-content" id="calendario-content">
+                    <div class="section-inner">
+                        <div class="calendar-header">
+                            <div class="calendar-nav-btn" onclick="navMes(-1)">❮</div>
+                            <div class="calendar-month" id="calendar-month"></div>
+                            <div class="calendar-nav-btn" onclick="navMes(1)">❯</div>
+                        </div>
+                        <div class="calendar-grid" id="calendario-grid"></div>
+                    </div>
+                </div>
+                
+                <div id="swipe-grupos-hoy" class="grupos-dia-container">
+                    <div id="grupos-dia-content">
+                        <div class="inline-loader"><div class="spinner"></div><p>Cargando grupos...</p></div>
+                    </div>
+                </div>
+
+                <div class="ver-todos-wrapper">
+                    <button class="ver-todos-btn" id="ver-todos-btn" onclick="toggleSection('todos-grupos')">
+                        <span id="ver-todos-text">Ver todos los grupos</span>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                </div>
+                
+                <div class="section-content" id="todos-grupos-content">
+                    <div class="section-inner">
+                        <div id="swipe-timeline" class="timeline-wrapper"></div>
+                        <div id="paginacion-container" class="pagination-container hidden"></div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="nav-segment-container">
@@ -142,16 +156,67 @@
                 dbGrupos = Object.values(gruposAgrupados);
                 dbGrupos.sort((a, b) => a.fecha.localeCompare(b.fecha));
                 
-                renderAll();
+                renderGrupoHoyUnico(); // Carga la pestaña de hoy por defecto
+                renderAll(); // Pre-carga el calendario de buscar
                 setTimeout(() => goToToday(), 100);
 
             } catch (error) {
                 document.getElementById('global-error').textContent = "Problema al cargar datos: " + error.message;
                 document.getElementById('global-error').classList.remove('hidden');
-                document.getElementById('grupos-dia-content').innerHTML = '<p style="text-align:center;">Error al cargar.</p>';
             }
         }
 
+        // FUNCIÓN PARA CAMBIAR ENTRE PESTAÑAS
+        function switchTab(tabId) {
+            document.querySelectorAll('.seg-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            if (tabId === 'hoy') {
+                document.querySelectorAll('.seg-btn')[0].classList.add('active');
+                document.getElementById('tab-hoy').classList.add('active');
+            } else {
+                document.querySelectorAll('.seg-btn')[1].classList.add('active');
+                document.getElementById('tab-buscar').classList.add('active');
+            }
+        }
+
+        // FUNCIÓN EXCLUSIVA PARA LA PESTAÑA "GRUPO DE HOY"
+        function renderGrupoHoyUnico() {
+            const container = document.getElementById('grupo-hoy-unico-content');
+            const hoyStr = toISODate(new Date()); 
+            const data = dbGrupos.find(g => g.fecha === hoyStr);
+            
+            if (!data || !data.grupos || data.grupos.length === 0) { 
+                container.innerHTML = `
+                <div class="card" style="padding: 40px 20px; text-align: center; margin-bottom: 0;">
+                    <svg width="40" height="40" style="color:#9ca3af; margin: 0 auto 10px auto; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div style="color:#6b7280; font-size:14px; font-weight:500;">No hay grupos programados para hoy.</div>
+                </div>`; 
+                return; 
+            }
+            
+            let htmlInner = '';
+            data.grupos.forEach(g => {
+                const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#4A6DA7; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : '';
+                htmlInner += `<div class="grupo-item-hoy"><div class="grupo-row-flex"><div class="gh-hora-hoy" style="color:#4A6DA7; border-color:#4A6DA7; background:#f4f6fa;">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}</div></div></div>`;
+            });
+            
+            const diaSemana = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+            
+            container.innerHTML = `
+            <div class="card" style="margin-bottom: 0;">
+                <div class="grupo-consolidado-card" style="border: none; background: transparent;">
+                    <div class="grupo-consolidado-header" style="color: #4A6DA7;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg> 
+                        Grupo de Hoy • <span style="text-transform: capitalize;">${diaSemana}</span>
+                    </div>
+                    ${htmlInner}
+                </div>
+            </div>`;
+        }
+
+
+        // Funciones del calendario y carrusel de la Pestaña Buscar
         function renderAll() {
             const d = new Date(fechaSeleccionada.getTime());
             document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
@@ -171,11 +236,11 @@
             const container = document.getElementById('grupos-dia-content');
             const fechaStr = toISODate(fechaSeleccionada);
             const data = dbGrupos.find(g => g.fecha === fechaStr);
-            if (!data || !data.grupos || data.grupos.length === 0) { container.innerHTML = `<div class="no-grupos">No hay grupos programados para este día.</div>`; return; }
+            if (!data || !data.grupos || data.grupos.length === 0) { container.innerHTML = `<div class="no-grupos">No hay grupos programados para esta fecha.</div>`; return; }
             let htmlInner = '';
             
             data.grupos.forEach(g => {
-                const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#16a34a; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : '';
+                const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#4A6DA7; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : '';
                 htmlInner += `<div class="grupo-item-hoy"><div class="grupo-row-flex"><div class="gh-hora-hoy">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}</div></div></div>`;
             });
             const diaSemana = fechaSeleccionada.toLocaleDateString('es-ES', { weekday: 'long' });
@@ -201,7 +266,7 @@
 
         function renderCarousel() { const c = document.getElementById('carousel'); c.innerHTML = ''; const b = new Date(fechaHoy); let startBase = b; if (fechaSeleccionada > new Date(b.getTime() + (60*86400000)) || fechaSeleccionada < new Date(b.getTime() - (10*86400000))) { startBase = new Date(fechaSeleccionada); } for(let i=-2; i<=60; i++) { const f = new Date(startBase); f.setDate(startBase.getDate() + i); const card = document.createElement('div'); card.dataset.date = toISODate(f); card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`; card.innerHTML = `<div class="date-card-day">${f.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div><div class="date-card-number">${f.getDate()}</div>`; card.onclick = () => { fechaSeleccionada = f; renderAll(); }; c.appendChild(card); } }
 
-        function renderTodosGruposPaginados() { const tl = document.getElementById('swipe-timeline'); const pagContainer = document.getElementById('paginacion-container'); tl.innerHTML = ''; pagContainer.innerHTML = ''; const hoyStr = toISODate(fechaHoy); let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr); listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha)); if (listaFechas.length === 0) { tl.innerHTML = '<div class="no-grupos">No hay grupos futuros programados.</div>'; pagContainer.classList.add('hidden'); return; } const totalPaginas = Math.ceil(listaFechas.length / diasPorPagina); if (paginaGruposActual > totalPaginas) paginaGruposActual = 1; const inicio = (paginaGruposActual - 1) * diasPorPagina; const fechasPagina = listaFechas.slice(inicio, inicio + diasPorPagina); fechasPagina.forEach(diaData => { const parts = diaData.fecha.split('-'); const d = new Date(parts[0], parts[1]-1, parts[2]); const fechaNice = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); const dayBlock = document.createElement('div'); dayBlock.className = 'timeline-day-block'; if (esMismoDia(diaData.fecha, fechaSeleccionada)) dayBlock.classList.add('active-day'); const header = document.createElement('div'); header.className = 'timeline-date-header'; header.textContent = fechaNice; dayBlock.appendChild(header); diaData.grupos.forEach(g => { const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#16a34a; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : ''; const row = document.createElement('div'); row.className = 'timeline-row'; row.innerHTML = `<div class="grupo-row-flex"><div class="gh-hora-timeline">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}</div></div>`; dayBlock.appendChild(row); }); tl.appendChild(dayBlock); }); if (totalPaginas > 1) { pagContainer.classList.remove('hidden'); const btnPrev = document.createElement('button'); btnPrev.className = 'page-btn'; btnPrev.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>'; btnPrev.disabled = paginaGruposActual === 1; btnPrev.onclick = () => { paginaGruposActual--; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnPrev); for (let i = 1; i <= totalPaginas; i++) { const btn = document.createElement('button'); btn.className = `page-btn ${i === paginaGruposActual ? 'active' : ''}`; btn.textContent = i; btn.onclick = () => { paginaGruposActual = i; renderTodosGruposPaginados(); }; pagContainer.appendChild(btn); } const btnNext = document.createElement('button'); btnNext.className = 'page-btn'; btnNext.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>'; btnNext.disabled = paginaGruposActual === totalPaginas; btnNext.onclick = () => { paginaGruposActual++; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnNext); } else { pagContainer.classList.add('hidden'); } }
+        function renderTodosGruposPaginados() { const tl = document.getElementById('swipe-timeline'); const pagContainer = document.getElementById('paginacion-container'); tl.innerHTML = ''; pagContainer.innerHTML = ''; const hoyStr = toISODate(fechaHoy); let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr); listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha)); if (listaFechas.length === 0) { tl.innerHTML = '<div class="no-grupos">No hay grupos futuros programados.</div>'; pagContainer.classList.add('hidden'); return; } const totalPaginas = Math.ceil(listaFechas.length / diasPorPagina); if (paginaGruposActual > totalPaginas) paginaGruposActual = 1; const inicio = (paginaGruposActual - 1) * diasPorPagina; const fechasPagina = listaFechas.slice(inicio, inicio + diasPorPagina); fechasPagina.forEach(diaData => { const parts = diaData.fecha.split('-'); const d = new Date(parts[0], parts[1]-1, parts[2]); const fechaNice = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); const dayBlock = document.createElement('div'); dayBlock.className = 'timeline-day-block'; if (esMismoDia(diaData.fecha, fechaSeleccionada)) dayBlock.classList.add('active-day'); const header = document.createElement('div'); header.className = 'timeline-date-header'; header.textContent = fechaNice; dayBlock.appendChild(header); diaData.grupos.forEach(g => { const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#4A6DA7; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : ''; const row = document.createElement('div'); row.className = 'timeline-row'; row.innerHTML = `<div class="grupo-row-flex"><div class="gh-hora-timeline">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}</div></div>`; dayBlock.appendChild(row); }); tl.appendChild(dayBlock); }); if (totalPaginas > 1) { pagContainer.classList.remove('hidden'); const btnPrev = document.createElement('button'); btnPrev.className = 'page-btn'; btnPrev.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>'; btnPrev.disabled = paginaGruposActual === 1; btnPrev.onclick = () => { paginaGruposActual--; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnPrev); for (let i = 1; i <= totalPaginas; i++) { const btn = document.createElement('button'); btn.className = `page-btn ${i === paginaGruposActual ? 'active' : ''}`; btn.textContent = i; btn.onclick = () => { paginaGruposActual = i; renderTodosGruposPaginados(); }; pagContainer.appendChild(btn); } const btnNext = document.createElement('button'); btnNext.className = 'page-btn'; btnNext.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>'; btnNext.disabled = paginaGruposActual === totalPaginas; btnNext.onclick = () => { paginaGruposActual++; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnNext); } else { pagContainer.classList.add('hidden'); } }
 
         function toggleSection(id) { 
             const c = document.getElementById(id + '-content'); 
