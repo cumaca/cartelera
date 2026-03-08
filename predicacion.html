@@ -57,18 +57,6 @@
                 </div>
             </div>
             
-            <div class="swipe-hint-box" id="aviso-grupos">
-                <div class="swipe-hint-content">
-                    <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M10.5 1.5C9.67 1.5 9 2.17 9 3v8.5l-1.63-1.63c-.4-.4-1.05-.4-1.42 0l-1.4 1.4c-.4.4-.4 1.05 0 1.42l5.65 5.65c.78.78 1.84 1.22 2.95 1.22h4.35c2.48 0 4.5-2.02 4.5-4.5V11.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v2h-1v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1v-4.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1V3c0-.83-.67-1.5-1.5-1.5z"/>
-                    </svg>
-                    <span class="swipe-hint-text">Desliza para cambiar de día</span>
-                </div>
-                <button class="swipe-hint-close" onclick="document.getElementById('aviso-grupos').style.display='none'">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </button>
-            </div>
-
             <div id="swipe-grupos-hoy" class="grupos-dia-container">
                 <div id="grupos-dia-content">
                     <div class="inline-loader"><div class="spinner"></div><p>Cargando grupos...</p></div>
@@ -155,8 +143,6 @@
                 dbGrupos.sort((a, b) => a.fecha.localeCompare(b.fecha));
                 
                 renderAll();
-                setupSwipeGestures();
-                setupMonthScrollListener();
                 setTimeout(() => goToToday(), 100);
 
             } catch (error) {
@@ -226,14 +212,6 @@
                 if (sectionsExpanded[id]) { btnText.textContent = "Ocultar grupos"; btn.classList.add('expanded'); paginaGruposActual = 1; renderTodosGruposPaginados(); } else { btnText.textContent = "Ver todos los grupos"; btn.classList.remove('expanded'); } 
             } 
         }
-
-        function setupSwipeGestures() {
-            setupSwipe('swipe-grupos-hoy', () => cambiarDiaSeleccionado(1), () => cambiarDiaSeleccionado(-1));
-            setupSwipe('swipe-timeline', () => { const hoyStr = toISODate(fechaHoy); let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr); if(paginaGruposActual < Math.ceil(listaFechas.length/diasPorPagina)) { paginaGruposActual++; renderTodosGruposPaginados(); } }, () => { if(paginaGruposActual > 1) { paginaGruposActual--; renderTodosGruposPaginados(); } });
-        }
-        function cambiarDiaSeleccionado(d) { fechaSeleccionada.setDate(fechaSeleccionada.getDate() + d); const fSel = toISODate(fechaSeleccionada); const fHoy = toISODate(fechaHoy); if (fSel < fHoy && !sectionsExpanded['calendario']) { toggleSection('calendario'); } renderAll(); const c = document.getElementById('carousel'); const s = c.querySelector('.selected'); if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }
-        function setupSwipe(elementId, onSwipeLeft, onSwipeRight) { const element = document.getElementById(elementId); if (!element) return; let touchStartX = 0; let touchStartY = 0; element.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, {passive: true}); element.addEventListener('touchend', e => { const diffX = touchStartX - e.changedTouches[0].screenX; const diffY = touchStartY - e.changedTouches[0].screenY; if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) { if (diffX > 0) onSwipeLeft(); else onSwipeRight(); } }, {passive: true}); }
-        function setupMonthScrollListener() { const carousel = document.getElementById('carousel'); const indicator = document.getElementById('month-indicator'); carousel.addEventListener('scroll', () => { const cards = document.querySelectorAll('.date-card'); const carouselRect = carousel.getBoundingClientRect(); for (let card of cards) { const cardRect = card.getBoundingClientRect(); if (cardRect.left >= carouselRect.left - 20 && cardRect.right <= carouselRect.right + 100) { if(card.dataset.date) { const d = new Date(card.dataset.date + "T00:00:00"); indicator.textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'}); } break; } } }); }
 
         iniciarApp();
     </script>
