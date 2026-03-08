@@ -74,11 +74,9 @@ body {
     font-size: 11px; font-weight: 700; padding: 4px; border-radius: 8px; transition: color 0.2s ease;
 }
 .nav-btn svg { stroke-width: 2.5; margin-bottom: 2px; color: currentColor; }
-
-/* Menú Activo (NUEVO AZUL) */
 .nav-btn:active, .nav-btn.activo { color: #4A6DA7; }
 
-/* --- SELECTOR DE PESTAÑAS (TABS) NUEVO --- */
+/* --- SELECTOR DE PESTAÑAS (TABS PRINCIPALES Y FILTROS) --- */
 .segmented-control {
     display: flex; background-color: #e5e7eb; border-radius: 10px;
     padding: 3px; margin: 10px 0 20px 0; width: 100%; box-sizing: border-box;
@@ -92,10 +90,20 @@ body {
 .tab-content.active { display: block; }
 @keyframes fadeInTab { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 
+/* Filtro pequeño de salas (Sub-menú) */
+.filter-control { background-color: #f3f4f6; padding: 2px; margin: 10px 0 16px 0; border-radius: 8px; }
+.filter-control .seg-btn { padding: 6px 0; font-size: 12px; border-radius: 6px; }
+
+/* Aviso dinámico de filtro */
+.filter-alert { 
+    background-color: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; 
+    padding: 12px; border-radius: 12px; text-align: center; 
+    margin-bottom: 16px; cursor: pointer; transition: all 0.2s; 
+}
+.filter-alert:active { background-color: #dbeafe; }
+
 /* --- ESTILOS INTERNOS (Tarjetas) --- */
 .card { width: 100%; max-width: 100%; background: #ffffff; border: none; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); margin-bottom: 50px; position: relative; box-sizing: border-box; overflow: hidden; }
-.section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-.section-content.expanded { max-height: 5000px; }
 .section-inner { padding: 0 16px 20px; box-sizing: border-box; } 
 
 /* Spinners y Errores */
@@ -113,8 +121,6 @@ body {
 .carousel-wrapper::after { right: 0; background: linear-gradient(to left, #ffffff 20%, rgba(255,255,255,0) 100%); }
 .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: white; border-radius: 50%; border: 1px solid #e5e7eb; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; color: #6b7280; }
 .carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
-
-/* REEMPLAZOS A AZUL #4A6DA7 */
 .btn-today-floating { position: absolute; top: -35px; right: 20px; background: white; border: 1px solid #4A6DA7; color: #4A6DA7; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; cursor: pointer; display: none; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(74, 109, 167, 0.15); z-index: 20; }
 .carousel { padding: 10px 16px 4px 16px; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .carousel::-webkit-scrollbar { display: none; }
@@ -124,11 +130,10 @@ body {
 .date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; opacity: 0.8; }
 .date-card-number { font-size: 20px; font-weight: 800; line-height: 1; }
 
-/* Calendario toggle */
+/* Calendario */
 .calendar-toggle-wrapper { display: flex; justify-content: flex-end; padding-right: 20px; margin-top: -10px; margin-bottom: 10px; }
 .calendar-toggle { display: flex; align-items: center; gap: 6px; color: #4A6DA7; font-size: 12px; font-weight: 700; cursor: pointer; border: none; background: none; padding: 6px 10px; border-radius: 8px; }
 .calendar-toggle svg { width: 18px !important; height: 18px !important; min-width: 18px; min-height: 18px; flex-shrink: 0; display: block; }
-
 .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px; }
 .calendar-nav-btn { cursor: pointer; padding: 8px 12px; font-weight: bold; }
 .calendar-month { font-size: 14px; font-weight: 700; text-transform: capitalize; }
@@ -144,12 +149,9 @@ body {
 .grupo-consolidado-header { font-size: 13px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
 .grupo-item-hoy { padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; width: 100%; box-sizing: border-box;}
 .grupo-item-hoy:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
-
 .grupo-row-flex { display: flex; gap: 12px; align-items: flex-start; max-width: 100%; box-sizing: border-box; }
 .gh-hora-hoy { font-size: 13px; font-weight: 800; color: #6b7280; background: #ffffff; border: 1px solid #d1d5db; padding: 6px 0; border-radius: 8px; text-align: center; width: 65px; min-width: 65px; flex-shrink: 0;}
-
 .grupo-content-col { flex-grow: 1; min-width: 0; width: 100%; } 
-
 .gh-top-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
 .gh-territorio { font-size: 15px; font-weight: 700; color: #374151; margin-top: 3px; word-wrap: break-word; overflow-wrap: break-word; } 
 .gh-conductor { font-size: 13px; color: #6b7280; font-weight: 500; word-wrap: break-word; }
@@ -170,7 +172,6 @@ body {
 .timeline-day-block.active-day .timeline-date-header { color: #4A6DA7; }
 .timeline-day-block.active-day .timeline-date-header::before { background: #4A6DA7; box-shadow: 0 0 0 4px rgba(74, 109, 167, 0.2); }
 .timeline-day-block.active-day .gh-hora-timeline { color: #4A6DA7; border-color: #4A6DA7; background: #f4f6fa; }
-
 .timeline-row { margin-bottom: 24px; max-width: 100%; box-sizing: border-box; }
 .gh-hora-timeline { font-size: 13px; font-weight: 700; color: #9ca3af; background: #f9fafb; border: 1px solid #e5e7eb; padding: 6px 0; border-radius: 8px; width: 65px; min-width: 65px; text-align: center; flex-shrink: 0;}
 .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f3f4f6; }
@@ -181,17 +182,6 @@ body {
 .reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 4px; padding: 12px; }
 .week-nav-arrow { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #4A6DA7; }
 .week-nav-text { font-size: 15px; font-weight: 800; color: #4A6DA7; text-transform: capitalize; cursor: pointer; }
-.reunion-card { border-radius: 16px; border: 1px solid #f3f4f6; cursor: pointer; margin: 0 4px 20px 4px; background: #fdfdfd; transition: all 0.3s; box-sizing: border-box;}
-.reunion-card.active-card { border: 1px solid #e5e7eb; border-radius: 12px; background: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 30px; }
-.reunion-header-click { padding: 20px; display: flex; justify-content: space-between; align-items: flex-start; border-radius: 12px; transition: background-color 0.3s ease; }
-.reunion-card.active-card .reunion-header-click { background-color: #f9fafb; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 1px solid #f3f4f6; }
-.reunion-info { min-width: 0; flex-grow: 1; } 
-.reunion-info h3 { font-weight: 800; color: #6b7280; margin-bottom: 6px; font-size: 16px; }
-.reunion-badge { display: inline-block; background: #4A6DA7; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
-.reunion-date { font-size: 13px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
-.reunion-time { font-size: 13px; font-weight: 700; color: #4A6DA7; text-transform: capitalize;}
-.section-arrow { width: 20px; height: 20px; min-width: 20px; transition: transform 0.3s; fill: none; stroke: #4A6DA7; stroke-width: 2; margin-top: 2px; flex-shrink: 0; }
-.reunion-card.active-card .section-arrow { transform: rotate(180deg); }
 
 /* Partes de Reunión */
 .wol-style { padding: 10px 16px 20px 16px !important; color: #212121; box-sizing: border-box; }
