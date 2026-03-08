@@ -1,284 +1,232 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Grupos - La Cumaca</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+/* --- CONFIGURACIÓN BASE --- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
-    <header class="header-principal">
-        <div class="header-contenedor">
-            <a href="index.html" class="btn-back">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-            </a>
-            <h1>Grupos de Predicación</h1>
-        </div>
-    </header>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    <div class="container">
-        <div id="global-error" class="hidden"></div>
-        
-        <div class="segmented-control">
-            <div class="seg-btn active" onclick="switchTab('hoy')">Grupo de hoy</div>
-            <div class="seg-btn" onclick="switchTab('buscar')">Buscar grupos</div>
-        </div>
+body, button, input, select, textarea { font-family: 'Roboto', -apple-system, sans-serif; }
 
-        <div id="tab-hoy" class="tab-content active">
-            <div id="grupo-hoy-unico-content">
-                <div class="inline-loader"><div class="spinner"></div><p>Buscando grupo de hoy...</p></div>
-            </div>
-        </div>
+body { 
+    background-color: #fcfcfc; 
+    color: #4b5563; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; 
+    max-width: 100vw; 
+    overflow-x: hidden; 
+}
 
-        <div id="tab-buscar" class="tab-content">
-            <div class="card" style="margin-bottom: 10px;">
-                <div id="month-indicator" class="month-indicator">...</div>
-                
-                <div class="carousel-wrapper">
-                    <button id="btn-today" class="btn-today-floating" onclick="goToToday()">Ir a Hoy</button>
-                    <div class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                    </div>
-                    <div class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                    </div>
-                    <div class="carousel" id="carousel"></div>
-                </div>
+/* --- CABECERA SUPERIOR --- */
+.header-principal {
+    background-color: #f3f4f6;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-                <div class="calendar-toggle-wrapper">
-                    <button class="calendar-toggle" onclick="toggleSection('calendario')">
-                        <svg id="cal-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                        <span id="calendar-toggle-text">Mostrar calendario</span>
-                    </button>
-                </div>
-                
-                <div class="section-content" id="calendario-content">
-                    <div class="section-inner">
-                        <div class="calendar-header">
-                            <div class="calendar-nav-btn" onclick="navMes(-1)">❮</div>
-                            <div class="calendar-month" id="calendar-month"></div>
-                            <div class="calendar-nav-btn" onclick="navMes(1)">❯</div>
-                        </div>
-                        <div class="calendar-grid" id="calendario-grid"></div>
-                    </div>
-                </div>
-                
-                <div id="swipe-grupos-hoy" class="grupos-dia-container">
-                    <div id="grupos-dia-content">
-                        <div class="inline-loader"><div class="spinner"></div><p>Cargando grupos...</p></div>
-                    </div>
-                </div>
+.header-contenedor { display: flex; align-items: center; max-width: 900px; margin: 0 auto; padding: 18px 20px; gap: 15px; }
+.header-contenedor h1 { font-size: 1.3rem; font-weight: 700; color: #4b5563; letter-spacing: -0.5px; margin: 0; }
+.btn-back { color: #4b5563; display: flex; align-items: center; text-decoration: none; }
 
-                <div class="ver-todos-wrapper">
-                    <button class="ver-todos-btn" id="ver-todos-btn" onclick="toggleSection('todos-grupos')">
-                        <span id="ver-todos-text">Ver todos los grupos</span>
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </button>
-                </div>
-                
-                <div class="section-content" id="todos-grupos-content">
-                    <div class="section-inner">
-                        <div id="swipe-timeline" class="timeline-wrapper"></div>
-                        <div id="paginacion-container" class="pagination-container hidden"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+/* --- CONTENIDO PRINCIPAL (Index) --- */
+.contenido-principal { width: 100%; max-width: 480px; margin: 0 auto; padding: 30px 20px 100px 20px; display: flex; flex-direction: column; }
+.subtitulo-tarjetas { color: #6b7280; font-size: 0.95rem; margin-bottom: 16px; font-weight: 500; }
+.menu-principal { display: flex; flex-direction: column; gap: 16px; width: 100%; }
 
-    </div>
+.tarjeta {
+    display: flex; align-items: center; padding: 24px 20px; min-height: 100px; width: 100%;
+    background-color: #ffffff; border-radius: 16px; text-decoration: none; box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tarjeta:active { transform: scale(0.98); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04); }
 
-    <div class="nav-segment-container">
-        <div class="nav-segment">
-            <a href="index.html" class="nav-btn">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                Inicio
-            </a>
-            <a href="predicacion.html" class="nav-btn activo">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                Grupos
-            </a>
-            <a href="reuniones.html" class="nav-btn">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                Reuniones
-            </a>
-            <a href="anuncios.html" class="nav-btn">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                Anuncios
-            </a>
-        </div>
-    </div>
+.icono-caja { width: 58px; height: 58px; min-width: 58px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-right: 18px; flex-shrink: 0; background-color: #ffffff; }
+.texto-caja { display: flex; flex-direction: column; flex-grow: 1; min-width: 0; } 
+.texto-caja h2 { font-size: 1.1rem; font-weight: 600; color: #111; margin-bottom: 4px; }
+.texto-caja p { font-size: 0.9rem; color: #6b7280; line-height: 1.3; }
 
-    <script>
-        let dbGrupos = [];
-        let fechaHoy = new Date();
-        let fechaSeleccionada = new Date(fechaHoy);
-        let fechaVisualizadaCalendario = new Date(fechaHoy);
-        let sectionsExpanded = {};
-        let paginaGruposActual = 1;
-        const diasPorPagina = 3; 
+.tarjeta.predicacion { background: linear-gradient(90deg, #f0f7ff 0%, #ffffff 40%); }
+.tarjeta.predicacion .icono-caja { border: 1.5px solid #a3cfff; color: #4A6DA7; }
+.tarjeta.reuniones { background: linear-gradient(90deg, #f0fdf4 0%, #ffffff 40%); }
+.tarjeta.reuniones .icono-caja { border: 1.5px solid #bbf7d0; color: #10b981; }
+.tarjeta.anuncios { background: linear-gradient(90deg, #fffbf0 0%, #ffffff 40%); }
+.tarjeta.anuncios .icono-caja { border: 1.5px solid #fde68a; color: #f59e0b; }
 
-        function toISODate(d) {
-            if(!(d instanceof Date)) return "";
-            return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-        }
+/* --- CONTENEDOR GENERAL SUB-PÁGINAS --- */
+.container { width: 100%; max-width: 480px; margin: 0 auto; padding: 10px 16px 100px 16px; box-sizing: border-box; overflow-x: hidden; }
 
-        async function iniciarApp() {
-            try {
-                const timestamp = new Date().getTime();
-                const response = await fetch('./data/cartelera_datos.json?t=' + timestamp);
-                if (!response.ok) throw new Error("Error HTTP: " + response.status);
-                const dataRaw = await response.json();
-                
-                const rawGrupos = dataRaw.grupos || [];
-                let gruposAgrupados = {};
-                
-                rawGrupos.forEach(item => {
-                    let f = item.Fecha || item.fecha || "";
-                    f = f.substring(0, 10); 
-                    if (!f) return;
-                    if (!gruposAgrupados[f]) gruposAgrupados[f] = { fecha: f, grupos: [] };
-                    
-                    gruposAgrupados[f].grupos.push({
-                        hora: item.Hora || item.hora || "",
-                        territorio: item.Territorio || item.territorio || "",
-                        conductor: item.Conductor || item.conductor || "",
-                        lugar: item.Lugar_Grupos || item.lugar_grupos || item.gruposassigned || "",
-                        mapa: item.Mapa || item.mapa || ""
-                    });
-                });
-                
-                dbGrupos = Object.values(gruposAgrupados);
-                dbGrupos.sort((a, b) => a.fecha.localeCompare(b.fecha));
-                
-                renderGrupoHoyUnico(); // Carga la pestaña de hoy por defecto
-                renderAll(); // Pre-carga el calendario de buscar
-                setTimeout(() => goToToday(), 100);
+/* --- BARRA DE NAVEGACIÓN INFERIOR --- */
+.nav-segment-container { 
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background: #f3f4f6; 
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1); 
+    z-index: 1000; padding-bottom: env(safe-area-inset-bottom);
+    display: flex; justify-content: space-around; padding: 10px 0;
+}
+.nav-segment { display: contents; }
+.nav-btn { 
+    text-decoration: none; display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; gap: 4px; flex: 1;
+    color: #9ca3af; 
+    font-size: 11px; font-weight: 700; padding: 4px; border-radius: 8px; transition: color 0.2s ease;
+}
+.nav-btn svg { stroke-width: 2.5; margin-bottom: 2px; color: currentColor; }
+.nav-btn:active, .nav-btn.activo { color: #4A6DA7; }
 
-            } catch (error) {
-                document.getElementById('global-error').textContent = "Problema al cargar datos: " + error.message;
-                document.getElementById('global-error').classList.remove('hidden');
-            }
-        }
+/* --- SELECTOR DE PESTAÑAS (TABS PRINCIPALES Y FILTROS) --- */
+.segmented-control {
+    display: flex; background-color: #e5e7eb; border-radius: 10px;
+    padding: 3px; margin: 10px 0 20px 0; width: 100%; box-sizing: border-box;
+}
+.seg-btn {
+    flex: 1; text-align: center; padding: 8px 0; font-size: 13px; font-weight: 700;
+    color: #6b7280; cursor: pointer; border-radius: 8px; transition: all 0.2s ease;
+}
+.seg-btn.active { color: #4A6DA7; background-color: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.tab-content { display: none; animation: fadeInTab 0.3s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeInTab { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 
-        // FUNCIÓN PARA CAMBIAR ENTRE PESTAÑAS
-        function switchTab(tabId) {
-            document.querySelectorAll('.seg-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            
-            if (tabId === 'hoy') {
-                document.querySelectorAll('.seg-btn')[0].classList.add('active');
-                document.getElementById('tab-hoy').classList.add('active');
-            } else {
-                document.querySelectorAll('.seg-btn')[1].classList.add('active');
-                document.getElementById('tab-buscar').classList.add('active');
-            }
-        }
+/* Filtro pequeño de salas (Sub-menú) */
+.filter-control { background-color: #f3f4f6; padding: 2px; margin: 10px 0 16px 0; border-radius: 8px; }
+.filter-control .seg-btn { padding: 6px 0; font-size: 12px; border-radius: 6px; }
 
-        // FUNCIÓN EXCLUSIVA PARA LA PESTAÑA "GRUPO DE HOY"
-        function renderGrupoHoyUnico() {
-            const container = document.getElementById('grupo-hoy-unico-content');
-            const hoyStr = toISODate(new Date()); 
-            const data = dbGrupos.find(g => g.fecha === hoyStr);
-            
-            if (!data || !data.grupos || data.grupos.length === 0) { 
-                container.innerHTML = `
-                <div class="card" style="padding: 40px 20px; text-align: center; margin-bottom: 0;">
-                    <svg width="40" height="40" style="color:#9ca3af; margin: 0 auto 10px auto; display: block;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <div style="color:#6b7280; font-size:14px; font-weight:500;">No hay grupos programados para hoy.</div>
-                </div>`; 
-                return; 
-            }
-            
-            let htmlInner = '';
-            data.grupos.forEach(g => {
-                const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#4A6DA7; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : '';
-                htmlInner += `<div class="grupo-item-hoy"><div class="grupo-row-flex"><div class="gh-hora-hoy" style="color:#4A6DA7; border-color:#4A6DA7; background:#f4f6fa;">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}</div></div></div>`;
-            });
-            
-            const diaSemana = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
-            
-            container.innerHTML = `
-            <div class="card" style="margin-bottom: 0;">
-                <div class="grupo-consolidado-card" style="border: none; background: transparent;">
-                    <div class="grupo-consolidado-header" style="color: #4A6DA7;">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg> 
-                        Grupo de Hoy • <span style="text-transform: capitalize;">${diaSemana}</span>
-                    </div>
-                    ${htmlInner}
-                </div>
-            </div>`;
-        }
+/* Aviso dinámico de filtro */
+.filter-alert { 
+    background-color: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; 
+    padding: 12px; border-radius: 12px; text-align: center; 
+    margin-bottom: 16px; cursor: pointer; transition: all 0.2s; 
+}
+.filter-alert:active { background-color: #dbeafe; }
 
+/* --- ESTILOS INTERNOS (Tarjetas) --- */
+.card { width: 100%; max-width: 100%; background: #ffffff; border: none; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); margin-bottom: 50px; position: relative; box-sizing: border-box; overflow: hidden; }
+.section-inner { padding: 0 16px 20px; box-sizing: border-box; } 
 
-        // Funciones del calendario y carrusel de la Pestaña Buscar
-        function renderAll() {
-            const d = new Date(fechaSeleccionada.getTime());
-            document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
-            
-            const btnToday = document.getElementById('btn-today');
-            btnToday.style.display = esMismoDia(fechaSeleccionada, fechaHoy) ? 'none' : 'flex'; 
-            
-            renderCalendarGrid(); renderCarousel(); renderGruposDia(); renderTodosGruposPaginados();
-        }
+/* Spinners y Errores */
+.inline-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; color: #9ca3af; font-size: 13px; font-weight: 600; }
+.spinner { width: 26px; height: 26px; border: 3px solid #f3f4f6; border-top: 3px solid #4A6DA7; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.hidden { display: none !important; }
+#global-error { margin: 10px 20px 20px 20px; color: #ef4444; font-size: 13px; font-weight: 600; background: #fef2f2; padding: 12px; border-radius: 12px; text-align: center; }
 
-        function esMismoDia(f1, f2) { const str1 = f1 instanceof Date ? toISODate(f1) : f1; const str2 = f2 instanceof Date ? toISODate(f2) : f2; return str1 === str2; }
-        function scrollCarousel(d) { document.getElementById('carousel').scrollBy({ left: d * 120, behavior: 'smooth' }); }
-        function goToToday() { fechaSeleccionada = new Date(fechaHoy); renderAll(); const c = document.getElementById('carousel'); setTimeout(() => { const s = c.querySelector('.is-today'); if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }, 100); }
-        function navMes(d) { fechaVisualizadaCalendario.setMonth(fechaVisualizadaCalendario.getMonth() + d); renderCalendarGrid(); }
+/* Estilos de Grupos y Carrusel */
+.month-indicator { margin: 20px 0 16px 20px; font-size: 13px; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; display: inline-block; }
+.carousel-wrapper { position: relative; padding: 0 10px 20px 10px; margin-top: 10px; box-sizing: border-box; width: 100%;}
+.carousel-wrapper::before, .carousel-wrapper::after { content: ''; position: absolute; top: 0; bottom: 20px; width: 40px; z-index: 5; pointer-events: none; }
+.carousel-wrapper::before { left: 0; background: linear-gradient(to right, #ffffff 20%, rgba(255,255,255,0) 100%); }
+.carousel-wrapper::after { right: 0; background: linear-gradient(to left, #ffffff 20%, rgba(255,255,255,0) 100%); }
+.carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: white; border-radius: 50%; border: 1px solid #e5e7eb; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; color: #6b7280; }
+.carousel-arrow-left { left: 4px; } .carousel-arrow-right { right: 4px; }
+.btn-today-floating { position: absolute; top: -35px; right: 20px; background: white; border: 1px solid #4A6DA7; color: #4A6DA7; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; cursor: pointer; display: none; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(74, 109, 167, 0.15); z-index: 20; }
+.carousel { padding: 10px 16px 4px 16px; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.carousel::-webkit-scrollbar { display: none; }
+.date-card { scroll-snap-align: center; min-width: 60px; padding: 10px 6px; border-radius: 14px; text-align: center; cursor: pointer; flex-shrink: 0; background: #f9fafb; border: 1px solid transparent; }
+.date-card.is-today { border: 2px solid #4A6DA7; background: #ffffff; }
+.date-card.selected { background: #4A6DA7; color: white; border-color: #4A6DA7; }
+.date-card-day { font-size: 10px; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; opacity: 0.8; }
+.date-card-number { font-size: 20px; font-weight: 800; line-height: 1; }
 
-        function renderGruposDia() {
-            const container = document.getElementById('grupos-dia-content');
-            const fechaStr = toISODate(fechaSeleccionada);
-            const data = dbGrupos.find(g => g.fecha === fechaStr);
-            if (!data || !data.grupos || data.grupos.length === 0) { container.innerHTML = `<div class="no-grupos">No hay grupos programados para esta fecha.</div>`; return; }
-            let htmlInner = '';
-            
-            data.grupos.forEach(g => {
-                const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#4A6DA7; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : '';
-                htmlInner += `<div class="grupo-item-hoy"><div class="grupo-row-flex"><div class="gh-hora-hoy">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}</div></div></div>`;
-            });
-            const diaSemana = fechaSeleccionada.toLocaleDateString('es-ES', { weekday: 'long' });
-            container.innerHTML = `<div class="grupo-consolidado-card"><div class="grupo-consolidado-header"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Grupos del ${diaSemana}</div>${htmlInner}</div>`;
-        }
+/* Calendario */
+.calendar-toggle-wrapper { display: flex; justify-content: flex-end; padding-right: 20px; margin-top: -10px; margin-bottom: 10px; }
+.calendar-toggle { display: flex; align-items: center; gap: 6px; color: #4A6DA7; font-size: 12px; font-weight: 700; cursor: pointer; border: none; background: none; padding: 6px 10px; border-radius: 8px; }
+.calendar-toggle svg { width: 18px !important; height: 18px !important; min-width: 18px; min-height: 18px; flex-shrink: 0; display: block; }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px; }
+.calendar-nav-btn { cursor: pointer; padding: 8px 12px; font-weight: bold; }
+.calendar-month { font-size: 14px; font-weight: 700; text-transform: capitalize; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 10px; } 
+.calendar-day-header { text-align: center; font-size: 11px; font-weight: 700; padding: 4px 0; }
+.calendar-day { text-align: center; padding: 8px 2px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; background: #f9fafb; } 
+.calendar-day.selected { background: #4A6DA7 !important; color: white !important; font-weight: 700; }
+.calendar-day.today { border: 1px solid #4A6DA7; color: #4A6DA7; font-weight: 700; }
 
-        function renderCalendarGrid() { 
-            document.getElementById('calendar-month').textContent = fechaVisualizadaCalendario.toLocaleDateString('es-ES', {month:'long', year:'numeric'}); 
-            const grid = document.getElementById('calendario-grid'); grid.innerHTML=''; 
-            ['D','L','M','M','J','V','S'].forEach(d=>grid.innerHTML+=`<div class="calendar-day-header">${d}</div>`); 
-            const first = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), 1); 
-            const days = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth()+1, 0).getDate(); 
-            for(let i=0; i<first.getDay(); i++) grid.innerHTML+=`<div></div>`; 
-            for(let i=1; i<=days; i++) { 
-                let d = document.createElement('div'); d.className='calendar-day'; d.textContent=i; 
-                const fStr = `${fechaVisualizadaCalendario.getFullYear()}-${String(fechaVisualizadaCalendario.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`; 
-                if(fStr === toISODate(fechaSeleccionada)) d.classList.add('selected'); 
-                if(fStr === toISODate(fechaHoy)) d.classList.add('today'); 
-                d.onclick=()=>{ fechaVisualizadaCalendario.setMonth(fechaVisualizadaCalendario.getMonth()); fechaSeleccionada = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), i); if (sectionsExpanded['calendario']) { toggleSection('calendario'); } renderAll(); }; 
-                grid.appendChild(d); 
-            } 
-        }
+/* Grupos Día e Historial */
+.grupos-dia-container { padding: 0 16px 20px; box-sizing: border-box; width: 100%; } 
+.grupo-consolidado-card { background: #f9fafb; border-radius: 16px; padding: 16px; border: 1px solid #e5e7eb; box-sizing: border-box; width: 100%; }
+.grupo-consolidado-header { font-size: 13px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+.grupo-item-hoy { padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; width: 100%; box-sizing: border-box;}
+.grupo-item-hoy:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+.grupo-row-flex { display: flex; gap: 12px; align-items: flex-start; max-width: 100%; box-sizing: border-box; }
+.gh-hora-hoy { font-size: 13px; font-weight: 800; color: #6b7280; background: #ffffff; border: 1px solid #d1d5db; padding: 6px 0; border-radius: 8px; text-align: center; width: 65px; min-width: 65px; flex-shrink: 0;}
+.grupo-content-col { flex-grow: 1; min-width: 0; width: 100%; } 
+.gh-top-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+.gh-territorio { font-size: 15px; font-weight: 700; color: #374151; margin-top: 3px; word-wrap: break-word; overflow-wrap: break-word; } 
+.gh-conductor { font-size: 13px; color: #6b7280; font-weight: 500; word-wrap: break-word; }
+.gh-asignados { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 4px; display: flex; align-items: center; flex-wrap: wrap; word-wrap: break-word; overflow-wrap: break-word; }
+.no-grupos { text-align: center; padding: 20px; color: #9ca3af; font-style: italic; font-size: 13px; }
 
-        function renderCarousel() { const c = document.getElementById('carousel'); c.innerHTML = ''; const b = new Date(fechaHoy); let startBase = b; if (fechaSeleccionada > new Date(b.getTime() + (60*86400000)) || fechaSeleccionada < new Date(b.getTime() - (10*86400000))) { startBase = new Date(fechaSeleccionada); } for(let i=-2; i<=60; i++) { const f = new Date(startBase); f.setDate(startBase.getDate() + i); const card = document.createElement('div'); card.dataset.date = toISODate(f); card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`; card.innerHTML = `<div class="date-card-day">${f.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div><div class="date-card-number">${f.getDate()}</div>`; card.onclick = () => { fechaSeleccionada = f; renderAll(); }; c.appendChild(card); } }
+/* Botón Ver Todos */
+.ver-todos-wrapper { display: flex; justify-content: center; padding: 0 16px 20px; box-sizing: border-box; }
+.ver-todos-btn { width: 100%; padding: 12px 24px; background: transparent; color: #4A6DA7; border: 1px solid #4A6DA7; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box; }
+.ver-todos-btn svg { width: 18px !important; height: 18px !important; min-width: 18px; min-height: 18px; flex-shrink: 0; display: block; transition: transform 0.3s; color: #4A6DA7; }
+.ver-todos-btn.expanded svg { transform: rotate(180deg); }
 
-        function renderTodosGruposPaginados() { const tl = document.getElementById('swipe-timeline'); const pagContainer = document.getElementById('paginacion-container'); tl.innerHTML = ''; pagContainer.innerHTML = ''; const hoyStr = toISODate(fechaHoy); let listaFechas = dbGrupos.filter(g => g.fecha >= hoyStr); listaFechas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha)); if (listaFechas.length === 0) { tl.innerHTML = '<div class="no-grupos">No hay grupos futuros programados.</div>'; pagContainer.classList.add('hidden'); return; } const totalPaginas = Math.ceil(listaFechas.length / diasPorPagina); if (paginaGruposActual > totalPaginas) paginaGruposActual = 1; const inicio = (paginaGruposActual - 1) * diasPorPagina; const fechasPagina = listaFechas.slice(inicio, inicio + diasPorPagina); fechasPagina.forEach(diaData => { const parts = diaData.fecha.split('-'); const d = new Date(parts[0], parts[1]-1, parts[2]); const fechaNice = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); const dayBlock = document.createElement('div'); dayBlock.className = 'timeline-day-block'; if (esMismoDia(diaData.fecha, fechaSeleccionada)) dayBlock.classList.add('active-day'); const header = document.createElement('div'); header.className = 'timeline-date-header'; header.textContent = fechaNice; dayBlock.appendChild(header); diaData.grupos.forEach(g => { const mapaHtml = g.mapa ? `<a href="${g.mapa}" target="_blank" style="text-decoration:none; color:#4A6DA7; font-size: 13px; font-weight:800; margin-left: 6px;">📍 Ver mapa</a>` : ''; const row = document.createElement('div'); row.className = 'timeline-row'; row.innerHTML = `<div class="grupo-row-flex"><div class="gh-hora-timeline">${g.hora}</div><div class="grupo-content-col"><div class="gh-top-row"><div class="gh-territorio">${g.territorio}</div><div class="gh-conductor">${g.conductor}</div></div>${g.lugar ? `<div class="gh-asignados">${g.lugar}${mapaHtml}</div>` : (mapaHtml ? `<div class="gh-asignados">${mapaHtml}</div>` : '')}</div></div>`; dayBlock.appendChild(row); }); tl.appendChild(dayBlock); }); if (totalPaginas > 1) { pagContainer.classList.remove('hidden'); const btnPrev = document.createElement('button'); btnPrev.className = 'page-btn'; btnPrev.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>'; btnPrev.disabled = paginaGruposActual === 1; btnPrev.onclick = () => { paginaGruposActual--; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnPrev); for (let i = 1; i <= totalPaginas; i++) { const btn = document.createElement('button'); btn.className = `page-btn ${i === paginaGruposActual ? 'active' : ''}`; btn.textContent = i; btn.onclick = () => { paginaGruposActual = i; renderTodosGruposPaginados(); }; pagContainer.appendChild(btn); } const btnNext = document.createElement('button'); btnNext.className = 'page-btn'; btnNext.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>'; btnNext.disabled = paginaGruposActual === totalPaginas; btnNext.onclick = () => { paginaGruposActual++; renderTodosGruposPaginados(); }; pagContainer.appendChild(btnNext); } else { pagContainer.classList.add('hidden'); } }
+/* Timeline Historial */
+.timeline-wrapper { padding-top: 10px; margin-left: 10px; } 
+.timeline-day-block { position: relative; padding-left: 20px; border-left: 2px solid #e5e7eb; padding-bottom: 30px; } 
+.timeline-date-header { position: relative; font-size: 15px; font-weight: 800; color: #9ca3af; margin-bottom: 16px; text-transform: capitalize; top: -5px; }
+.timeline-date-header::before { content: ''; position: absolute; left: -27px; top: 1px; width: 12px; height: 12px; background: #9ca3af; border-radius: 50%; box-shadow: 0 0 0 4px rgba(156, 163, 175, 0.15); z-index: 1; }
+.timeline-day-block.active-day .timeline-date-header { color: #4A6DA7; }
+.timeline-day-block.active-day .timeline-date-header::before { background: #4A6DA7; box-shadow: 0 0 0 4px rgba(74, 109, 167, 0.2); }
+.timeline-day-block.active-day .gh-hora-timeline { color: #4A6DA7; border-color: #4A6DA7; background: #f4f6fa; }
+.timeline-row { margin-bottom: 24px; max-width: 100%; box-sizing: border-box; }
+.gh-hora-timeline { font-size: 13px; font-weight: 700; color: #9ca3af; background: #f9fafb; border: 1px solid #e5e7eb; padding: 6px 0; border-radius: 8px; width: 65px; min-width: 65px; text-align: center; flex-shrink: 0;}
+.pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f3f4f6; }
+.page-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: white; color: #6b7280; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.page-btn.active { background: #4A6DA7; color: white; border-color: #4A6DA7; }
 
-        function toggleSection(id) { 
-            const c = document.getElementById(id + '-content'); 
-            sectionsExpanded[id] = !sectionsExpanded[id]; 
-            c.classList.toggle('expanded'); 
-            if(id === 'todos-grupos') { 
-                const btnText = document.getElementById('ver-todos-text'); const btn = document.getElementById('ver-todos-btn'); 
-                if (sectionsExpanded[id]) { btnText.textContent = "Ocultar grupos"; btn.classList.add('expanded'); paginaGruposActual = 1; renderTodosGruposPaginados(); } else { btnText.textContent = "Ver todos los grupos"; btn.classList.remove('expanded'); } 
-            } 
-        }
+/* Estilos de Reuniones */
+.reunion-week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 4px; padding: 12px; }
+.week-nav-arrow { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #4A6DA7; }
+.week-nav-text { font-size: 15px; font-weight: 800; color: #4A6DA7; text-transform: capitalize; cursor: pointer; }
 
-        iniciarApp();
-    </script>
-</body>
-</html>
+/* Partes de Reunión */
+.wol-style { padding: 10px 16px 20px 16px !important; color: #212121; box-sizing: border-box; }
+.sect-header { font-size: 17px; font-weight: 900; margin: 28px 0 16px 0; letter-spacing: 0.5px; text-transform: uppercase; padding-left: 10px; }
+.sect-subtitle { font-size: 13px; font-weight: 800; color: #374151; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; padding-left: 10px; }
+.sr-conductor { font-size: 13px; color: #4b5563; padding-left: 10px; margin-bottom: 12px; }
+.c-tesoros { color: #2A6B77; } .c-maestros { color: #D38E22; } .c-vida { color: #9E1F1F; } .c-publico { color: #3B5E8F; }
+.header-roles { margin-bottom: 8px; padding-bottom: 0; padding-left: 10px; }
+.header-role-row { margin-bottom: 2px; font-size: 15px; color: #4b5563; line-height: 1.3; }
+.hr-label { font-weight: 800; color: #6b7280; margin-right: 6px; }
+
+/* Timeline Reunión */
+.rt-row { display: flex; position: relative; padding-bottom: 18px; min-height: 40px; box-sizing: border-box;}
+.rt-time-col { display: none; }
+.rt-line-col { width: 20px; position: relative; flex-shrink: 0; display: flex; justify-content: center; margin-left: 4px;  }
+.timeline-group { position: relative; }
+.rt-line { position: absolute; width: 2px; background: #e5e7eb; left: 50%; transform: translateX(-50%); z-index: 0;  top: -10px; bottom: -10px;  }
+.timeline-group .rt-row:first-child .rt-line { top: 12px; } 
+.timeline-group .rt-row:last-child .rt-line { bottom: auto; height: 22px; top: -10px; } 
+.rt-dot { position: relative; z-index: 2; width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; background: currentColor; border: 2px solid white; }
+.rt-content-col { flex-grow: 1; min-width: 0; padding-left: 12px; width: 100%;} 
+.rt-title { font-size: 16px; font-weight: 700; color: inherit; line-height: 1.35; margin-bottom: 4px; word-wrap: break-word; overflow-wrap: break-word; }
+.rt-time-tag { display: inline-block; color: #6b7280; font-weight: 500; margin-right: 6px; font-size: 15px; }
+.rt-who { font-size: 15px; color: #4b5563; line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word;}
+.sr-full-section { background-color: #f9fafb; padding: 16px 12px; margin-top: 10px; border-radius: 12px; border: 1px solid #e5e7eb; box-sizing: border-box;}
+
+/* Asignaciones Generales */
+.svc-container { margin-top: 16px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; box-sizing: border-box; }
+.svc-title-main { font-size: 15px; font-weight: 900; margin-bottom: 16px; letter-spacing: 0.5px; text-transform: uppercase; color: #6B7280; padding-left: 4px; }
+.svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.svc-block { margin-bottom: 4px; min-width: 0; }
+.svc-block-title { font-size: 15px; font-weight: 700; color: #4B5563; margin-bottom: 4px; word-wrap: break-word; }
+.svc-bullet-item { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 400; color: #6b7280; margin-bottom: 2px; word-wrap: break-word; overflow-wrap: break-word;}
+.svc-bullet-dot { width: 5px; height: 5px; border-radius: 50%; background: #9ca3af; flex-shrink: 0; }
+.highlight-weekend-box { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; margin-top: 32px; padding: 16px; box-sizing: border-box; }
+.hw-item { display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 4px 0; width: 100%; box-sizing: border-box; }
+.hw-divider { height: 1px; background-color: #e5e7eb; width: 100%; margin: 8px 0; }
+.highlight-label { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #6b7280; }
+.highlight-val { font-size: 15px; font-weight: 800; color: #4A6DA7; text-align: right; } 
+.highlight-midweek { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 32px; margin-bottom: 16px; box-sizing: border-box; }
+
+/* Anuncios */
+.anuncio { background: #fffbeb; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start; box-sizing: border-box;}
+.anuncio-date { background: #d97706; color: white; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px; white-space: nowrap; margin-top: 2px; flex-shrink: 0; }
+.anuncio-text { font-size: 14px; color: #4b5563; flex: 1; min-width: 0; line-height: 1.5; word-wrap: break-word; overflow-wrap: break-word;}
+
+/* Footer */
+.footer { text-align: center; color: #9ca3af; font-size: 11px; margin-top: 40px; }
