@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Grupos - La Cumaca</title>
-    <link rel="stylesheet" href="styles.css?v=7.0">
+    <link rel="stylesheet" href="styles.css?v=8.0">
 </head>
 <body>
 
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="section-inner" style="padding-top: 10px; border-top: 1px solid #e5e7eb;">
-                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 16px;">Siguientes grupos programados</div>
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 16px;">Línea de tiempo de grupos</div>
                     <div id="timeline-buscar" class="timeline-wrapper"></div>
                     <div id="paginacion-buscar" class="pagination-container hidden"></div>
                 </div>
@@ -231,7 +231,18 @@
             renderCalendarGrid(); 
             renderCarousel(); 
             renderGruposDiaBuscar(); 
-            renderTimelineBuscar();
+            
+            // Navegación Inteligente: Al tocar una fecha, busca en qué página del historial está y navega a ella
+            const baseStr = toISODate(fechaSeleccionada) < toISODate(fechaHoy) ? toISODate(fechaSeleccionada) : toISODate(fechaHoy);
+            let lista = dbGrupos.filter(g => g.fecha >= baseStr);
+            const selStr = toISODate(fechaSeleccionada);
+            const index = lista.findIndex(g => g.fecha === selStr);
+            
+            if (index !== -1) {
+                paginaBuscar = Math.floor(index / diasPorPagina) + 1;
+            }
+
+            renderTimelineBuscarLocally();
         }
 
         function esMismoDia(f1, f2) { const str1 = f1 instanceof Date ? toISODate(f1) : f1; const str2 = f2 instanceof Date ? toISODate(f2) : f2; return str1 === str2; }
@@ -297,7 +308,7 @@
                     fechaSeleccionada = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), i); 
                     renderAllBuscar(); 
                     
-                    // Auto-Ocultar Calendario
+                    // Auto-Ocultar Calendario al seleccionar una fecha
                     const c = document.getElementById('calendario-content');
                     if (c.classList.contains('expanded')) { toggleCalendar(); }
                 }; 
@@ -307,12 +318,13 @@
 
         function renderCarousel() { const c = document.getElementById('carousel'); c.innerHTML = ''; const b = new Date(fechaHoy); let startBase = b; if (fechaSeleccionada > new Date(b.getTime() + (60*86400000)) || fechaSeleccionada < new Date(b.getTime() - (10*86400000))) { startBase = new Date(fechaSeleccionada); } for(let i=-2; i<=60; i++) { const f = new Date(startBase); f.setDate(startBase.getDate() + i); const card = document.createElement('div'); card.dataset.date = toISODate(f); card.className = `date-card ${esMismoDia(f, fechaSeleccionada) ? 'selected' : ''} ${esMismoDia(f, fechaHoy) ? 'is-today' : ''}`; card.innerHTML = `<div class="date-card-day">${f.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,3)}</div><div class="date-card-number">${f.getDate()}</div>`; card.onclick = () => { fechaSeleccionada = f; renderAllBuscar(); }; c.appendChild(card); } }
 
-        function renderTimelineBuscar() {
+        function renderTimelineBuscarLocally() {
             const tl = document.getElementById('timeline-buscar'); 
             const pag = document.getElementById('paginacion-buscar');
-            const baseStr = toISODate(fechaSeleccionada); 
-            let lista = dbGrupos.filter(g => g.fecha > baseStr); // Mostrar grupos posteriores a la fecha seleccionada
-            generarHTMLTimeline(lista, tl, pag, paginaBuscar, 'paginaBuscar', renderTimelineBuscar);
+            // Muestra los grupos a partir de la fecha actual (o de la fecha elegida si es del pasado)
+            const baseStr = toISODate(fechaSeleccionada) < toISODate(fechaHoy) ? toISODate(fechaSeleccionada) : toISODate(fechaHoy);
+            let lista = dbGrupos.filter(g => g.fecha >= baseStr); 
+            generarHTMLTimeline(lista, tl, pag, paginaBuscar, 'paginaBuscar', renderTimelineBuscarLocally);
         }
 
         // ================= FUNCIÓN MAESTRA PARA CREAR TIMELINES =================
@@ -335,6 +347,11 @@
                 const fechaNice = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); 
                 const dayBlock = document.createElement('div'); dayBlock.className = 'timeline-day-block'; 
                 
+                // Resaltar en la línea de tiempo si es la fecha seleccionada
+                if (esMismoDia(diaData.fecha, fechaSeleccionada)) {
+                    dayBlock.classList.add('active-day');
+                }
+
                 const header = document.createElement('div'); header.className = 'timeline-date-header'; header.textContent = fechaNice; 
                 dayBlock.appendChild(header); 
                 
