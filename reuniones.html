@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Reuniones - La Cumaca</title>
-    <link rel="stylesheet" href="styles.css?v=7.0">
+    <link rel="stylesheet" href="styles.css?v=8.0">
 </head>
 <body>
 
@@ -147,7 +147,7 @@
                     <div style="font-size: 17px; font-weight: 800; color: #4A6DA7; margin-top: 4px;">${fechaEleganteStr} - 6:30 PM</div>
                 </div>
 
-                <div class="header-roles">
+                <div class="header-roles" style="margin-bottom: 16px; padding-left: 8px;">
                     <div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataSemana.presidente || "-"}</strong></div>
                     <div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataSemana.oracionInicial || "-"}</strong></div>
                 </div>
@@ -177,10 +177,10 @@
                 }
                 html += `</div>`; 
 
-                // Lectura de la biblia (segunda sala): Parámetro TRUE para ocultar la línea
+                // Lectura de la biblia (segunda sala): AHORA PASA SU VARIABLE DE TIEMPO
                 if (dataSemana.tesoros_lectura_segundaSala && (currentRoomFilter === 'todo' || currentRoomFilter === 'segunda')) {
                     html += `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">`;
-                    html += renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros', true);
+                    html += renderFlexItem('Lectura de la Biblia', dataSemana.tesoros_lectura_tiempo, formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros', true);
                     html += `</div></div>`;
                 }
                 html += `</div>`;
@@ -257,7 +257,6 @@
                 let colorStyle = isEncargado ? 'color: #4A6FAA;' : 'color: #4B5563;';
                 let valColorStyle = isEncargado ? 'color: #4A6FAA;' : 'color: #6b7280;';
                 
-                // Viñeta de texto clásico "•"
                 let nHtml = names.map(n => `<div class="svc-bullet-item" style="${valColorStyle}; font-weight: 500;">
                     <span style="margin-right: 6px; font-size: 18px; line-height: 1;">&bull;</span>${n}
                 </div>`).join(''); 
