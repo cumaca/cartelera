@@ -12,7 +12,7 @@ body {
 
 /* --- CABECERA SUPERIOR --- */
 .header-principal {
-    background-color: #E5E7EB; /* Gris exacto solicitado */
+    background-color: #E5E7EB; /* Gris exacto */
     width: 100%; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000;
 }
 .header-contenedor { display: flex; align-items: center; max-width: 900px; margin: 0 auto; padding: 18px 20px; gap: 15px; }
@@ -51,7 +51,7 @@ body {
 /* --- BARRA DE NAVEGACIÓN INFERIOR --- */
 .nav-segment-container { 
     position: fixed; bottom: 0; left: 0; width: 100%;
-    background: #E5E7EB; /* Gris exacto solicitado */
+    background: #E5E7EB; /* Gris exacto */
     box-shadow: 0 -4px 20px rgba(0,0,0,0.1); 
     z-index: 1000; padding-bottom: env(safe-area-inset-bottom);
     display: flex; justify-content: space-around; padding: 10px 0;
@@ -77,13 +77,14 @@ body {
 .filter-control { background-color: #f3f4f6; padding: 2px; margin: 10px 0 16px 0; border-radius: 8px; }
 .filter-control .seg-btn { padding: 6px 0; font-size: 12px; border-radius: 6px; }
 
-/* Nuevo Botón en Línea de Salas */
+/* Nuevo Botón en Línea de Salas (Estilo botón sutil con flecha) */
 .inline-toggle-box {
-    background-color: #f4f6fa; border: 1px dashed #4A6DA7; color: #4A6DA7;
-    padding: 10px; border-radius: 8px; text-align: center; margin: 10px 0;
+    background-color: #eff6ff; color: #4A6DA7; border: none;
+    padding: 10px; border-radius: 8px; margin: 10px 0;
     font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
 }
-.inline-toggle-box:active { background-color: #e0e7ff; }
+.inline-toggle-box:active { background-color: #dbeafe; }
 
 /* --- ESTILOS INTERNOS (Tarjetas) --- */
 .card { width: 100%; max-width: 100%; background: #ffffff; border: none; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); margin-bottom: 50px; position: relative; box-sizing: border-box; overflow: hidden; }
@@ -180,12 +181,16 @@ body {
 .rt-row { display: flex; position: relative; padding-bottom: 18px; min-height: 40px; box-sizing: border-box;}
 .rt-time-col { display: none; }
 .rt-line-col { width: 20px; position: relative; flex-shrink: 0; display: flex; justify-content: center; margin-left: 4px;  }
-.timeline-group { position: relative; }
+
+/* Alineación milimétrica: Se movió la línea principal a la derecha 12px para emparejar con la 2da sala */
+.timeline-group { position: relative; padding-left: 12px; }
+.sr-full-section .timeline-group { padding-left: 0; } /* Evita doble espaciado en la 2da sala */
+
 .rt-line { position: absolute; width: 2px; background: #e5e7eb; left: 50%; transform: translateX(-50%); z-index: 0;  top: -10px; bottom: -10px;  }
 .timeline-group .rt-row:first-child .rt-line { top: 12px; } 
 .timeline-group .rt-row:last-child .rt-line { bottom: auto; height: 22px; top: -10px; } 
 
-/* Clase para ocultar la línea en la segunda sala */
+/* Clase para ocultar la línea (usada en Fin de Semana) */
 .rt-row.no-line .rt-line { display: none !important; }
 
 .rt-dot { position: relative; z-index: 2; width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; background: currentColor; border: 2px solid white; }
