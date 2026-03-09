@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Reuniones - La Cumaca</title>
-    <link rel="stylesheet" href="styles.css?v=2.0">
+    <link rel="stylesheet" href="styles.css?v=3.0">
 </head>
 <body>
 
     <header class="header-principal">
         <div class="header-contenedor">
             <a href="index.html" class="btn-back">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </a>
             <h1>Programa de Reuniones</h1>
         </div>
@@ -30,49 +27,30 @@
         </div>
 
         <div class="segmented-control" id="tab-nav-main" style="margin: 0 0 16px 0;">
-            <div class="seg-btn" id="btn-tab-semana" onclick="switchReunionTab('semana')">
-                <span style="font-size: 11px; font-weight: 500;">Reunión</span><br>Entre Semana
-            </div>
-            <div class="seg-btn" id="btn-tab-finde" onclick="switchReunionTab('finde')">
-                <span style="font-size: 11px; font-weight: 500;">Reunión</span><br>Fin de Semana
-            </div>
+            <div class="seg-btn" id="btn-tab-semana" onclick="switchReunionTab('semana')"><span style="font-size: 11px; font-weight: 500;">Reunión</span><br>Entre Semana</div>
+            <div class="seg-btn" id="btn-tab-finde" onclick="switchReunionTab('finde')"><span style="font-size: 11px; font-weight: 500;">Reunión</span><br>Fin de Semana</div>
         </div>
 
         <div class="card" id="reuniones-swipe-wrapper" style="margin-top: 0;">
-            
             <div id="tab-semana" class="tab-content">
                 <div class="section-inner wol-style" id="reunion-semana-detalle" style="padding-top: 20px;">
                     <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
                 </div>
             </div>
-            
             <div id="tab-finde" class="tab-content">
                 <div class="section-inner wol-style" id="reunion-finde-detalle" style="padding-top: 20px;">
                     <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <div class="nav-segment-container">
         <div class="nav-segment">
-            <a href="index.html" class="nav-btn">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                Inicio
-            </a>
-            <a href="predicacion.html" class="nav-btn">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                Grupos
-            </a>
-            <a href="reuniones.html" class="nav-btn activo">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                Reuniones
-            </a>
-            <a href="anuncios.html" class="nav-btn">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                Anuncios
-            </a>
+            <a href="index.html" class="nav-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Inicio</a>
+            <a href="predicacion.html" class="nav-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Grupos</a>
+            <a href="reuniones.html" class="nav-btn activo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg> Reuniones</a>
+            <a href="anuncios.html" class="nav-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> Anuncios</a>
         </div>
     </div>
 
@@ -80,8 +58,7 @@
         let dbVidaMinisterio = [], dbFinSemana = [];
         let fechaHoy = new Date();
         let semanaOffset = 0;
-        
-        let currentRoomFilter = 'todo'; // 'todo', 'principal', 'segunda'
+        let currentRoomFilter = 'todo'; 
 
         function toISODate(d) {
             if(!(d instanceof Date)) return "";
@@ -98,17 +75,11 @@
                 dbVidaMinisterio = dataRaw.vidaMinisterio || [];
                 dbFinSemana = dataRaw.finSemana || [];
                 
-                // LÓGICA AUTOMÁTICA DE PESTAÑAS (Si es Sábado o Domingo abre Fin de semana)
                 const todayDay = fechaHoy.getDay();
-                if(todayDay === 0 || todayDay === 6) {
-                    switchReunionTab('finde');
-                } else {
-                    switchReunionTab('semana');
-                }
+                if(todayDay === 0 || todayDay === 6) { switchReunionTab('finde'); } else { switchReunionTab('semana'); }
 
                 renderReuniones();
                 setupSwipe('reuniones-swipe-wrapper', () => cambiarSemana(1), () => cambiarSemana(-1));
-
             } catch (error) {
                 document.getElementById('global-error').textContent = "Problema al cargar datos: " + error.message;
                 document.getElementById('global-error').classList.remove('hidden');
@@ -116,11 +87,9 @@
             }
         }
 
-        // LÓGICA PARA CAMBIAR LAS PESTAÑAS PRINCIPALES
         function switchReunionTab(tab) {
             document.querySelectorAll('#tab-nav-main .seg-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
             if(tab === 'semana') {
                 document.getElementById('btn-tab-semana').classList.add('active');
                 document.getElementById('tab-semana').classList.add('active');
@@ -130,12 +99,7 @@
             }
         }
 
-        // LÓGICA PARA FILTRAR SALAS
-        function setRoomFilter(filter) {
-            currentRoomFilter = filter;
-            renderReuniones(); // Recarga la reunión con el filtro aplicado
-        }
-
+        function setRoomFilter(filter) { currentRoomFilter = filter; renderReuniones(); }
         function esMismoDia(f1, f2) { const str1 = f1 instanceof Date ? toISODate(f1) : f1; const str2 = f2 instanceof Date ? toISODate(f2) : f2; return str1 === str2; }
 
         function renderReuniones() {
@@ -144,23 +108,25 @@
             const lunes = new Date(d.setDate(diff)); const lunesStr = toISODate(lunes);
             const domingo = new Date(lunes); domingo.setDate(lunes.getDate() + 6); const domingoStr = toISODate(domingo);
             
-            const rangoTexto = `${lunes.getDate()} ${lunes.toLocaleDateString('es-ES',{month:'short'})} - ${domingo.getDate()} ${domingo.toLocaleDateString('es-ES',{month:'short'})}`;
+            const mNombres = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+            const rangoTextoStr = `${lunes.getDate()} ${mNombres[lunes.getMonth()].toUpperCase()} - ${domingo.getDate()} ${mNombres[domingo.getMonth()].toUpperCase()}`;
 
             const buscar = (lista) => lista.find(r => r.fecha >= lunesStr && r.fecha <= domingoStr);
             const dataSemana = buscar(dbVidaMinisterio); const dataFinde = buscar(dbFinSemana);
 
             const containerSemana = document.getElementById('reunion-semana-detalle');
             
-            // --- REUNIÓN ENTRE SEMANA (CON FILTRO DE SALAS) ---
+            // --- REUNIÓN ENTRE SEMANA ---
             if (dataSemana) {
                 const fPartsMid = dataSemana.fecha.split('-');
                 const dMid = new Date(fPartsMid[0], fPartsMid[1]-1, fPartsMid[2]);
-                const fechaElegante = dMid.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+                const dayName = dMid.toLocaleDateString('es-ES', { weekday: 'long' });
+                const fechaEleganteStr = `${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dMid.getDate()} de ${mNombres[dMid.getMonth()]}`;
                 
                 let html = `
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTexto}</div>
-                    <div style="font-size: 18px; font-weight: 800; color: #4A6DA7; text-transform: capitalize; margin-top: 2px;">${fechaElegante} • 6:30 PM</div>
+                <div style="text-align: left; margin-bottom: 24px; padding-left: 8px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTextoStr}</div>
+                    <div style="font-size: 17px; font-weight: 800; color: #4A6DA7; margin-top: 2px;">${fechaEleganteStr} - 6:30 PM</div>
                 </div>
 
                 <div class="header-roles">
@@ -170,85 +136,72 @@
                 
                 <div class="segmented-control filter-control">
                     <div class="seg-btn ${currentRoomFilter === 'todo' ? 'active' : ''}" onclick="setRoomFilter('todo')">Mostrar Todo</div>
-                    <div class="seg-btn ${currentRoomFilter === 'principal' ? 'active' : ''}" onclick="setRoomFilter('principal')">1ra Sala</div>
+                    <div class="seg-btn ${currentRoomFilter === 'principal' ? 'active' : ''}" onclick="setRoomFilter('principal')">Sala Principal</div>
                     <div class="seg-btn ${currentRoomFilter === 'segunda' ? 'active' : ''}" onclick="setRoomFilter('segunda')">2da Sala</div>
-                </div>
-                `;
+                </div>`;
 
-                // AVISO DINÁMICO
-                if (currentRoomFilter !== 'todo') {
-                    const salaName = currentRoomFilter === 'principal' ? 'Primera Sala' : 'Segunda Sala';
-                    html += `
-                    <div class="filter-alert" onclick="setRoomFilter('todo')">
-                        <strong>👀 Viendo solo: ${salaName}</strong><br>
-                        <span style="text-decoration: underline; font-size:12px;">Toca aquí para Mostrar Todo</span>
-                    </div>`;
-                }
-
-                // TESOROS
                 html += `<div class="c-tesoros"><div class="sect-header">TESOROS DE LA BIBLIA</div><div class="timeline-group">`;
                 html += renderFlexItem('Introducción', dataSemana.tesoros_introduccion_tiempo, formatBold(dataSemana.tesoros_introduccion_hermano), 'c-tesoros');
                 html += renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros');
                 html += renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros');
                 
+                // Botón Dinámico de Mostrar Sala Principal
+                if (currentRoomFilter === 'segunda') {
+                    html += `<div class="inline-toggle-box" onclick="setRoomFilter('todo')">Mostrar Sala Principal</div>`;
+                }
+
                 if (currentRoomFilter === 'todo' || currentRoomFilter === 'principal') {
                     html += renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), dataSemana.tesoros_lectura_tiempo, formatBold(dataSemana.tesoros_lectura_estudiante), 'c-tesoros');
+                    // Botón Dinámico de Mostrar Segunda Sala
+                    if (currentRoomFilter === 'principal' && dataSemana.tesoros_lectura_segundaSala) {
+                        html += `<div class="inline-toggle-box" onclick="setRoomFilter('todo')">Mostrar Segunda Sala</div>`;
+                    }
                 }
-                html += `</div>`; // fin timeline principal tesoros
+                html += `</div>`; 
 
                 if (dataSemana.tesoros_lectura_segundaSala && (currentRoomFilter === 'todo' || currentRoomFilter === 'segunda')) {
                     html += `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA ${currentRoomFilter === 'segunda' ? '(Vista filtrada)' : ''}</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">`;
-                    html += renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros');
+                    html += renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros', true); // TRUE oculta la linea vertical
                     html += `</div></div>`;
                 }
                 html += `</div>`;
 
-                // MAESTROS
                 let mainParts = [], secondParts = [];
                 for(let i=1; i<=5; i++) { 
                     if(dataSemana[`maestros_parte${i}_titulo`]) { 
                         mainParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_principal`], dataSemana[`maestros_parte${i}_ayudante`]), 'c-maestros')); 
                         if(dataSemana[`maestros_parte${i}_segundaSala_principal`]) { 
-                            secondParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`]), 'c-maestros')); 
+                            secondParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`]), 'c-maestros', true)); // TRUE oculta la linea vertical
                         } 
                     } 
                 }
 
                 html += `<div class="c-maestros"><div class="sect-header">SEAMOS MEJORES MAESTROS</div>`;
-                
-                if (currentRoomFilter === 'todo' || currentRoomFilter === 'principal') {
-                    html += `<div class="sect-subtitle">SALA PRINCIPAL ${currentRoomFilter === 'principal' ? '(Vista filtrada)' : ''}</div><div class="timeline-group">${mainParts.join('')}</div>`;
-                }
-
-                if (secondParts.length > 0 && (currentRoomFilter === 'todo' || currentRoomFilter === 'segunda')) {
-                    html += `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA ${currentRoomFilter === 'segunda' ? '(Vista filtrada)' : ''}</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${secondParts.join('')}</div></div>`;
-                }
+                if (currentRoomFilter === 'todo' || currentRoomFilter === 'principal') { html += `<div class="sect-subtitle">SALA PRINCIPAL ${currentRoomFilter === 'principal' ? '(Vista filtrada)' : ''}</div><div class="timeline-group">${mainParts.join('')}</div>`; }
+                if (secondParts.length > 0 && (currentRoomFilter === 'todo' || currentRoomFilter === 'segunda')) { html += `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA ${currentRoomFilter === 'segunda' ? '(Vista filtrada)' : ''}</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">${secondParts.join('')}</div></div>`; }
                 html += `</div>`;
                 
-                // VIDA CRISTIANA
                 html += `<div class="c-vida"><div class="sect-header">NUESTRA VIDA CRISTIANA</div><div class="timeline-group">${renderFlexItem(dataSemana.vida_parte1_titulo, dataSemana.vida_parte1_tiempo, formatBold(dataSemana.vida_parte1_hermano), 'c-vida')}${renderFlexItem('Estudio bíblico', dataSemana.vida_estudioBiblico_tiempo, `Conductor: <strong>${dataSemana.vida_estudioBiblico_conductor}</strong><br>Lector: <strong>${dataSemana.vida_estudioBiblico_lector}</strong>`, 'c-vida')}${renderFlexItem('Palabras de conclusión', dataSemana.vida_conclusion_tiempo, formatBold(dataSemana.vida_conclusion_hermano), 'c-vida')}</div></div><div style="margin-top: 4px; padding-top:4px; border-top:1px solid #f3f4f6; padding-left:10px;"><div class="header-role-row"><span class="hr-label">Oración final:</span> <strong>${dataSemana.oracionFinal || "-"}</strong></div></div>`;
                 
                 html += renderAssignmentsGrid(dataSemana, 'entreSemana');
                 containerSemana.innerHTML = html;
 
             } else {
-                containerSemana.innerHTML = `
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTexto}</div>
-                </div>
-                <div class="no-grupos">Sin programación cargada para esta semana.</div>`;
+                containerSemana.innerHTML = `<div style="text-align: left; margin-bottom: 24px; padding-left: 8px;"><div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTextoStr}</div></div><div class="no-grupos">Sin programación cargada para esta semana.</div>`;
             }
 
             // --- REUNIÓN FIN DE SEMANA ---
             const containerFinde = document.getElementById('reunion-finde-detalle');
             if (dataFinde) {
-                const fDate = new Date(dataFinde.fecha.split('-')[0], dataFinde.fecha.split('-')[1]-1, dataFinde.fecha.split('-')[2]);
-                const fechaElegante = fDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+                const fPartsMid = dataFinde.fecha.split('-');
+                const dMid = new Date(fPartsMid[0], fPartsMid[1]-1, fPartsMid[2]);
+                const dayName = dMid.toLocaleDateString('es-ES', { weekday: 'long' });
+                const fechaEleganteStr = `${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dMid.getDate()} de ${mNombres[dMid.getMonth()]}`;
                 
                 let html = `
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTexto}</div>
-                    <div style="font-size: 18px; font-weight: 800; color: #4A6DA7; text-transform: capitalize; margin-top: 2px;">${fechaElegante} • 10:00 AM</div>
+                <div style="text-align: left; margin-bottom: 24px; padding-left: 8px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTextoStr}</div>
+                    <div style="font-size: 17px; font-weight: 800; color: #4A6DA7; margin-top: 2px;">${fechaEleganteStr} - 10:00 AM</div>
                 </div>
 
                 <div class="header-roles"><div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataFinde.presidente || "-"}</strong></div><div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataFinde.oracionInicial || "-"}</strong></div></div>`;
@@ -257,31 +210,55 @@
                 html += renderAssignmentsGrid(dataFinde, 'finSemana');
                 containerFinde.innerHTML = html;
             } else {
-                containerFinde.innerHTML = `
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTexto}</div>
-                </div>
-                <div class="no-grupos">Sin programación para este fin de semana.</div>`;
+                containerFinde.innerHTML = `<div style="text-align: left; margin-bottom: 24px; padding-left: 8px;"><div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase;">${rangoTextoStr}</div></div><div class="no-grupos">Sin programación para este fin de semana.</div>`;
             }
         }
 
-        function renderFlexItem(title, time, who, parentClass) { if(!title) return ''; return `<div class="rt-row ${parentClass}"><div class="rt-time-col"></div><div class="rt-line-col"><div class="rt-line"></div><div class="rt-dot"></div></div><div class="rt-content-col"><div class="rt-title">${time ? `<span class="rt-time-tag">${time}</span>` : ''}${title}</div>${who ? `<div class="rt-who">${who}</div>` : ''}</div></div>`; }
+        // Modificamos el renderFlexItem para ocultar la línea si es necesario
+        function renderFlexItem(title, time, who, parentClass, hideLine = false) { 
+            if(!title) return ''; 
+            return `<div class="rt-row ${parentClass} ${hideLine ? 'no-line' : ''}"><div class="rt-time-col"></div><div class="rt-line-col"><div class="rt-line"></div><div class="rt-dot"></div></div><div class="rt-content-col"><div class="rt-title">${time ? `<span class="rt-time-tag">${time}</span>` : ''}${title}</div>${who ? `<div class="rt-who">${who}</div>` : ''}</div></div>`; 
+        }
         function formatHelper(p, a) { return !p ? '' : (a ? `<strong>${p}</strong><div style="color:#6b7280; font-size:14px;">${a} (Ayudante)</div>` : `<strong>${p}</strong>`); }
         function formatBold(text) { return text ? `<strong>${text}</strong>` : ''; }
 
+        // Iconos de asignaciones
+        const getIcon = (type) => {
+            const base = '<svg width="16" height="16" style="margin-right:6px; vertical-align:-3px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+            if(type.includes('Encargado')) return base + '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+            if(type.includes('Auditorio')) return base + '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
+            if(type.includes('Puerta')) return base + '<path d="M3 21h18"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M14 12h.01"/></svg>';
+            if(type.includes('Micrófonos')) return base + '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>';
+            if(type.includes('Audio/Video')) return base + '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>';
+            if(type.includes('Plataforma')) return base + '<rect x="4" y="16" width="16" height="4"/><path d="M9 16v-6a3 3 0 0 1 6 0v6"/><path d="M12 7v3"/><path d="M10 4h4"/></svg>';
+            if(type.includes('Limpieza')) return base + '<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2-4.5-4.4 6.2-.9L12 3z"/></svg>';
+            if(type.includes('Hospitalidad')) return base + '<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>';
+            return '';
+        };
+
         function renderAssignmentsGrid(data, type) {
             let list = '', highlights = '';
-            const addGridItem = (label, value) => { if(!value) return ''; let nHtml = value.split(/,| y | Y /).map(n => n.trim()).filter(n => n).map(n => `<div class="svc-bullet-item"><div class="svc-bullet-dot"></div>${n}</div>`).join(''); return `<div class="svc-block"><div class="svc-block-title">${label}</div>${nHtml}</div>`; };
+            
+            const addGridItem = (label, value) => { 
+                if(!value) return ''; 
+                let names = value.split(/,| y | Y /).map(n => n.trim()).filter(n => n);
+                let isEncargado = label.includes('Encargado');
+                let colorStyle = isEncargado ? 'color: #4A6FAA;' : 'color: #4B5563;';
+                let valColorStyle = isEncargado ? 'color: #4A6FAA;' : 'color: #6b7280;';
+                
+                let nHtml = names.map(n => `<div class="svc-bullet-item" style="${valColorStyle}"><div class="svc-bullet-dot" ${isEncargado ? 'style="background:#4A6FAA;"':''}></div>${n}</div>`).join(''); 
+                return `<div class="svc-block"><div class="svc-block-title" style="${colorStyle}">${getIcon(label)}${label}</div>${nHtml}</div>`; 
+            };
             
             if (type === 'entreSemana') {
-                if(data.limpiezaSuperficial) highlights += `<div class="highlight-midweek"><span class="highlight-label">Limpieza Superficial</span><span class="highlight-val">Grupo ${data.limpiezaSuperficial}</span></div>`;
+                if(data.limpiezaSuperficial) highlights += `<div class="highlight-midweek"><span class="highlight-label">${getIcon('Limpieza')}Limpieza Superficial</span><span class="highlight-val">Grupo ${data.limpiezaSuperficial}</span></div>`;
                 list = `<div class="svc-grid" style="margin-top:16px;">${addGridItem('Encargado', data.encargado)}${addGridItem('Auditorio', `${data.acomodadorAuditorio1}, ${data.acomodadorAuditorio2}`)}${addGridItem('Puerta', data.acomodadorPuerta)}${addGridItem('Micrófonos', `${data.microfonos1}, ${data.microfonos2}`)}${addGridItem('Audio/Video', `${data.audioVideo1}, ${data.audioVideo2}`)}${addGridItem('Plataforma', data.plataforma)}</div>`;
             } else if (type === 'finSemana') {
                 if(data.limpiezaAFondo || data.hospitalidad) {
                     highlights += `<div class="highlight-weekend-box">`;
-                    if(data.limpiezaAFondo) highlights += `<div class="hw-item"><span class="highlight-label">Limpieza Profunda</span><span class="highlight-val">Grupo ${data.limpiezaAFondo}</span></div>`;
+                    if(data.limpiezaAFondo) highlights += `<div class="hw-item"><span class="highlight-label">${getIcon('Limpieza')}Limpieza Profunda</span><span class="highlight-val">Grupo ${data.limpiezaAFondo}</span></div>`;
                     if(data.limpiezaAFondo && data.hospitalidad) highlights += `<div class="hw-divider"></div>`;
-                    if(data.hospitalidad) highlights += `<div class="hw-item"><span class="highlight-label">Hospitalidad</span><span class="highlight-val">Grupo ${data.hospitalidad}</span></div>`;
+                    if(data.hospitalidad) highlights += `<div class="hw-item"><span class="highlight-label">${getIcon('Hospitalidad')}Hospitalidad</span><span class="highlight-val">Grupo ${data.hospitalidad}</span></div>`;
                     highlights += `</div>`;
                 }
                 list = `<div class="svc-grid">${addGridItem('Encargado', data.encargado)}${addGridItem('Auditorio', `${data.acomodadorAuditorio1}, ${data.acomodadorAuditorio2}`)}${addGridItem('Puerta', data.acomodadorPuerta)}${addGridItem('Micrófonos', `${data.microfonos1}, ${data.microfonos2}`)}${addGridItem('Audio/Video', `${data.audioVideo1}, ${data.audioVideo2}`)}${addGridItem('Plataforma', data.plataforma)}</div>`;
