@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Reuniones - La Cumaca</title>
-    <link rel="stylesheet" href="styles.css?v=5.0">
+    <link rel="stylesheet" href="styles.css?v=7.0">
 </head>
 <body>
 
@@ -33,12 +33,12 @@
 
         <div class="card" id="reuniones-swipe-wrapper" style="margin-top: 0;">
             <div id="tab-semana" class="tab-content">
-                <div class="section-inner wol-style" id="reunion-semana-detalle" style="padding-top: 10px;">
+                <div class="section-inner wol-style" id="reunion-semana-detalle">
                     <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
                 </div>
             </div>
             <div id="tab-finde" class="tab-content">
-                <div class="section-inner wol-style" id="reunion-finde-detalle" style="padding-top: 10px;">
+                <div class="section-inner wol-style" id="reunion-finde-detalle">
                     <div class="inline-loader"><div class="spinner"></div><p>Cargando programa...</p></div>
                 </div>
             </div>
@@ -65,8 +65,21 @@
             return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
         }
 
+        // LÓGICA DE URL: Guarda el estado para cuando compartes el link
+        function updateURL() {
+            const currentTab = document.getElementById('btn-tab-semana').classList.contains('active') ? 'semana' : 'finde';
+            const newUrl = window.location.pathname + '?s=' + semanaOffset + '&t=' + currentTab;
+            window.history.replaceState(null, '', newUrl);
+        }
+
         async function iniciarApp() {
             try {
+                // Leer parámetros de la URL al entrar
+                const urlParams = new URLSearchParams(window.location.search);
+                if(urlParams.has('s')) {
+                    semanaOffset = parseInt(urlParams.get('s')) || 0;
+                }
+
                 const timestamp = new Date().getTime();
                 const response = await fetch('./data/cartelera_datos.json?t=' + timestamp);
                 if (!response.ok) throw new Error("Error HTTP: " + response.status);
@@ -75,9 +88,14 @@
                 dbVidaMinisterio = dataRaw.vidaMinisterio || [];
                 dbFinSemana = dataRaw.finSemana || [];
                 
-                const todayDay = fechaHoy.getDay();
-                if(todayDay === 0 || todayDay === 6) { switchReunionTab('finde'); } else { switchReunionTab('semana'); }
-
+                // Si la URL traía una pestaña guardada la usamos, si no, calculamos por día
+                let initialTab = urlParams.get('t');
+                if(!initialTab) {
+                    const todayDay = fechaHoy.getDay();
+                    initialTab = (todayDay === 0 || todayDay === 6) ? 'finde' : 'semana';
+                }
+                
+                switchReunionTab(initialTab, false); // false para no actualizar URL aquí
                 renderReuniones();
                 setupSwipe('reuniones-swipe-wrapper', () => cambiarSemana(1), () => cambiarSemana(-1));
             } catch (error) {
@@ -87,7 +105,7 @@
             }
         }
 
-        function switchReunionTab(tab) {
+        function switchReunionTab(tab, triggerUrlUpdate = true) {
             document.querySelectorAll('#tab-nav-main .seg-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             if(tab === 'semana') {
@@ -97,10 +115,10 @@
                 document.getElementById('btn-tab-finde').classList.add('active');
                 document.getElementById('tab-finde').classList.add('active');
             }
+            if(triggerUrlUpdate) updateURL();
         }
 
         function setRoomFilter(filter) { currentRoomFilter = filter; renderReuniones(); }
-        function esMismoDia(f1, f2) { const str1 = f1 instanceof Date ? toISODate(f1) : f1; const str2 = f2 instanceof Date ? toISODate(f2) : f2; return str1 === str2; }
 
         function renderReuniones() {
             const d = new Date(fechaHoy); const day = d.getDay(); 
@@ -129,7 +147,7 @@
                     <div style="font-size: 17px; font-weight: 800; color: #4A6DA7; margin-top: 4px;">${fechaEleganteStr} - 6:30 PM</div>
                 </div>
 
-                <div class="header-roles" style="margin-bottom: 16px; padding-left: 8px;">
+                <div class="header-roles">
                     <div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataSemana.presidente || "-"}</strong></div>
                     <div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataSemana.oracionInicial || "-"}</strong></div>
                 </div>
@@ -147,21 +165,19 @@
                 html += renderFlexItem(dataSemana.tesoros_parte1_titulo, dataSemana.tesoros_parte1_tiempo, formatBold(dataSemana.tesoros_parte1_principal), 'c-tesoros');
                 html += renderFlexItem(dataSemana.tesoros_parte2_titulo, dataSemana.tesoros_parte2_tiempo, formatBold(dataSemana.tesoros_parte2_principal), 'c-tesoros');
                 
-                // Botón dinámico Mostrar Sala Principal
                 if (currentRoomFilter === 'segunda') {
                     html += `<button class="inline-toggle-box" onclick="setRoomFilter('todo')">Mostrar Sala Principal <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>`;
                 }
 
                 if (currentRoomFilter === 'todo' || currentRoomFilter === 'principal') {
                     html += renderFlexItem('Lectura de la Biblia: ' + (dataSemana.tesoros_lectura_textos || ''), dataSemana.tesoros_lectura_tiempo, formatBold(dataSemana.tesoros_lectura_estudiante), 'c-tesoros');
-                    // Botón dinámico Mostrar Segunda Sala
                     if (currentRoomFilter === 'principal' && dataSemana.tesoros_lectura_segundaSala) {
                         html += `<button class="inline-toggle-box" onclick="setRoomFilter('todo')">Mostrar Segunda Sala <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>`;
                     }
                 }
                 html += `</div>`; 
 
-                // Aquí pasamos `true` al final para ocultar la línea de la 2da Sala SOLO en Lectura de Biblia
+                // Lectura de la biblia (segunda sala): Parámetro TRUE para ocultar la línea
                 if (dataSemana.tesoros_lectura_segundaSala && (currentRoomFilter === 'todo' || currentRoomFilter === 'segunda')) {
                     html += `<div class="sr-full-section"><div class="sect-subtitle">SEGUNDA SALA</div><div class="sr-conductor">Conductor: <strong>${dataSemana.maestros_salaAuxiliar || '-'}</strong></div><div class="timeline-group">`;
                     html += renderFlexItem('Lectura de la Biblia', '', formatBold(dataSemana.tesoros_lectura_segundaSala), 'c-tesoros', true);
@@ -174,7 +190,6 @@
                     if(dataSemana[`maestros_parte${i}_titulo`]) { 
                         mainParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_principal`], dataSemana[`maestros_parte${i}_ayudante`]), 'c-maestros')); 
                         if(dataSemana[`maestros_parte${i}_segundaSala_principal`]) { 
-                            // Aquí NO pasamos true, así que Maestros de la 2da Sala conservará su línea gris temporal
                             secondParts.push(renderFlexItem(dataSemana[`maestros_parte${i}_titulo`], dataSemana[`maestros_parte${i}_tiempo`], formatHelper(dataSemana[`maestros_parte${i}_segundaSala_principal`], dataSemana[`maestros_parte${i}_segundaSala_ayudante`]), 'c-maestros'));
                         } 
                     } 
@@ -208,11 +223,12 @@
                     <div style="font-size: 17px; font-weight: 800; color: #4A6DA7; margin-top: 4px;">${fechaEleganteStr} - 10:00 AM</div>
                 </div>
 
-                <div class="header-roles" style="margin-bottom: 24px; padding-left: 8px;">
+                <div class="header-roles" style="margin-bottom: 24px;">
                     <div class="header-role-row"><span class="hr-label">Presidente:</span> <strong>${dataFinde.presidente || "-"}</strong></div>
                     <div class="header-role-row"><span class="hr-label">Oración inicial:</span> <strong>${dataFinde.oracionInicial || "-"}</strong></div>
                 </div>`;
                 
+                // Parámetro TRUE para ocultar líneas verticales
                 html += `<div class="c-publico"><div class="sect-header">DISCURSO PÚBLICO</div><div class="timeline-group">${renderFlexItem(`"${dataFinde.discursoPublico_tema}"`, '', `<strong>${dataFinde.discursoPublico_orador}</strong><br><span style="font-size:14px; color:#6b7280;">${dataFinde.discursoPublico_congregacion}</span>`, 'c-publico', true)}</div></div>`;
                 html += `<div class="c-publico"><div class="sect-header">ESTUDIO DE LA ATALAYA</div><div class="timeline-group">${renderFlexItem(dataFinde.estudioAtalaya_articulo, '', `Conductor: <strong>${dataFinde.estudioAtalaya_conductor}</strong><br>Lector: <strong>${dataFinde.estudioAtalaya_lector}</strong>`, 'c-publico', true)}</div></div><div style="margin-top: 4px; padding-top:4px; border-top:1px solid #f3f4f6; padding-left:10px;"><div class="header-role-row"><span class="hr-label">Oración final:</span> <strong>${dataFinde.oracionFinal || "-"}</strong></div></div>`;
                 
@@ -230,6 +246,7 @@
         function formatHelper(p, a) { return !p ? '' : (a ? `<strong>${p}</strong><div style="color:#6b7280; font-size:14px;">${a} (Ayudante)</div>` : `<strong>${p}</strong>`); }
         function formatBold(text) { return text ? `<strong>${text}</strong>` : ''; }
 
+        // --- ASIGNACIONES CON VIÑETAS (Bullet points) ---
         function renderAssignmentsGrid(data, type) {
             let list = '', highlights = '';
             
@@ -240,7 +257,11 @@
                 let colorStyle = isEncargado ? 'color: #4A6FAA;' : 'color: #4B5563;';
                 let valColorStyle = isEncargado ? 'color: #4A6FAA;' : 'color: #6b7280;';
                 
-                let nHtml = names.map(n => `<div class="svc-bullet-item" style="${valColorStyle}"><div class="svc-bullet-dot" ${isEncargado ? 'style="background:#4A6FAA;"':''}></div>${n}</div>`).join(''); 
+                // Viñeta de texto clásico "•"
+                let nHtml = names.map(n => `<div class="svc-bullet-item" style="${valColorStyle}; font-weight: 500;">
+                    <span style="margin-right: 6px; font-size: 18px; line-height: 1;">&bull;</span>${n}
+                </div>`).join(''); 
+                
                 return `<div class="svc-block"><div class="svc-block-title" style="${colorStyle}">${label}</div>${nHtml}</div>`; 
             };
             
@@ -261,6 +282,7 @@
             return `${highlights}<div class="svc-container"><div class="svc-title-main">ASIGNACIONES</div>${list}</div>`;
         }
 
+        // LÓGICA DE SWIPE (DESLIZAR)
         function setupSwipe(elementId, onSwipeLeft, onSwipeRight) { 
             const element = document.getElementById(elementId); 
             if (!element) return; 
@@ -275,8 +297,8 @@
             }, {passive: true}); 
         }
 
-        function cambiarSemana(d) { semanaOffset += d; renderReuniones(); }
-        function resetearSemana() { semanaOffset = 0; renderReuniones(); }
+        function cambiarSemana(d) { semanaOffset += d; updateURL(); renderReuniones(); }
+        function resetearSemana() { semanaOffset = 0; updateURL(); renderReuniones(); }
 
         iniciarApp();
     </script>
