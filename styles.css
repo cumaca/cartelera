@@ -11,12 +11,8 @@ body {
 }
 
 /* --- CABECERA SUPERIOR --- */
-.header-principal {
-    background-color: #E5E7EB; width: 100%; position: sticky; top: 0; z-index: 1000;
-}
+.header-principal { background-color: #E5E7EB; width: 100%; position: sticky; top: 0; z-index: 1000; }
 .header-contenedor { display: flex; align-items: center; max-width: 900px; margin: 0 auto; padding: 18px 20px; gap: 15px; }
-
-/* Título más pequeño */
 .header-contenedor h1 { font-size: 1.1rem; font-weight: 700; color: #4b5563; letter-spacing: -0.3px; margin: 0; }
 .btn-back { color: #4b5563; display: flex; align-items: center; text-decoration: none; }
 
@@ -25,24 +21,41 @@ body {
 .subtitulo-tarjetas { color: #6b7280; font-size: 0.95rem; margin-bottom: 16px; font-weight: 500; }
 .menu-principal { display: flex; flex-direction: column; gap: 16px; width: 100%; }
 
+/* NUEVO DISEÑO PASTEL FLAT PARA TARJETAS */
 .tarjeta {
-    display: flex; align-items: center; padding: 24px 20px; min-height: 100px; width: 100%;
-    background-color: #ffffff; border-radius: 16px; text-decoration: none; box-sizing: border-box;
-    border: 1px solid #E5E7EB; transition: transform 0.2s ease;
+    display: flex; align-items: center; padding: 24px 20px; min-height: 110px; width: 100%;
+    border-radius: 20px; text-decoration: none; box-sizing: border-box;
+    border: none; /* Sin borde */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); /* Sombra muy sutil */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .tarjeta:active { transform: scale(0.98); }
 
-.icono-caja { width: 58px; height: 58px; min-width: 58px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-right: 18px; flex-shrink: 0; background-color: #ffffff; }
+/* Íconos grandes sin caja blanca */
+.icono-caja { 
+    width: 65px; height: 65px; min-width: 65px; 
+    display: flex; align-items: center; justify-content: center; 
+    margin-right: 20px; flex-shrink: 0; background-color: transparent; 
+}
 .texto-caja { display: flex; flex-direction: column; flex-grow: 1; min-width: 0; } 
-.texto-caja h2 { font-size: 1.1rem; font-weight: 600; color: #111; margin-bottom: 4px; }
-.texto-caja p { font-size: 0.9rem; color: #6b7280; line-height: 1.3; }
+.texto-caja h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
+.texto-caja p { font-size: 0.9rem; line-height: 1.3; font-weight: 500; }
 
-.tarjeta.predicacion { background: linear-gradient(90deg, #f0f7ff 0%, #ffffff 40%); }
-.tarjeta.predicacion .icono-caja { border: 1.5px solid #a3cfff; color: #4A6DA7; }
-.tarjeta.reuniones { background: linear-gradient(90deg, #f0fdf4 0%, #ffffff 40%); }
-.tarjeta.reuniones .icono-caja { border: 1.5px solid #bbf7d0; color: #10b981; }
-.tarjeta.anuncios { background: linear-gradient(90deg, #fffbf0 0%, #ffffff 40%); }
-.tarjeta.anuncios .icono-caja { border: 1.5px solid #fde68a; color: #f59e0b; }
+/* COLORES PASTEL PERSONALIZADOS */
+.tarjeta.predicacion { background-color: #d1fae5; /* Verde pastel */ }
+.tarjeta.predicacion .icono-caja { color: #059669; }
+.tarjeta.predicacion .texto-caja h2 { color: #064e3b; }
+.tarjeta.predicacion .texto-caja p { color: #047857; }
+
+.tarjeta.reuniones { background-color: #e0e7ff; /* Azul pastel */ }
+.tarjeta.reuniones .icono-caja { color: #4A6DA7; }
+.tarjeta.reuniones .texto-caja h2 { color: #1e3a8a; }
+.tarjeta.reuniones .texto-caja p { color: #3730a3; }
+
+.tarjeta.anuncios { background-color: #ffedd5; /* Naranja/Amarillo pastel */ }
+.tarjeta.anuncios .icono-caja { color: #ea580c; }
+.tarjeta.anuncios .texto-caja h2 { color: #7c2d12; }
+.tarjeta.anuncios .texto-caja p { color: #9a3412; }
 
 /* --- CONTENEDOR GENERAL SUB-PÁGINAS --- */
 .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 10px 16px 100px 16px; box-sizing: border-box; overflow-x: hidden; }
@@ -62,22 +75,19 @@ body {
 .nav-btn svg { stroke-width: 2.5; margin-bottom: 2px; color: currentColor; }
 .nav-btn:active, .nav-btn.activo { color: #4A6DA7; }
 
-/* --- SELECTOR DE PESTAÑAS (Fondo azul, letras blancas) --- */
+/* --- SELECTOR DE PESTAÑAS --- */
 .segmented-control { display: flex; background-color: #e5e7eb; border-radius: 10px; padding: 3px; margin: 10px 0 20px 0; width: 100%; box-sizing: border-box; }
 .seg-btn { flex: 1; text-align: center; padding: 8px 0; font-size: 13px; font-weight: 700; color: #6b7280; cursor: pointer; border-radius: 8px; transition: all 0.2s ease; }
-/* NUEVO DISEÑO PESTAÑA ACTIVA */
 .seg-btn.active { background-color: #4A6DA7; color: #ffffff; box-shadow: 0 2px 6px rgba(74, 109, 167, 0.3); }
 
 .tab-content { display: none; animation: fadeInTab 0.3s ease; }
 .tab-content.active { display: block; }
 @keyframes fadeInTab { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Filtro pequeño de salas */
+/* Filtro de salas y botones sutiles */
 .reunion-filter-container { border-top: 1px solid #E5E7EB; padding-top: 20px; margin-top: 20px; margin-bottom: 24px; }
 .filter-control { background-color: #f3f4f6; padding: 2px; margin: 0; border-radius: 8px; }
 .filter-control .seg-btn { padding: 6px 0; font-size: 12px; border-radius: 6px; }
-/* Como este sub-menú usa .seg-btn.active, también quedará en azul con letras blancas, dándole mucha elegancia */
-
 .inline-toggle-box { background-color: #eff6ff; color: #4A6DA7; border: none; padding: 10px; border-radius: 8px; margin: 10px 0; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .inline-toggle-box:active { background-color: #dbeafe; }
 
@@ -197,7 +207,7 @@ body {
 .svc-title-main { font-size: 15px; font-weight: 900; margin-bottom: 16px; letter-spacing: 0.5px; text-transform: uppercase; color: #6B7280; padding-left: 4px; }
 .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .svc-block { margin-bottom: 4px; min-width: 0; }
-.svc-block-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; word-wrap: break-word; }
+.svc-block-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; word-wrap: break-word; display: flex; align-items: center; }
 .svc-bullet-item { display: flex; align-items: flex-start; gap: 4px; font-size: 15px; font-weight: 400; margin-bottom: 2px; word-wrap: break-word; overflow-wrap: break-word;}
 .highlight-weekend-box { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; margin-top: 32px; padding: 16px; box-sizing: border-box; }
 .hw-item { display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 4px 0; width: 100%; box-sizing: border-box; }
