@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Grupos - La Cumaca</title>
-    <link rel="stylesheet" href="styles.css?v=8.0">
+    <link rel="stylesheet" href="styles.css?v=9.0">
 </head>
 <body>
 
@@ -35,7 +35,7 @@
 
             <div class="ver-todos-wrapper" style="margin-top: 20px;">
                 <button class="ver-todos-btn" id="btn-proximos" onclick="toggleProximosGrupos()">
-                    <span id="text-proximos">Próximos grupos de predicación</span>
+                    <span id="text-proximos">Siguientes grupos</span>
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </button>
             </div>
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="section-inner" style="padding-top: 10px; border-top: 1px solid #e5e7eb;">
-                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 16px;">Línea de tiempo de grupos</div>
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 16px;">Siguientes grupos</div>
                     <div id="timeline-buscar" class="timeline-wrapper"></div>
                     <div id="paginacion-buscar" class="pagination-container hidden"></div>
                 </div>
@@ -101,8 +101,8 @@
     <div class="nav-segment-container">
         <div class="nav-segment">
             <a href="index.html" class="nav-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Inicio</a>
-            <a href="predicacion.html" class="nav-btn activo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Grupos</a>
-            <a href="reuniones.html" class="nav-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg> Reuniones</a>
+            <a href="predicacion.html" class="nav-btn activo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12a10.06 10.06 1 0 0-20 0Z" /><path d="M12 12v8a2 2 0 0 0 4 0" /><path d="M12 2v1" /></svg> Grupos</a>
+            <a href="reuniones.html" class="nav-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /><path d="M20 21v-2a4 4 0 0 0-4-4h-8a4 4 0 0 0-4 4v2" /><path d="M8 10a3 3 0 1 0-6 0 3 3 0 0 0 6 0z" /><path d="M2 21v-2a4 4 0 0 1 4-4h1" /><path d="M22 10a3 3 0 1 0-6 0 3 3 0 0 0 6 0z" /><path d="M17 15h1a4 4 0 0 1 4 4v2" /></svg> Reuniones</a>
             <a href="anuncios.html" class="nav-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> Anuncios</a>
         </div>
     </div>
@@ -114,7 +114,6 @@
         let fechaVisualizadaCalendario = new Date(fechaHoy);
         const diasPorPagina = 3; 
 
-        // Variables separadas para cada paginación
         let paginaHoy = 1;
         let paginaBuscar = 1;
 
@@ -151,8 +150,8 @@
                 dbGrupos = Object.values(gruposAgrupados);
                 dbGrupos.sort((a, b) => a.fecha.localeCompare(b.fecha));
                 
-                renderGrupoHoyUnico(); // Carga la pestaña 1
-                renderAllBuscar();     // Pre-carga la pestaña 2
+                renderGrupoHoyUnico(); 
+                renderAllBuscar();     
                 setTimeout(() => goToToday(), 100);
 
             } catch (error) {
@@ -161,11 +160,14 @@
             }
         }
 
-        // LÓGICA DE PESTAÑAS
         function switchTab(tabId) {
             document.querySelectorAll('.seg-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             
+            // Cerrar el calendario si cambiamos de pestaña para que no quede abierto
+            const c = document.getElementById('calendario-content');
+            if (c.classList.contains('expanded')) { toggleCalendar(); }
+
             if (tabId === 'hoy') {
                 document.querySelectorAll('.seg-btn')[0].classList.add('active');
                 document.getElementById('tab-hoy').classList.add('active');
@@ -175,7 +177,6 @@
             }
         }
 
-        // ================= PESTAÑA 1: GRUPO DE HOY =================
         function renderGrupoHoyUnico() {
             const container = document.getElementById('grupo-hoy-unico-content');
             const hoyStr = toISODate(new Date()); 
@@ -194,10 +195,9 @@
                 container.innerHTML = `<div class="card" style="margin-bottom: 0;"><div class="grupo-consolidado-card" style="border: none; background: transparent;"><div class="grupo-consolidado-header" style="color: #4A6DA7;"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg> Grupo de Hoy • <span style="text-transform: capitalize;">${diaSemana}</span></div>${htmlInner}</div></div>`;
             }
 
-            renderTimelineHoy(); // Carga la lista de próximos grupos
+            renderTimelineHoy(); 
         }
 
-        // Botón Colapsable de Pestaña 1
         function toggleProximosGrupos() {
             const c = document.getElementById('proximos-grupos-content'); 
             const btn = document.getElementById('btn-proximos');
@@ -208,7 +208,7 @@
                 txt.textContent = "Ocultar grupos";
             } else {
                 btn.classList.remove('expanded');
-                txt.textContent = "Próximos grupos de predicación";
+                txt.textContent = "Siguientes grupos";
             }
         }
 
@@ -216,11 +216,10 @@
             const tl = document.getElementById('timeline-hoy'); 
             const pag = document.getElementById('paginacion-hoy');
             const baseStr = toISODate(new Date()); 
-            let lista = dbGrupos.filter(g => g.fecha > baseStr); // Grupos ESTRICTAMENTE después de hoy
+            let lista = dbGrupos.filter(g => g.fecha > baseStr); 
             generarHTMLTimeline(lista, tl, pag, paginaHoy, 'paginaHoy', renderTimelineHoy);
         }
 
-        // ================= PESTAÑA 2: BUSCAR GRUPOS =================
         function renderAllBuscar() {
             const d = new Date(fechaSeleccionada.getTime());
             document.getElementById('month-indicator').textContent = d.toLocaleDateString('es-ES', {month:'long', year:'numeric'});
@@ -232,7 +231,6 @@
             renderCarousel(); 
             renderGruposDiaBuscar(); 
             
-            // Navegación Inteligente: Al tocar una fecha, busca en qué página del historial está y navega a ella
             const baseStr = toISODate(fechaSeleccionada) < toISODate(fechaHoy) ? toISODate(fechaSeleccionada) : toISODate(fechaHoy);
             let lista = dbGrupos.filter(g => g.fecha >= baseStr);
             const selStr = toISODate(fechaSeleccionada);
@@ -250,7 +248,7 @@
         
         function goToToday() { 
             fechaSeleccionada = new Date(fechaHoy); 
-            fechaVisualizadaCalendario = new Date(fechaHoy); // Sincroniza el calendario al mes actual
+            fechaVisualizadaCalendario = new Date(fechaHoy); 
             renderAllBuscar(); 
             const c = document.getElementById('carousel'); 
             setTimeout(() => { const s = c.querySelector('.is-today'); if(s) s.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }, 100); 
@@ -258,7 +256,6 @@
 
         function navMes(d) { fechaVisualizadaCalendario.setMonth(fechaVisualizadaCalendario.getMonth() + d); renderCalendarGrid(); }
 
-        // Muestra u oculta el calendario
         function toggleCalendar() {
             const c = document.getElementById('calendario-content');
             const icon = document.getElementById('cal-toggle-icon');
@@ -302,13 +299,11 @@
                 if(fStr === toISODate(fechaSeleccionada)) d.classList.add('selected'); 
                 if(fStr === toISODate(fechaHoy)) d.classList.add('today'); 
                 
-                // Al hacer clic, selecciona la fecha, actualiza y auto-oculta el calendario
                 d.onclick=()=>{ 
                     fechaVisualizadaCalendario.setMonth(fechaVisualizadaCalendario.getMonth()); 
                     fechaSeleccionada = new Date(fechaVisualizadaCalendario.getFullYear(), fechaVisualizadaCalendario.getMonth(), i); 
                     renderAllBuscar(); 
                     
-                    // Auto-Ocultar Calendario al seleccionar una fecha
                     const c = document.getElementById('calendario-content');
                     if (c.classList.contains('expanded')) { toggleCalendar(); }
                 }; 
@@ -321,13 +316,11 @@
         function renderTimelineBuscarLocally() {
             const tl = document.getElementById('timeline-buscar'); 
             const pag = document.getElementById('paginacion-buscar');
-            // Muestra los grupos a partir de la fecha actual (o de la fecha elegida si es del pasado)
             const baseStr = toISODate(fechaSeleccionada) < toISODate(fechaHoy) ? toISODate(fechaSeleccionada) : toISODate(fechaHoy);
             let lista = dbGrupos.filter(g => g.fecha >= baseStr); 
             generarHTMLTimeline(lista, tl, pag, paginaBuscar, 'paginaBuscar', renderTimelineBuscarLocally);
         }
 
-        // ================= FUNCIÓN MAESTRA PARA CREAR TIMELINES =================
         function generarHTMLTimeline(listaFechas, tl, pagContainer, currentPage, pageVarName, renderFunc) {
             tl.innerHTML = ''; pagContainer.innerHTML = ''; 
             
@@ -347,7 +340,6 @@
                 const fechaNice = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); 
                 const dayBlock = document.createElement('div'); dayBlock.className = 'timeline-day-block'; 
                 
-                // Resaltar en la línea de tiempo si es la fecha seleccionada
                 if (esMismoDia(diaData.fecha, fechaSeleccionada)) {
                     dayBlock.classList.add('active-day');
                 }
