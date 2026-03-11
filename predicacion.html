@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Grupos - La Cumaca</title>
-    <link rel="stylesheet" href="styles.css?v=11.0">
+    <link rel="stylesheet" href="styles.css?v=12.0">
 </head>
 <body>
 
@@ -35,7 +35,7 @@
 
             <div class="ver-todos-wrapper" style="margin-top: 20px;">
                 <button class="ver-todos-btn" id="btn-proximos" onclick="toggleProximosGrupos()">
-                    <span id="text-proximos">Siguientes grupos</span>
+                    <span id="text-proximos">Próximos grupos</span>
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </button>
             </div>
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="section-inner" style="padding-top: 10px; border-top: 1px solid #e5e7eb;">
-                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 16px;">Siguientes grupos</div>
+                    <div style="font-size: 13px; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 16px;">Próximos grupos</div>
                     <div id="timeline-buscar" class="timeline-wrapper"></div>
                     <div id="paginacion-buscar" class="pagination-container hidden"></div>
                 </div>
@@ -207,7 +207,7 @@
                 txt.textContent = "Ocultar grupos";
             } else {
                 btn.classList.remove('expanded');
-                txt.textContent = "Siguientes grupos";
+                txt.textContent = "Próximos grupos";
             }
         }
 
@@ -230,15 +230,8 @@
             renderCarousel(); 
             renderGruposDiaBuscar(); 
             
-            const baseStr = toISODate(fechaSeleccionada) < toISODate(fechaHoy) ? toISODate(fechaSeleccionada) : toISODate(fechaHoy);
-            let lista = dbGrupos.filter(g => g.fecha >= baseStr);
-            const selStr = toISODate(fechaSeleccionada);
-            const index = lista.findIndex(g => g.fecha === selStr);
-            
-            if (index !== -1) {
-                paginaBuscar = Math.floor(index / diasPorPagina) + 1;
-            }
-
+            // LA LISTA DE ABAJO SE REINICIA Y MUESTRA SOLO GRUPOS POSTERIORES A LA FECHA ELEGIDA
+            paginaBuscar = 1;
             renderTimelineBuscarLocally();
         }
 
@@ -306,7 +299,6 @@
                     const c = document.getElementById('calendario-content');
                     if (c.classList.contains('expanded')) { toggleCalendar(); }
                     
-                    // MAGIA: Hace scroll en el carrusel a la fecha que tocaste
                     setTimeout(() => {
                         const selectedDateCard = document.querySelector('#carousel .selected');
                         if (selectedDateCard) {
@@ -323,8 +315,9 @@
         function renderTimelineBuscarLocally() {
             const tl = document.getElementById('timeline-buscar'); 
             const pag = document.getElementById('paginacion-buscar');
-            const baseStr = toISODate(fechaSeleccionada) < toISODate(fechaHoy) ? toISODate(fechaSeleccionada) : toISODate(fechaHoy);
-            let lista = dbGrupos.filter(g => g.fecha >= baseStr); 
+            // Carga lista a partir de la fecha seleccionada
+            const selStr = toISODate(fechaSeleccionada);
+            let lista = dbGrupos.filter(g => g.fecha >= selStr); 
             generarHTMLTimeline(lista, tl, pag, paginaBuscar, 'paginaBuscar', renderTimelineBuscarLocally);
         }
 
